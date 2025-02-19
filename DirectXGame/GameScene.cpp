@@ -4,6 +4,10 @@ using namespace KamataEngine;
 GameScene::GameScene() {}
 
 GameScene::~GameScene() {
+
+	delete player_;
+	delete model_;
+
 }
 
 void GameScene::Initialize() {
@@ -11,12 +15,21 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-
 	camera_.Initialize();
 
+	// モデルを先に生成する
+	model_ = Model::CreateFromOBJ("cube", true);
+
+	// 自キャラ
+	player_ = new Player();
+	player_->Initialize(model_, &camera_);
 }
 
+
 void GameScene::Update() {
+
+
+	player_->Update();
 
 }
 
@@ -46,6 +59,8 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	///
 	
+	player_->Draw();
+
 	///
 	/// </summary>
 
