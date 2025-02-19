@@ -11,8 +11,6 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	// テクスチャ読み込み
-	playerTextureHandle_ = TextureManager::Load("player.png");
 
 	camera_.Initialize();
 
