@@ -107,7 +107,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MathUtility.cpp" />
+    <ClCompile Include="WorldTransformEX.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Resources\shaders\TerrainPS.hlsl">
@@ -186,6 +189,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="MathUtility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
