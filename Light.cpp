@@ -14,7 +14,7 @@ void Light::Initialize(Sprite* sprite, uint32_t textureHandle) {
 void Light::Update() {
 	Grow();
 
-	worldTransform_.
+	worldTransform_.UpdateMatrix();
 }
 
 void Light::Draw() {}
