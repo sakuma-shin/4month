@@ -30,7 +30,6 @@ void Light::Update() {
 
 	float reflectionWidth = 800.0f; // 反射する境界
 	if (width_ >= reflectionWidth) {
-
 		// if(動きが斜めじゃないとき)
 		isReflection_ = 1;
 		//if(右下がりに当たって反射する場合)
