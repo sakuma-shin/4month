@@ -59,4 +59,9 @@ private:
 	Vector2 newVelocity_ = {};
 
 	bool isRefrected = false;
+
+	
+	bool rightDownHit = false;
+	bool rightUpHit = false;
+	bool wallHit = false;
 };
