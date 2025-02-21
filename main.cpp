@@ -69,6 +69,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 入力関連の毎フレーム処理
 		input->Update();
 		// 軸表示の更新
+		gameScene->Update();
+
 		axisIndicator->Update();
 		// ImGui受付終了
 		imguiManager->End();

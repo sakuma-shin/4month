@@ -3,6 +3,7 @@
 #include "3D/Model.h"
 #include "3D/WorldTransform.h"
 #include "3D/camera.h"
+#include <input/Input.h>
 
 class Player {
 
@@ -12,7 +13,7 @@ public:
 
 	void Update();
 
-	void Draw();
+	void Draw(KamataEngine::Camera* camera);
 
 private:
 
@@ -24,5 +25,8 @@ private:
 	uint32_t textureHandle_ = 0u;
 
 	KamataEngine::Camera* camera_ = nullptr;
+
+	//入力
+	KamataEngine::Input* input_ = nullptr;
 
 };
