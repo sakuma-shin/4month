@@ -5,9 +5,10 @@ GameScene::GameScene() {}
 
 GameScene::~GameScene() {
 
-	delete model_;
+	delete playerModel_;
 	delete player_;
-
+	delete cameraAngle_;
+	
 }
 
 void GameScene::Initialize() {
@@ -16,19 +17,32 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	//3Dモデルの生成
-	model_ = Model::Create();
+	playerModel_ = Model::Create();
 
 	//プレイヤー関連
 	player_ = new Player();
-	player_->Initialize(model_,textureHandle_,&camera_);
+	player_->Initialize(playerModel_,textureHandle_,&camera_);
 
 	camera_.Initialize();
+
+	KamataEngine::WorldTransform initialTransform;
+	initialTransform.translation_ = { 0.0f, 0.0f, 0.0f };
+	initialTransform.rotation_ = { 0.0f, 0.0f, 0.0f };
+	initialTransform.scale_ = { 1.0f, 1.0f, 1.0f };
+
+	cameraAngle_ = new CameraAngle();
+	cameraAngle_->Initialize(initialTransform);
 
 }
 
 void GameScene::Update() {
 
 	player_->Update();
+	cameraAngle_->Update();
+
+	camera_.matView = cameraAngle_->GetCamera().matView;
+	camera_.matProjection = cameraAngle_->GetCamera().matProjection;
+	camera_.TransferMatrix();
 
 }
 
