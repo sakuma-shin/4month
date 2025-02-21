@@ -3,11 +3,20 @@
 using namespace KamataEngine;
 GameScene::GameScene() {}
 
+
+GameScene::~GameScene() {
+
+	delete playerModel_;
+	delete player_;
+	delete cameraAngle_;
+	
+
 GameScene::~GameScene() { 
 	/*delete lightSprite_;*/
 	for (Light* light : lights_) {
 		delete light;
 	}
+
 }
 
 void GameScene::Initialize() {
@@ -15,13 +24,31 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
+	//3Dモデルの生成
+	playerModel_ = Model::Create();
+
+	//プレイヤー関連
+	player_ = new Player();
+	player_->Initialize(playerModel_,textureHandle_,&camera_);
 
 	camera_.Initialize();
+
+
+	KamataEngine::WorldTransform initialTransform;
+	initialTransform.translation_ = { 0.0f, 0.0f, 0.0f };
+	initialTransform.rotation_ = { 0.0f, 0.0f, 0.0f };
+	initialTransform.scale_ = { 1.0f, 1.0f, 1.0f };
+
+	cameraAngle_ = new CameraAngle();
+	cameraAngle_->Initialize(initialTransform);
+
+}
 
 	lightTextureHandle_ = TextureManager::Load("uvChecker.png");
 
 //ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
+
 
 	Light* newLight = new Light();
 
@@ -33,6 +60,14 @@ void GameScene::Initialize() {
 	/*lightSprite_->SetSize(newLight->GetSize());*/
 	lights_.push_back(newLight);
 }
+
+	player_->Update();
+	cameraAngle_->Update();
+
+	camera_.matView = cameraAngle_->GetCamera().matView;
+	camera_.matProjection = cameraAngle_->GetCamera().matProjection;
+	camera_.TransferMatrix();
+
 
 void GameScene::Update() { 
 
@@ -61,6 +96,7 @@ void GameScene::Update() {
 			LightCreate(newType, newInitialPos);
 		}
 	}*/
+
 }
 
 void GameScene::Draw() {
@@ -89,6 +125,8 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	///
 	
+	player_->Draw(&camera_);
+
 	///
 	/// </summary>
 
