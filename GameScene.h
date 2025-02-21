@@ -1,7 +1,11 @@
 #pragma once
 #include "KamataEngine.h"
+
 #include "Player.h"
 #include "CameraAngle.h"
+
+#include "Light.h"
+#include<list>
 
 using namespace KamataEngine;
 
@@ -18,6 +22,8 @@ public:
 	void Update();
 
 	void Draw();
+
+	void LightCreate(Vector2 velocity,Vector3 pos);
 
 private:
 	DirectXCommon* dxCommon_ = nullptr;
@@ -38,5 +44,11 @@ private:
 
 	//カメラアングル
 	CameraAngle* cameraAngle_ = nullptr;
+
+
+	//ライト
+	std::list<Light*> lights_;
+	/*Sprite* lightSprite_ = nullptr;*/
+	uint32_t lightTextureHandle_ = 0u;
 
 };
