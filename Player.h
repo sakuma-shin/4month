@@ -9,6 +9,8 @@ class Player {
 
 public:
 
+	~Player();
+
 	void Initialize(KamataEngine::Model* model,uint32_t textureHandle,KamataEngine::Camera* camera);
 
 	void Update();

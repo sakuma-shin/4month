@@ -2,6 +2,13 @@
 
 using namespace KamataEngine;
 
+Player::~Player()
+{
+
+
+
+}
+
 void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle,KamataEngine::Camera* camera)
 {
 
