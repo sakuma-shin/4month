@@ -26,4 +26,7 @@ private:
 		
 	KamataEngine::Vector3 rotation_ = { 0.5f, 0.0f, 0.0f };
 
+	//入力
+	KamataEngine::Input* input_ = nullptr;
+
 };
