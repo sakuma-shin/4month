@@ -409,3 +409,42 @@ Matrix4x4 MakeScaleMatrix(const Vector3& scale) {
 
 	return result;
 }
+
+KamataEngine::Matrix4x4 MakeLookAt(const KamataEngine::Vector3& eye, const KamataEngine::Vector3& target, const KamataEngine::Vector3& up)
+{
+	
+	/*Vector3 zAxis = {
+	target.x - eye.x,
+	target.y - eye.y,
+	target.z - eye.z
+	};*/
+
+	Vector3 zAxis = {
+	eye.x - target.x,
+	eye.y - target.y,
+	eye.z - target.z
+	};
+	zAxis = Normalize(zAxis);
+	
+	Vector3 xAxis = Normalize(Cross(up, zAxis));
+	Vector3 yAxis = Cross(zAxis, xAxis);
+
+	return Matrix4x4{
+		xAxis.x, yAxis.x, zAxis.x, 0,
+		xAxis.y, yAxis.y, zAxis.y, 0,
+		xAxis.z, yAxis.z, zAxis.z, 0,
+		-Dot(xAxis, eye), -Dot(yAxis, eye), -Dot(zAxis, eye), 1
+	};
+
+}
+
+KamataEngine::Vector3 Cross(const KamataEngine::Vector3& a, const KamataEngine::Vector3& b)
+{
+	
+	return {
+			a.y * b.z - a.z * b.y,
+			a.z * b.x - a.x * b.z,
+			a.x * b.y - a.y * b.x 
+	};
+
+}
