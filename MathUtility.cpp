@@ -413,18 +413,11 @@ Matrix4x4 MakeScaleMatrix(const Vector3& scale) {
 KamataEngine::Matrix4x4 MakeLookAt(const KamataEngine::Vector3& eye, const KamataEngine::Vector3& target, const KamataEngine::Vector3& up)
 {
 	
-	/*Vector3 zAxis = {
+	Vector3 zAxis = {
 	target.x - eye.x,
 	target.y - eye.y,
 	target.z - eye.z
-	};*/
-
-	Vector3 zAxis = {
-	eye.x - target.x,
-	eye.y - target.y,
-	eye.z - target.z
 	};
-	zAxis = Normalize(zAxis);
 	
 	Vector3 xAxis = Normalize(Cross(up, zAxis));
 	Vector3 yAxis = Cross(zAxis, xAxis);

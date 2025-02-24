@@ -17,6 +17,10 @@ public:
 
 	void Draw(KamataEngine::Camera* camera);
 
+	KamataEngine::Vector3 GetWorldPosition();
+
+	void setParent(const KamataEngine::WorldTransform* parent);
+
 private:
 
 	// ワールド変換データ

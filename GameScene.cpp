@@ -40,7 +40,7 @@ void GameScene::Initialize() {
 	cameraAngle_ = new CameraAngle();
 	cameraAngle_->Initialize(initialTransform);
 
-
+	player_->setParent(&cameraAngle_->GetWorldTransform());
 
 	lightTextureHandle_ = TextureManager::Load("uvChecker.png");
 

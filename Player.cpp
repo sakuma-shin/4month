@@ -79,3 +79,28 @@ void Player::Draw(Camera* camera)
 	model_->Draw(worldTransform_,*camera,textureHandle_);
 
 }
+
+KamataEngine::Vector3 Player::GetWorldPosition()
+{
+	// ワールド座標を入れる変数
+	Vector3 worldPos;
+
+	// ワールド行列の平行移動成分を取得
+	// ワールド行列のTx
+	worldPos.x = worldTransform_.matWorld_.m[3][0];
+
+	// ワールド行列のTy
+	worldPos.y = worldTransform_.matWorld_.m[3][1];
+
+	// ワールド行列のTz
+	worldPos.z = worldTransform_.matWorld_.m[3][2];
+
+	return worldPos;
+}
+
+void Player::setParent(const KamataEngine::WorldTransform* parent)
+{
+
+	worldTransform_.parent_ = parent;
+
+}

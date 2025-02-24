@@ -2,6 +2,8 @@
 #include <KamataEngine.h>
 #include <3d/WorldTransform.h>
 
+class Player;
+
 class CameraAngle {
 
 public:
@@ -30,5 +32,7 @@ private:
 
 	//入力
 	KamataEngine::Input* input_ = nullptr;
+
+	Player* player_;
 
 };
