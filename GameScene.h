@@ -25,6 +25,8 @@ public:
 
 	void LightCreate(Vector2 velocity,Vector3 pos);
 
+	bool IsFinished() { return isFinished_; }
+
 private:
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -45,6 +47,7 @@ private:
 	//カメラアングル
 	CameraAngle* cameraAngle_ = nullptr;
 
+	bool isFinished_ = false;
 
 	//ライト
 	std::list<Light*> lights_;

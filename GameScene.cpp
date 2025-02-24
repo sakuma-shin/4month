@@ -97,6 +97,12 @@ void GameScene::Update() {
 		}
 	}*/
 
+	if (input_->TriggerKey(DIK_SPACE)) {
+
+		isFinished_ = true;
+
+	}
+
 }
 
 void GameScene::Draw() {

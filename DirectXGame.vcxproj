@@ -107,11 +107,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CameraAngle.cpp" />
+    <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MathUtility.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="WorldTransformEX.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -191,10 +193,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CameraAngle.h" />
+    <ClInclude Include="ClearScene.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="MathUtility.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="TitleScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
