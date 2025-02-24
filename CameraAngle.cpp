@@ -30,10 +30,6 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform)
 
 void CameraAngle::Update()
 {
-    if (input_ == nullptr) {
-        DebugText::GetInstance()->ConsolePrintf("input_ is nullptr\n");
-        return;
-    }
 
     // キャラクターの移動ベクトル
     Vector3 move = { 0, 0, 0 };
