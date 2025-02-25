@@ -7,10 +7,9 @@ using namespace KamataEngine;
 void Light::Initialize(uint32_t textureHandle, Vector3 initialPos, Vector2 velocity) {
 	/*sprite_ = sprite;*/
 	worldTransform_.Initialize();
-	sprite_ = Sprite::Create(textureHandle, {}); // 各LightごとにSpriteを作成
+	model_ = Model::CreateFromOBJ("cube");
 
 	initialPos_ = initialPos;
-	sprite_->SetSize({width_, height_});
 	velocity_ = velocity;
 
 	width_ = 20.0f;
@@ -18,6 +17,8 @@ void Light::Initialize(uint32_t textureHandle, Vector3 initialPos, Vector2 veloc
 	/*growtype_ = type;
 	newType_ = NO;*/
 	isReflection_ = false;
+
+	worldTransform_.Initialize();
 }
 
 void Light::Update() {
@@ -25,15 +26,17 @@ void Light::Update() {
 		// if(動きが斜めじゃないとき)
 		isReflection_ = 1;
 		newVelocity_ = {velocity_.y, velocity_.x};
-	}
+	} 
 
 	if (rightUpHit) {
 		// if(動きが斜めじゃないとき)
 		isReflection_ = 1;
 		newVelocity_ = {-velocity_.y, -velocity_.x};
-	}
+	} 
 
 	if (!wallHit && !rightDownHit && !rightUpHit) {
+		isReflection_ = false;
+		isRefrected = false;
 		width_ += velocity_.x;
 		height_ += velocity_.y;
 	} else {
@@ -69,19 +72,18 @@ void Light::Update() {
 
 	ImGui::Begin("Light");
 	ImGui::DragFloat3("Light.pos", &initialPos_.x, 0.01f);
-	;
 	ImGui::DragFloat("Light.width", &width_, 0.01f);
 	ImGui::DragFloat("Light.height", &height_, 0.01f);
 	ImGui::Checkbox("rightDownHit", &rightDownHit);
 	ImGui::Checkbox("rightUpHit", &rightUpHit);
 	ImGui::Checkbox("wallHit", &wallHit);
+	
 	ImGui::End();
 
-	sprite_->SetSize({width_, height_});
-	sprite_->SetPosition({initialPos_.x, initialPos_.y});
+
 }
 
-void Light::Draw() { sprite_->Draw(); }
+void Light::Draw(Camera* camera) { model_->Draw(camera); }
 
 // void Light::Grow() {
 //	float kSpeed = 10.0f;

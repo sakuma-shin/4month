@@ -11,7 +11,7 @@ public:
 
 	void Update();
 
-	void Draw();
+	void Draw(Camera* camera);
 
 	/*void Grow();*/
 
@@ -41,7 +41,7 @@ private:
 	float width_=0.0f;
 	float height_=0.0f;
 
-	Sprite* sprite_=nullptr;
+	Model* model_=nullptr;
 	Vector3 initialPos_ = {};
 
 	uint32_t textureHandle_ = 0;
