@@ -22,12 +22,14 @@ public:
 	// プレイヤーの位置を設定する
 	void SetPosition(const KamataEngine::Vector3& position) { worldTransform_.translation_ = position; }
 
+	KamataEngine::Vector3 GetRotation() const { return worldTransform_.rotation_; }
+
 private:
 
 	// ワールド変換データ
 	KamataEngine::WorldTransform worldTransform_;
 	// モデル
-	KamataEngine::Model* model_ = nullptr;
+	KamataEngine::Model* model_ = nullptr;	
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 

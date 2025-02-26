@@ -30,34 +30,32 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform, Player* playe
 
 }
 
-void CameraAngle::Update()
-{
-
-    cameraTarget_ = player_->GetPosition();
-
-    //移動ベクトル
-    //Vector3 move = { 0, 0, 0 };
-
-    //カメラの移動速度
+void CameraAngle::Update() {
+    // カメラの移動速度
     const float kCameraSpeed = 0.02f;
-    const float kCameraDistance = 30.0f;
+    const float kCameraDistance = 70.0f;  //カメラとターゲットの距離
 
-    //キー入力で移動量を加算
+    // 左右矢印キーで回転
     if (input_->PushKey(DIK_LEFT)) {
-        rotation_.y -= kCameraSpeed; // 左回転
+        rotation_.y -= kCameraSpeed;  //左
     }
     if (input_->PushKey(DIK_RIGHT)) {
-        rotation_.y += kCameraSpeed; // 右回転
+        rotation_.y += kCameraSpeed;  //右
+    }
+    if (input_->PushKey(DIK_UP)) {
+        rotation_.x -= kCameraSpeed;  //上
+    }
+    if (input_->PushKey(DIK_DOWN)) {
+        rotation_.x += kCameraSpeed;  //下
     }
 
-    cameraPosition_.x = cameraTarget_.x + kCameraDistance * sinf(rotation_.y);
-    cameraPosition_.y = cameraTarget_.y + 30.0f;
-    cameraPosition_.z = cameraTarget_.z + kCameraDistance * cosf(rotation_.y);
+    //カメラの位置更新
+    translation_.x = cameraTarget_.x + kCameraDistance * sinf(rotation_.y);
+    translation_.y = cameraTarget_.y + kCameraDistance * sinf(rotation_.x);
+    translation_.z = cameraTarget_.z + kCameraDistance * cosf(rotation_.y);
 
-    UpdateViewMatrix();
-
-    //角度を更新
-    //rotation_.y += move.y;
+    //カメラの向きをプレイヤーに向ける
+    cameraTarget_ = player_->GetPosition();
 
     //変換行列を更新
     worldTransform_.translation_ = translation_;
@@ -65,20 +63,15 @@ void CameraAngle::Update()
     worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
     //カメラビュー行列を更新
-    camera_.matView = MathUtility::Inverse(worldTransform_.matWorld_);
-
-    //ワールド行列を更新
+    camera_.matView = MakeLookAtMatrix(translation_, cameraTarget_, cameraUp_);
     worldTransform_.UpdateMatrix();
 
     ImGui::Begin("Camera");
     ImGui::DragFloat3("Translation", &translation_.x, 0.01f);
     ImGui::DragFloat3("Rotation", &rotation_.x, 0.01f);
     ImGui::End();
-
-    DebugText::GetInstance()->ConsolePrintf("Camera Position: (%f, %f, %f)\n", cameraPosition_.x, cameraPosition_.y, cameraPosition_.z);
-    DebugText::GetInstance()->ConsolePrintf("Camera Target: (%f, %f, %f)\n", cameraTarget_.x, cameraTarget_.y, cameraTarget_.z);
-
 }
+
 
 void CameraAngle::SetEye(const KamataEngine::Vector3& eye)
 {
