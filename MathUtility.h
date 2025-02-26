@@ -89,3 +89,5 @@ KamataEngine::Matrix4x4 MakeTraslateMatrix(const KamataEngine::Vector3& translat
 KamataEngine::Matrix4x4 MakeScaleMatrix(const KamataEngine::Vector3& scale);
 
 KamataEngine::Vector3 TransformVector(const KamataEngine::Matrix4x4& mat, const KamataEngine::Vector3& vec);
+
+KamataEngine::Matrix4x4 operator*(const KamataEngine::Matrix4x4& m1, const KamataEngine::Matrix4x4& m2);

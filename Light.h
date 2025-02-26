@@ -40,6 +40,8 @@ public:
 
 	void AdjustScaleOffset();
 
+	Matrix4x4 CalculateWorldMatrix();
+
 private:
 
 	Model* model_=nullptr;

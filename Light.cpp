@@ -127,3 +127,30 @@ Light::~Light() { delete model_; }
 
  void Light::PosCorrect() {
  }
+
+ void Light::AdjustScaleOffset() {
+	 // X方向の補正
+	 if (worldTransform_.scale_.x > 1.0f) {
+		 worldTransform_.translation_.x = initialPos_.x + (worldTransform_.scale_.x - 1.0f) * 0.5f;
+	 } else {
+		 worldTransform_.translation_.x = initialPos_.x;
+	 }
+
+	 // Y方向の補正
+	 if (worldTransform_.scale_.y > 1.0f) {
+		 worldTransform_.translation_.y = initialPos_.y + (worldTransform_.scale_.y - 1.0f) * 0.5f;
+	 } else {
+		 worldTransform_.translation_.y = initialPos_.y;
+	 }
+
+	 // Z方向の補正（必要なら追加）
+ }
+
+ Matrix4x4 Light::CalculateWorldMatrix() {
+	 Matrix4x4 scaleMatrix = MakeScaleMatrix(worldTransform_.scale_);
+	 Matrix4x4 rotationMatrix = RotateXYZMatrix(worldTransform_.rotation_);
+	 Matrix4x4 translationMatrix = MakeTraslateMatrix(worldTransform_.translation_);
+
+	 // 斜め方向のスケール対応
+	 return translationMatrix * rotationMatrix * scaleMatrix;
+ }

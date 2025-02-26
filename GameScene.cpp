@@ -25,7 +25,7 @@ void GameScene::Initialize() {
 
 	Light* newLight = new Light();
 
-	Vector3 initialPos = {3.0f, 500.0f, 0.0f};
+	Vector3 initialPos = {3.0f,3.0f, 0.0f};
 	/*Light::GrowType type = Light::Right;*/
 	
 	Vector2 lightVelocity = {5.0f, 0.0f};

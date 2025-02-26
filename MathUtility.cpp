@@ -415,3 +415,5 @@ Vector3 TransformVector(const Matrix4x4& mat, const Vector3& vec) {
 	    mat.m[0][0] * vec.x + mat.m[0][1] * vec.y + mat.m[0][2] * vec.z, mat.m[1][0] * vec.x + mat.m[1][1] * vec.y + mat.m[1][2] * vec.z,
 	    mat.m[2][0] * vec.x + mat.m[2][1] * vec.y + mat.m[2][2] * vec.z};
 }
+
+KamataEngine::Matrix4x4 operator*(const KamataEngine::Matrix4x4& m1, const KamataEngine::Matrix4x4& m2) { return Multiply(m1,m2); }
