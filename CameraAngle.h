@@ -2,11 +2,13 @@
 #include <KamataEngine.h>
 #include <3d/WorldTransform.h>
 
+class Player;
+
 class CameraAngle {
 
 public:
 
-	void Initialize(const KamataEngine::WorldTransform& worldTransform);
+	void Initialize(const KamataEngine::WorldTransform& worldTransform, Player* player);
 
 	void Update();
 
@@ -42,5 +44,7 @@ private:
 	KamataEngine::Input* input_ = nullptr;
 
 	KamataEngine::Matrix4x4 matView;
+
+	Player* player_;
 
 };

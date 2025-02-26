@@ -1,10 +1,11 @@
 #include "CameraAngle.h"
 #include <ImGui.h>
 #include "MathUtility.h"
+#include "Player.h"
 
 using namespace KamataEngine;
 
-void CameraAngle::Initialize(const WorldTransform& worldTransform)
+void CameraAngle::Initialize(const WorldTransform& worldTransform, Player* player)
 {
 
 	//ワールドトランスフォームの初期設定
@@ -12,6 +13,7 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform)
 	worldTransform_.rotation_ = worldTransform.rotation_;
 	worldTransform_.translation_ = worldTransform.translation_;
 	worldTransform_.scale_ = worldTransform.scale_;
+    player_ = player;
 
 	//インスタンス
 	input_ = Input::GetInstance();
@@ -30,6 +32,8 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform)
 
 void CameraAngle::Update()
 {
+
+    cameraTarget_ = player_->GetPosition();
 
     //移動ベクトル
     //Vector3 move = { 0, 0, 0 };
@@ -70,6 +74,10 @@ void CameraAngle::Update()
     ImGui::DragFloat3("Translation", &translation_.x, 0.01f);
     ImGui::DragFloat3("Rotation", &rotation_.x, 0.01f);
     ImGui::End();
+
+    DebugText::GetInstance()->ConsolePrintf("Camera Position: (%f, %f, %f)\n", cameraPosition_.x, cameraPosition_.y, cameraPosition_.z);
+    DebugText::GetInstance()->ConsolePrintf("Camera Target: (%f, %f, %f)\n", cameraTarget_.x, cameraTarget_.y, cameraTarget_.z);
+
 }
 
 void CameraAngle::SetEye(const KamataEngine::Vector3& eye)

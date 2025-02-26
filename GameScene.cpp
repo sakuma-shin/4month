@@ -38,7 +38,7 @@ void GameScene::Initialize() {
 	initialTransform.scale_ = { 1.0f, 1.0f, 1.0f };
 
 	cameraAngle_ = new CameraAngle();
-	cameraAngle_->Initialize(initialTransform);
+	cameraAngle_->Initialize(initialTransform, player_);
 
 
 

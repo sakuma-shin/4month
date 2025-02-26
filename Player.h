@@ -17,6 +17,11 @@ public:
 
 	void Draw(KamataEngine::Camera* camera);
 
+	KamataEngine::Vector3 GetPosition() const { return worldTransform_.translation_; }
+
+	// プレイヤーの位置を設定する
+	void SetPosition(const KamataEngine::Vector3& position) { worldTransform_.translation_ = position; }
+
 private:
 
 	// ワールド変換データ

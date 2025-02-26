@@ -26,6 +26,8 @@ void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle,Kamat
 	//ワールド変換の初期化
 	worldTransform_.Initialize();
 
+	// プレイヤーの初期位置を設定
+	worldTransform_.translation_ = { 0.0f, 0.0f, 0.0f };
 
 }
 

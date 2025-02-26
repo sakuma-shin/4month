@@ -132,6 +132,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// scene解放
 	delete titleScene;
 	delete gameScene;
+	delete clearScene;
 
 	// ゲームウィンドウの破棄
 	win->TerminateGameWindow();
