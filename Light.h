@@ -42,6 +42,8 @@ public:
 
 	Matrix4x4 CalculateWorldMatrix();
 
+	Vector3 CalculateScaleOffset(); 
+
 private:
 
 	Model* model_=nullptr;
