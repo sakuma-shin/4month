@@ -87,3 +87,7 @@ KamataEngine::Matrix4x4 MakeTraslateMatrix(const KamataEngine::Vector3& translat
 
 // 拡大縮小行列
 KamataEngine::Matrix4x4 MakeScaleMatrix(const KamataEngine::Vector3& scale);
+
+KamataEngine::Matrix4x4 MakeLookAtMatrix(const KamataEngine::Vector3& eye, const KamataEngine::Vector3& target, const KamataEngine::Vector3& up);
+
+KamataEngine::Vector3 Cross(const KamataEngine::Vector3& v1, const KamataEngine::Vector3& v2);

@@ -71,11 +71,11 @@ void Light::Update() {
 
 	
 
-	ImGui::Begin("Light");
+	/*ImGui::Begin("Light");
 	ImGui::DragFloat3("Light.pos", &initialPos_.x, 0.01f);;
 	ImGui::DragFloat("Light.width", &width_, 0.01f);
 	ImGui::DragFloat("Light.height", &height_, 0.01f);
-	ImGui::End();
+	ImGui::End();*/
 
 	sprite_->SetSize({width_, height_});
 	sprite_->SetPosition({initialPos_.x, initialPos_.y});
@@ -84,7 +84,7 @@ void Light::Update() {
 
 
 void Light::Draw() {
-	sprite_->Draw(); 
+	//sprite_->Draw(); 
 }
 
 //void Light::Grow() {

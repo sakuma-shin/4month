@@ -14,6 +14,16 @@ public:
 
 	const KamataEngine::WorldTransform& GetWorldTransform() { return worldTransform_; }
 
+	void SetEye(const KamataEngine::Vector3& eye);
+
+	void SetTarget(const KamataEngine::Vector3& target);
+
+	void SetUp(const KamataEngine::Vector3& up);
+
+	void UpdateViewMatrix();
+
+	const KamataEngine::Matrix4x4& GetViewMatrix() const { return matView; }
+
 private:
 
 	//ワールド変換データ
@@ -30,5 +40,7 @@ private:
 
 	//入力
 	KamataEngine::Input* input_ = nullptr;
+
+	KamataEngine::Matrix4x4 matView;
 
 };

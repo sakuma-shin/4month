@@ -19,11 +19,11 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform)
 	worldTransform_.Initialize();
 	camera_.Initialize();
 
-    translation_ = { 0.0f, 30.0f, -30.0f };  // 初期位置
-    rotation_ = { 0.5f, 0.0f, 0.0f };        // 初期回転
+    translation_ = { 0.0f, 30.0f, -30.0f };  //初期位置
+    rotation_ = { 0.5f, 0.0f, 0.0f };        //初期回転
 
-    // カメラの初期ターゲット位置を設定（カメラが注視するポイント）
-    cameraTarget_ = { 0.0f, 0.0f, 0.0f };    // ターゲットの位置（例：原点）
+    //カメラの初期ターゲット位置
+    cameraTarget_ = { 0.0f, 0.0f, 0.0f };    //ターゲットの位置
     cameraUp_ = { 0.0f, 1.0f, 0.0f };
 
 }
@@ -31,38 +31,72 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform)
 void CameraAngle::Update()
 {
 
-    // キャラクターの移動ベクトル
-    Vector3 move = { 0, 0, 0 };
+    //移動ベクトル
+    //Vector3 move = { 0, 0, 0 };
 
-    // カメラの移動速度
+    //カメラの移動速度
     const float kCameraSpeed = 0.02f;
+    const float kCameraDistance = 30.0f;
 
-    // キー入力で移動量を加算
+    //キー入力で移動量を加算
     if (input_->PushKey(DIK_LEFT)) {
-        move.y -= kCameraSpeed; // 左回転
+        rotation_.y -= kCameraSpeed; // 左回転
     }
     if (input_->PushKey(DIK_RIGHT)) {
-        move.y += kCameraSpeed; // 右回転
+        rotation_.y += kCameraSpeed; // 右回転
     }
 
-    // 角度を更新（移動量を rotation_ に加算）
-    rotation_.y += move.y;
+    cameraPosition_.x = cameraTarget_.x + kCameraDistance * sinf(rotation_.y);
+    cameraPosition_.y = cameraTarget_.y + 30.0f;
+    cameraPosition_.z = cameraTarget_.z + kCameraDistance * cosf(rotation_.y);
 
-    // 変換行列を更新
+    UpdateViewMatrix();
+
+    //角度を更新
+    //rotation_.y += move.y;
+
+    //変換行列を更新
     worldTransform_.translation_ = translation_;
     worldTransform_.rotation_ = rotation_;
     worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
-    // カメラビュー行列を更新
+    //カメラビュー行列を更新
     camera_.matView = MathUtility::Inverse(worldTransform_.matWorld_);
 
-    // ワールド行列を更新
+    //ワールド行列を更新
     worldTransform_.UpdateMatrix();
 
-    // ImGui でデバッグ表示
     ImGui::Begin("Camera");
-    ImGui::DragFloat3("Translation", &translation_.x, 0.01f);  // カメラ位置を変更
-    ImGui::DragFloat3("Rotation", &rotation_.x, 0.01f);        // カメラ回転を変更
+    ImGui::DragFloat3("Translation", &translation_.x, 0.01f);
+    ImGui::DragFloat3("Rotation", &rotation_.x, 0.01f);
     ImGui::End();
+}
+
+void CameraAngle::SetEye(const KamataEngine::Vector3& eye)
+{
+
+    cameraPosition_ = eye;
+
+}
+
+void CameraAngle::SetTarget(const KamataEngine::Vector3& target)
+{
+
+    cameraTarget_ = target;
+
+}
+
+void CameraAngle::SetUp(const KamataEngine::Vector3& up)
+{
+
+    cameraUp_ = up;
+
+}
+
+void CameraAngle::UpdateViewMatrix()
+{
+
+    camera_.matView = MakeLookAtMatrix(cameraPosition_, cameraTarget_, cameraUp_);
+
 }
 
