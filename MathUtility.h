@@ -67,7 +67,7 @@ KamataEngine::Vector3& operator+=(KamataEngine::Vector3& v1, const KamataEngine:
 
 // 2項演算子オーバーロード
 // KamataEngine::Vector3の足し算
-const KamataEngine::Vector3 operator+(KamataEngine::Vector3& v1, KamataEngine::Vector3& v2);
+KamataEngine::Vector3 operator+(const KamataEngine::Vector3& v1, const KamataEngine::Vector3& v2);
 
 KamataEngine::Vector3& operator-=(KamataEngine::Vector3& lhv, const KamataEngine::Vector3& rhv);
 
@@ -87,3 +87,5 @@ KamataEngine::Matrix4x4 MakeTraslateMatrix(const KamataEngine::Vector3& translat
 
 // 拡大縮小行列
 KamataEngine::Matrix4x4 MakeScaleMatrix(const KamataEngine::Vector3& scale);
+
+KamataEngine::Vector3 TransformVector(const KamataEngine::Matrix4x4& mat, const KamataEngine::Vector3& vec);

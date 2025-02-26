@@ -1,19 +1,19 @@
 #include "Light.h"
 #include "GameScene.h"
 #include <cassert>
+#include "MathUtility.h"
+#include<cmath>
 
 using namespace KamataEngine;
 
 void Light::Initialize(uint32_t textureHandle, Vector3 initialPos, Vector2 velocity) {
 	/*sprite_ = sprite;*/
-	worldTransform_.Initialize();
 	model_ = Model::CreateFromOBJ("cube");
+	textureHandle_ = textureHandle;
 
 	initialPos_ = initialPos;
 	velocity_ = velocity;
 
-	width_ = 20.0f;
-	height_ = 20.0f;
 	/*growtype_ = type;
 	newType_ = NO;*/
 	isReflection_ = false;
@@ -28,6 +28,9 @@ void Light::Update() {
 		newVelocity_ = {velocity_.y, velocity_.x};
 	} 
 
+	 
+
+
 	if (rightUpHit) {
 		// if(動きが斜めじゃないとき)
 		isReflection_ = 1;
@@ -37,8 +40,6 @@ void Light::Update() {
 	if (!wallHit && !rightDownHit && !rightUpHit) {
 		isReflection_ = false;
 		isRefrected = false;
-		width_ += velocity_.x;
-		height_ += velocity_.y;
 	} else {
 		// if (壁に当たった時)
 		velocity_ = {};
@@ -71,19 +72,23 @@ void Light::Update() {
 	//};
 
 	ImGui::Begin("Light");
-	ImGui::DragFloat3("Light.pos", &initialPos_.x, 0.01f);
-	ImGui::DragFloat("Light.width", &width_, 0.01f);
-	ImGui::DragFloat("Light.height", &height_, 0.01f);
+	ImGui::DragFloat3("Light.scale", &worldTransform_.scale_.x, 0.01f);
+	ImGui::DragFloat3("Light.rotate", &worldTransform_.rotation_.x, 0.01f);
+	ImGui::DragFloat3("Light.translate", &worldTransform_.translation_.x, 0.01f);
 	ImGui::Checkbox("rightDownHit", &rightDownHit);
 	ImGui::Checkbox("rightUpHit", &rightUpHit);
 	ImGui::Checkbox("wallHit", &wallHit);
 	
 	ImGui::End();
 
+	 // **スケール調整に伴う位置補正**
+	AdjustScaleOffset();
 
+	worldTransform_.UpdateMatrix();
+	PosCorrect();
 }
 
-void Light::Draw(Camera* camera) { model_->Draw(camera); }
+void Light::Draw(Camera* camera) { model_->Draw(worldTransform_, *camera, textureHandle_); }
 
 // void Light::Grow() {
 //	float kSpeed = 10.0f;
@@ -118,4 +123,7 @@ void Light::Draw(Camera* camera) { model_->Draw(camera); }
 //	height_ += velocity_.y;
 // }
 
-Light::~Light() { delete sprite_; }
+Light::~Light() { delete model_; }
+
+ void Light::PosCorrect() {
+ }

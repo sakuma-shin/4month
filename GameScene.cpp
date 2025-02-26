@@ -40,13 +40,13 @@ void GameScene::Update() {
 		light->Update();
 		/*lightSprite_->SetSize(light->GetSize());*/
 
-		//// 反射した場合、新しいLightを作成
-		if (light->CanReflect()) {
-			light->SetRefrected();
-			Vector3 newInitialPos = light->GetEndPosition(); // 反射したライトの現在位置を取得
-			LightCreate(light->GetNewVelocity(), newInitialPos);
-			
-		}
+		////// 反射した場合、新しいLightを作成
+		//if (light->CanReflect()) {
+		//	light->SetRefrected();
+		//	Vector3 newInitialPos = light->GetEndPosition(); // 反射したライトの現在位置を取得
+		//	LightCreate(light->GetNewVelocity(), newInitialPos);
+		//	
+		//}
 	}
 
 	/*for (auto it = lights_.rbegin(); it != lights_.rend(); ++it) {
@@ -88,7 +88,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	///
-	
+	for (Light* light : lights_) {
+		light->Draw(&camera_);
+	}
 	///
 	/// </summary>
 
@@ -104,9 +106,7 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// 
 	/// 
-	for (Light* light : lights_) {
-		light->Draw(camera_);
-	}
+	
 	/// 
 	/// </summary>
 

@@ -248,7 +248,7 @@ const Vector3 operator-(Vector3& v1, Vector3& v2) { return {v1.x - v2.x, v1.y - 
 
 const KamataEngine::Matrix4x4 operator*=(KamataEngine::Matrix4x4& m1, const KamataEngine::Matrix4x4& m2) { return Multiply(m1, m2); }
 
-const Vector3 operator+(Vector3& v1, Vector3& v2) { return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z}; }
+Vector3 operator+(const Vector3& v1, const Vector3& v2) { return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z}; }
 
 bool IsCollision(const AABB& a, const AABB& b) {
 	if (a.min.x <= b.max.x && a.max.x >= b.min.x && a.min.y <= b.max.y && a.max.y >= b.min.y && a.min.z <= b.max.z && a.max.z >= b.min.z) {
@@ -408,4 +408,10 @@ Matrix4x4 MakeScaleMatrix(const Vector3& scale) {
 	result.m[2][2] = scale.z; // z軸方向の拡大縮小
 
 	return result;
+}
+
+Vector3 TransformVector(const Matrix4x4& mat, const Vector3& vec) {
+	return {
+	    mat.m[0][0] * vec.x + mat.m[0][1] * vec.y + mat.m[0][2] * vec.z, mat.m[1][0] * vec.x + mat.m[1][1] * vec.y + mat.m[1][2] * vec.z,
+	    mat.m[2][0] * vec.x + mat.m[2][1] * vec.y + mat.m[2][2] * vec.z};
 }

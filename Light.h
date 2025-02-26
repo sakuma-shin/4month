@@ -15,12 +15,12 @@ public:
 
 	/*void Grow();*/
 
-	Vector2 GetSize() const { return {width_,height_}; }
+	//Vector2 GetSize() const { return {width_,height_}; }
 	~Light();
 
 	uint32_t IsReflection() const { return isReflection_; }
 
-	Vector3 GetEndPosition() const { return {(initialPos_.x + width_)-velocity_.x, initialPos_.y + height_, initialPos_.z}; }
+	/*Vector3 GetEndPosition() const { return {(initialPos_.x + width_)-velocity_.x, initialPos_.y + height_, initialPos_.z}; }*/
 
 	/*GrowType GetGrowType() const { return growtype_; }
 	GrowType GetNewType() const { return newType_; }
@@ -36,13 +36,16 @@ public:
 
 	bool CanReflect() const { return isReflection_ && !isRefrected;}
 
-private:
+	void PosCorrect();
 
-	float width_=0.0f;
-	float height_=0.0f;
+	void AdjustScaleOffset();
+
+private:
 
 	Model* model_=nullptr;
 	Vector3 initialPos_ = {};
+
+	Vector3 previousScale_ = {1.0f, 1.0f, 1.0f};
 
 	uint32_t textureHandle_ = 0;
 	WorldTransform worldTransform_;
@@ -64,4 +67,5 @@ private:
 	bool rightDownHit = false;
 	bool rightUpHit = false;
 	bool wallHit = false;
+	bool diagonalHit = false;
 };
