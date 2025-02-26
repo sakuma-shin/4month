@@ -8,6 +8,8 @@ class CameraAngle {
 
 public:
 
+	~CameraAngle();
+
 	void Initialize(const KamataEngine::WorldTransform& worldTransform, Player* player);
 
 	void Update();

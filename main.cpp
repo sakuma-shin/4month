@@ -197,6 +197,8 @@ void ChangeScene()
 
 		}
 
+		break;
+
 	}
 
 }
