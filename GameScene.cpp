@@ -25,10 +25,10 @@ void GameScene::Initialize() {
 
 	Light* newLight = new Light();
 
-	Vector3 initialPos = {3.0f, 2.0f, 0.0f};
+	Vector3 initialPos = {1.0f, 1.0f, 0.0f};
 	/*Light::GrowType type = Light::Right;*/
 	
-	Vector2 lightVelocity = {20.0f, 0.0f};
+	Vector2 lightVelocity = {0.05f, 0.0f};
 	newLight->Initialize(lightTextureHandle_, initialPos,lightVelocity);
 	/*lightSprite_->SetSize(newLight->GetSize());*/
 	lights_.push_back(newLight);

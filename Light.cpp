@@ -1,127 +1,67 @@
 #include "Light.h"
+#include "GameScene.h"
 #include <cassert>
-#include"GameScene.h"
 
 using namespace KamataEngine;
 
 void Light::Initialize(uint32_t textureHandle, Vector3 initialPos, Vector2 velocity) {
-	/*sprite_ = sprite;*/
-	worldTransform_.Initialize();
+	worldTransform_.Initialize(); // ワールド変換の初期化
+
 	sprite_ = Sprite::Create(textureHandle, {}); // 各LightごとにSpriteを作成
 
-	initialPos_ = initialPos;
-	sprite_->SetSize({width_,height_});
-	velocity_ = velocity;
+	// World Transform に初期位置を設定
+	worldTransform_.translation_ = initialPos;
+	worldTransform_.scale_ = {width_, height_, 1.0f};
 
+	velocity_ = velocity;
 	width_ = 20.0f;
 	height_ = 20.0f;
-	/*growtype_ = type;
-	newType_ = NO;*/
 	isReflection_ = false;
 }
 
 void Light::Update() {
-	/*Grow();*/
-	
-	//if (壁に当たったら速度0)
-	if (height_ >= 400) {
-		velocity_ = {};
+	// ワールド座標で位置を更新
+	worldTransform_.translation_.x += velocity_.x;
+	worldTransform_.translation_.y += velocity_.y;
+
+	// 反射の処理 (例: X 座標が境界を越えた場合、反転)
+	if (worldTransform_.translation_.x >= 20.0f || worldTransform_.translation_.x <= -20.0f) {
+		velocity_.x = -velocity_.x;
 	}
 
-	float reflectionWidth = 800.0f; // 反射する境界
-	if (width_ >= reflectionWidth) {
-
-		// if(動きが斜めじゃないとき)
-		isReflection_ = 1;
-		//if(右下がりに当たって反射する場合)
-		newVelocity_ = {velocity_.y,velocity_.x};
-
-		//if (右上がりに当たる場合)
-		/*newVelocity_ = {-velocity_.y, -velocity_.x};*/
-
-	} else {
-		width_ += velocity_.x;
-		height_ += velocity_.y;
+	if (worldTransform_.translation_.y >= 20.0f || worldTransform_.translation_.y <= -20.0f) {
+		velocity_.y = -velocity_.y;
 	}
 
-	//switch (growtype_) {
-	//case Right:
-
-	//	if (width_ >= reflectionWidth &&!isReflection_) {
-	//		growtype_ = Reflection; // 下に反射
-	//		isReflection_ = true;   // 1回だけ反射
-	//		newType_ = Down;
-	//	}
-
-	//	if (width_ >= reflectionWidth && !isReflection_) {
-	//		growtype_ = Reflection; // 上に反射
-	//		isReflection_ = true;   // 1回だけ反射
-	//		newType_ = Up;
-	//	}
-
-	//	//if (!isReflection_) {
-	//	//	growtype_ = Reflection; 
-	//	//	isReflection_ = true;   // 1回だけ反射
-	//	//}
-	//	break;
-
-	//case Reflection:
-
-	//	break;
-	//};
-
-	
-
+	// ImGui デバッグ
 	ImGui::Begin("Light");
-	ImGui::DragFloat3("Light.pos", &initialPos_.x, 0.01f);;
-	ImGui::DragFloat("Light.width", &width_, 0.01f);
-	ImGui::DragFloat("Light.height", &height_, 0.01f);
+	ImGui::DragFloat3("Light.pos", &worldTransform_.translation_.x, 0.01f);
+	ImGui::DragFloat("Light.width", &worldTransform_.scale_.x, 0.01f);
+	ImGui::DragFloat("Light.height", &worldTransform_.scale_.y, 0.01f);
 	ImGui::End();
 
-	sprite_->SetSize({width_, height_});
-	sprite_->SetPosition({initialPos_.x, initialPos_.y});
-
+	// ワールド行列を更新
+	worldTransform_.UpdateMatrix();
 }
-
 
 void Light::Draw() {
-	sprite_->Draw(); 
+	// スクリーン座標に変換
+	Vector3 screenPos = GetWorldPositionFromScreen(sprite_->GetPosition().x, sprite_->GetPosition().y);
+
+	// スプライトの位置にワールド座標を設定
+	sprite_->SetPosition({screenPos.x, screenPos.y});
+	sprite_->SetSize({worldTransform_.scale_.x, worldTransform_.scale_.y});
+
+	sprite_->Draw();
 }
 
-//void Light::Grow() {
-//	float kSpeed = 10.0f;
-//	switch (growtype_) {
-//	case Up:
-//		
-//		velocity_ = {0.0f, -kSpeed, 0.0f};
-//
-//		break;
-//
-//	case Down:
-//		velocity_ = {0.0f, kSpeed, 0.0f};
-//
-//		break;
-//
-//	case Left:
-//		velocity_ = {-kSpeed, 0.0f, 0.0f};
-//
-//		break;
-//
-//	case Right:
-//		velocity_ = {kSpeed, 0.0f, 0.0f};
-//
-//		break;
-//
-//	case NO:
-//		velocity_ = {0.0f, 0.0f, 0.0f};
-//
-//		break;
-//	}
-//	width_ += velocity_.x;
-//	height_ += velocity_.y;
-//}
+Light::~Light() { delete sprite_; }
 
-Light::~Light() { 
-delete sprite_; }
+Vector3 Light::GetWorldPositionFromScreen(float screenPosX, float screenPosY) {   
+	// スクリーン座標（screenPosX, screenPosY）をワールド座標に変換
+	float worldPosX = screenPosX * (40.0f / 1280.0f) - 20.0f;
+	float worldPosY = screenPosY * (40.0f / 720.0f) - 20.0f;
 
-
+	// ワールド座標を返す
+	return {worldPosX, worldPosY, 0.0f}; // Z座標は0で保持（2Dの場合） 
+}
