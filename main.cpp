@@ -2,10 +2,12 @@
 #include "GameScene.h"
 #include "TitleScene.h"
 #include "ClearScene.h"
+#include "Explanation.h"
 
 using namespace KamataEngine;
 
 TitleScene* titleScene = nullptr;
+ExplanationScene* explanationScene = nullptr;
 GameScene* gameScene = nullptr;
 ClearScene* clearScene = nullptr;
 
@@ -14,6 +16,7 @@ enum class Scene {
 	kUnknown = 0,
 
 	kTitle,
+	kExplanation,
 	kGame,
 	kClear
 
@@ -131,7 +134,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	imguiManager->Finalize();
 	// scene解放
 	delete titleScene;
+	delete explanationScene;
 	delete gameScene;
+	delete clearScene;
 
 	// ゲームウィンドウの破棄
 	win->TerminateGameWindow();
@@ -148,15 +153,33 @@ void ChangeScene()
 
 		if (titleScene->IsFinished()) {
 
-			scene = Scene::kGame;
+			scene = Scene::kExplanation;
 
 			delete titleScene;
 
 			titleScene = nullptr;
 
+			explanationScene = new ExplanationScene();
+
+			explanationScene->Initialize();
+		}
+
+		break;
+
+	case Scene::kExplanation:
+
+		if (explanationScene->IsFinished()) {
+
+			scene = Scene::kGame;
+
+			delete explanationScene;
+
+			explanationScene = nullptr;
+
 			gameScene = new GameScene();
 
 			gameScene->Initialize();
+
 		}
 
 		break;
@@ -196,6 +219,8 @@ void ChangeScene()
 
 		}
 
+		break;
+
 	}
 
 }
@@ -208,6 +233,12 @@ void UpdateScene()
 	case Scene::kTitle:
 
 		titleScene->Update();
+
+		break;
+
+	case Scene::kExplanation:
+
+		explanationScene->Update();
 
 		break;
 
@@ -234,6 +265,12 @@ void DrawScene()
 	case Scene::kTitle:
 
 		titleScene->Draw();
+
+		break;
+
+	case Scene::kExplanation:
+
+		explanationScene->Draw();
 
 		break;
 
