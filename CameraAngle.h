@@ -6,6 +6,8 @@ class CameraAngle {
 
 public:
 
+	~CameraAngle();
+
 	void Initialize(const KamataEngine::WorldTransform& worldTransform);
 
 	void Update();

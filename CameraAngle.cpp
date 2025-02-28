@@ -5,6 +5,10 @@
 
 using namespace KamataEngine;
 
+CameraAngle::~CameraAngle()
+{
+}
+
 void CameraAngle::Initialize(const WorldTransform& worldTransform)
 {
 
