@@ -54,6 +54,10 @@ void CameraAngle::Update()
 
     }
 
+    //角度を更新
+    rotation_.x += move.x;
+    rotation_.y += move.y;
+
     //回転角度を制限
     rotation_.x = std::clamp(rotation_.x, 0.7f, 1.0f);
 
@@ -65,10 +69,6 @@ void CameraAngle::Update()
     };
 
     cameraTarget_ = translation_ + direction;
-
-    //角度を更新
-    rotation_.x += move.x;
-    rotation_.y += move.y;
 
     //変換行列を更新
     worldTransform_.translation_ = translation_;
