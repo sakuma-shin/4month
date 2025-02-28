@@ -51,6 +51,8 @@ void GameScene::Initialize() {
 
 	map_->Initialize(mapModel_, textureHandle_, &camera_);
 
+	player_->SetMapChipField(map_);
+
 //ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
 

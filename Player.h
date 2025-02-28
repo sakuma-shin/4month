@@ -5,6 +5,8 @@
 #include "3D/camera.h"
 #include <input/Input.h>
 
+class Map;
+
 class Player {
 
 public:
@@ -24,6 +26,10 @@ public:
 
 	KamataEngine::Vector3 GetRotation() const { return worldTransform_.rotation_; }
 
+	void SetMapChipField(Map* map) { map_ = map; }
+
+	void InputMove();
+
 private:
 
 	// ワールド変換データ
@@ -37,5 +43,11 @@ private:
 
 	//入力
 	KamataEngine::Input* input_ = nullptr;
+
+	//マップチップフィールド
+	Map* map_ = nullptr;
+
+	//判定サイズ
+	static inline const float kWidth = 0.8f;
 
 };

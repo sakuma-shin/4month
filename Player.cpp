@@ -34,6 +34,24 @@ void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle,Kamat
 void Player::Update()
 {
 
+	InputMove();
+
+	worldTransform_.TransferMatrix();
+	worldTransform_.UpdateMatrix();
+
+}
+
+void Player::Draw(Camera* camera)
+{
+
+	model_->Draw(worldTransform_,*camera,textureHandle_);
+
+}
+
+void Player::InputMove()
+{
+
+
 	//キャラクターの移動ベクトル
 	Vector3 move = { 0,0,0 };
 
@@ -69,15 +87,5 @@ void Player::Update()
 	//座標移動
 	worldTransform_.translation_.x += move.x;
 	worldTransform_.translation_.z += move.z;
-
-	worldTransform_.TransferMatrix();
-	worldTransform_.UpdateMatrix();
-
-}
-
-void Player::Draw(Camera* camera)
-{
-
-	model_->Draw(worldTransform_,*camera,textureHandle_);
 
 }
