@@ -9,6 +9,7 @@ GameScene::~GameScene() {
 	delete playerModel_;
 	delete player_;
 	delete cameraAngle_;
+	delete map_;
 	
 	/*delete lightSprite_;*/
 	for (Light* light : lights_) {
@@ -44,6 +45,12 @@ void GameScene::Initialize() {
 
 	lightTextureHandle_ = TextureManager::Load("uvChecker.png");
 
+	mapModel_ = Model::Create();
+
+	map_ = new Map;
+
+	map_->Initialize(mapModel_, textureHandle_, &camera_);
+
 //ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
 
@@ -77,6 +84,7 @@ void GameScene::Update() {
 		}
 	}
 
+	map_->Update();
 	player_->Update();
 	cameraAngle_->Update();
 
@@ -130,7 +138,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	///
-	
+	map_->Draw();
+
 	player_->Draw(&camera_);
 
 	///

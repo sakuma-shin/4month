@@ -7,6 +7,8 @@
 #include "Light.h"
 #include<list>
 
+#include "Map.h"
+
 using namespace KamataEngine;
 
 class GameScene {
@@ -53,5 +55,10 @@ private:
 	std::list<Light*> lights_;
 	/*Sprite* lightSprite_ = nullptr;*/
 	uint32_t lightTextureHandle_ = 0u;
+
+	Map* map_ = nullptr;
+
+	Model* mapModel_ = nullptr;
+
 
 };
