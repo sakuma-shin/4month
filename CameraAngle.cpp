@@ -1,6 +1,7 @@
 #include "CameraAngle.h"
 #include <ImGui.h>
 #include "MathUtility.h"
+#include <algorithm>
 
 using namespace KamataEngine;
 
@@ -19,11 +20,11 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform)
 	worldTransform_.Initialize();
 	camera_.Initialize();
 
-    translation_ = { 0.0f, 30.0f, -30.0f };  // 初期位置
-    rotation_ = { 0.5f, 0.0f, 0.0f };        // 初期回転
+    translation_ = { 0.0f, 50.0f, -30.0f };
+    rotation_ = { 0.7f, 0.0f, 0.0f };
 
-    // カメラの初期ターゲット位置を設定（カメラが注視するポイント）
-    cameraTarget_ = { 0.0f, 0.0f, 0.0f };    // ターゲットの位置（例：原点）
+    //カメラの初期ターゲット位置を設定
+    cameraTarget_ = { 0.0f, 0.0f, 0.0f };
     cameraUp_ = { 0.0f, 1.0f, 0.0f };
 
 }
@@ -31,38 +32,54 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform)
 void CameraAngle::Update()
 {
 
-    // キャラクターの移動ベクトル
+    //キャラクターの移動ベクトル
     Vector3 move = { 0, 0, 0 };
 
-    // カメラの移動速度
-    const float kCameraSpeed = 0.02f;
+    //カメラの移動速度
+    const float kCameraSpeed = 0.01f;
 
-    // キー入力で移動量を加算
-    if (input_->PushKey(DIK_LEFT)) {
-        move.y -= kCameraSpeed; // 左回転
-    }
-    if (input_->PushKey(DIK_RIGHT)) {
-        move.y += kCameraSpeed; // 右回転
+    if (input_->PushKey(DIK_UP)) {
+
+        move.x += kCameraSpeed;
+
     }
 
-    // 角度を更新（移動量を rotation_ に加算）
+    if (input_->PushKey(DIK_DOWN)) {
+
+        move.x -= kCameraSpeed;
+
+    }
+
+    //回転角度を制限
+    rotation_.x = std::clamp(rotation_.x, 0.7f, 1.0f);
+
+    //カメラの向きに合わせたターゲット計算
+    Vector3 direction{
+     std::sin(rotation_.y),
+     std::sin(rotation_.x),
+     std::cos(rotation_.y)
+    };
+
+    cameraTarget_ = translation_ + direction;
+
+    //角度を更新
+    rotation_.x += move.x;
     rotation_.y += move.y;
 
-    // 変換行列を更新
+    //変換行列を更新
     worldTransform_.translation_ = translation_;
     worldTransform_.rotation_ = rotation_;
     worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
-    // カメラビュー行列を更新
+    //カメラビュー行列を更新
     camera_.matView = MathUtility::Inverse(worldTransform_.matWorld_);
 
-    // ワールド行列を更新
+    //ワールド行列を更新
     worldTransform_.UpdateMatrix();
 
-    // ImGui でデバッグ表示
     ImGui::Begin("Camera");
-    ImGui::DragFloat3("Translation", &translation_.x, 0.01f);  // カメラ位置を変更
-    ImGui::DragFloat3("Rotation", &rotation_.x, 0.01f);        // カメラ回転を変更
+    ImGui::DragFloat3("Translation", &translation_.x, 0.01f);
+    ImGui::DragFloat3("Rotation", &rotation_.x, 0.01f);
     ImGui::End();
 }
 
