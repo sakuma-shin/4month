@@ -5,6 +5,8 @@
 #include <sstream>
 #include <cassert>
 
+using namespace KamataEngine;
+
 namespace {
 
     std::map<std::string, MapChipType> mapChipTable = {
@@ -76,3 +78,31 @@ void MapChipField::LoadMapChipCsv(const std::string& filePath)
     }
 
 }
+
+MapChipType MapChipField::GetMapChipTypeByIndex(uint32_t xIndex, uint32_t zIndex)
+{
+
+    if (xIndex < 0 || kNumBlockHorizontal - 1 < xIndex) {
+
+        return MapChipType::kBlank;
+
+    }
+
+    if (zIndex < 0 || kNumBlockVirtical - 1 < zIndex) {
+
+        return MapChipType::kBlank;
+
+    }
+
+    return mapChipData_.data[zIndex][xIndex];
+
+}
+
+KamataEngine::Vector3 MapChipField::GetMapChipPositionByIndex(uint32_t xIndex, uint32_t zIndex)
+{
+   
+    return Vector3(kBlockWidth * xIndex, 1.5, kBlockHeight * zIndex);
+
+}
+
+

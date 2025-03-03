@@ -6,6 +6,7 @@
 
 #include "Light.h"
 #include<list>
+#include "MapChipField.h"
 
 using namespace KamataEngine;
 
@@ -53,5 +54,12 @@ private:
 	std::list<Light*> lights_;
 	/*Sprite* lightSprite_ = nullptr;*/
 	uint32_t lightTextureHandle_ = 0u;
+
+	MapChipField* mapChipField_;
+
+	Model* modelBlock_ = nullptr;
+
+	// 縦横ブロック配列
+	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
 
 };

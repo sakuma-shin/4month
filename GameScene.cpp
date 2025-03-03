@@ -9,7 +9,16 @@ GameScene::~GameScene() {
 	delete playerModel_;
 	delete player_;
 	delete cameraAngle_;
-	
+	delete mapChipField_;
+	delete modelBlock_;
+
+	for (std::vector<WorldTransform*>& worldTransformBlockLine : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlock : worldTransformBlockLine) {
+			delete worldTransformBlock;
+		}
+	}
+
+
 	/*delete lightSprite_;*/
 	for (Light* light : lights_) {
 		delete light;
@@ -24,10 +33,14 @@ void GameScene::Initialize() {
 
 	//3Dモデルの生成
 	playerModel_ = Model::Create();
+	modelBlock_ = Model::CreateFromOBJ("cube", true);
+
+	mapChipField_ = new MapChipField();
+	mapChipField_->LoadMapChipCsv("Resources/map/01.csv");
 
 	//プレイヤー関連
 	player_ = new Player();
-	Vector3 playerPosition = map_->GetMapChipPositionByIndex(30, 20);
+	Vector3 playerPosition = mapChipField_->GetMapChipPositionByIndex(30, 20);
 
 	player_->Initialize(playerModel_, textureHandle_, &camera_, playerPosition);
 
@@ -99,6 +112,17 @@ void GameScene::Update() {
 		}
 	}*/
 
+	// 縦横ブロック更新
+	for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlockYoko : worldTransformBlockTate) {
+			if (!worldTransformBlockYoko)
+				continue;
+
+			// アフィン変換行列の作成
+			worldTransformBlockYoko->UpdateMatrix();
+		}
+	}
+
 	if (input_->TriggerKey(DIK_SPACE)) {
 
 		isFinished_ = true;
@@ -133,7 +157,18 @@ void GameScene::Draw() {
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	///
 	
+
 	player_->Draw(&camera_);
+
+	// 縦横ブロック描画
+	for (std::vector<WorldTransform*> worldTransformBlockTate : worldTransformBlocks_) {
+		for (WorldTransform* worldTransformBlockYoko : worldTransformBlockTate) {
+			if (!worldTransformBlockYoko)
+				continue;
+
+			modelBlock_->Draw(*worldTransformBlockYoko, camera_);
+		}
+	}
 
 	///
 	/// </summary>
