@@ -34,5 +34,12 @@ private:
 
 	KamataEngine::Camera* camera_;
 
+	KamataEngine::Model* mirrormodel_;
+
+	KamataEngine::Model* mirrormodel2_;
+
+	KamataEngine::Model* golemodel_;
+
+	KamataEngine::Model* prismmodel_;
 	
 };

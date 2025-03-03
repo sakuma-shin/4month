@@ -6,14 +6,26 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	assert(model);
 	
 	// 引数の内容をメンバ変数に記録
-	this->model_ = model;
+	//this->model_ = model;
+
+	model_ = Model::CreateFromOBJ("wall", true);
 	textureHandle_ = textureHandle;
 	camera_ = camera;
 
 	Size = {2,2,2};
-	walltextureHandle_= TextureManager::Load("uvChecker.png");
+	walltextureHandle_= TextureManager::Load("white1x1.png");
 	
+	textureHandle_ = TextureManager::Load("uvChecker.png");
 
+	mirrormodel_->Create();
+	mirrormodel_= Model::CreateFromOBJ("mirorr",true);
+
+	mirrormodel2_->Create();
+	mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
+
+	golemodel_ = Model::CreateFromOBJ("gole", true);
+
+	prismmodel_ = Model::CreateFromOBJ("prism", true);
 	filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
 	readCSV();
 	
@@ -22,7 +34,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		worldTransform_[i] = new WorldTransform;
 		worldTransform_[i]->Initialize();
 		worldTransform_[i]->translation_.x = (i % MaxX) * Size.x;
-		if (map[i % MaxX][i / MaxX] == 10) {
+		if (map[i % MaxX][i / MaxX] != 0  &&map[i % MaxX][i / MaxX] != 1) {
 			worldTransform_[i]->translation_.y = 0;
 		} else {
 			worldTransform_[i]->translation_.y = 2;
@@ -42,13 +54,26 @@ void Map::Update() {
 }
 
 void Map::Draw() {
+	int i = 0;
 	for (WorldTransform* worldTransformBlock : worldTransform_) {
-		if (worldTransformBlock->translation_.y > 0) {
-			model_->Draw(*worldTransformBlock, *camera_, walltextureHandle_);
-		} else {
-			model_->Draw(*worldTransformBlock, *camera_, textureHandle_);
+		if (map[i % MaxX][i / MaxX] == 8) {
+			model_->Draw(*worldTransformBlock, *camera_);
+		} else if (map[i % MaxX][i / MaxX] == 2) {
+			golemodel_->Draw(*worldTransformBlock, *camera_);
 		}
-		
+		else if (map[i % MaxX][i / MaxX] == 31) {
+			mirrormodel2_->Draw(*worldTransformBlock, *camera_);
+		}else if (map[i % MaxX][i / MaxX] == 32) {
+			mirrormodel_->Draw(*worldTransformBlock, *camera_);
+		} else if (map[i % MaxX][i / MaxX] == 9) {
+			prismmodel_->Draw(*worldTransformBlock, *camera_);
+		} else if (map[i % MaxX][i / MaxX] == 0) {
+			model_->Draw(*worldTransformBlock, *camera_, walltextureHandle_);
+		} 
+		else {
+			model_->Draw(*worldTransformBlock, *camera_,textureHandle_);
+		}
+		i++;
 	}
 }
 
