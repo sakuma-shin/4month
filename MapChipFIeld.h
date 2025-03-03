@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <vector>
+#include <string>
 
 enum class MapChipType {
 
@@ -21,6 +22,8 @@ class MapChipField {
 public:
 
 	void ResetMapChipData();
+
+	void LoadMapChipCsv(const std::string& filePath);	
 
 private:
 
