@@ -41,5 +41,6 @@ private:
 	KamataEngine::Model* golemodel_;
 
 	KamataEngine::Model* prismmodel_;
+	KamataEngine::Model* doormodel_;
 	
 };

@@ -26,6 +26,9 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	golemodel_ = Model::CreateFromOBJ("gole", true);
 
 	prismmodel_ = Model::CreateFromOBJ("prism", true);
+
+	doormodel_ = Model::CreateFromOBJ("door", true);
+
 	filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
 	readCSV();
 	
@@ -60,6 +63,8 @@ void Map::Draw() {
 			model_->Draw(*worldTransformBlock, *camera_);
 		} else if (map[i % MaxX][i / MaxX] == 2) {
 			golemodel_->Draw(*worldTransformBlock, *camera_);
+		} else if (map[i % MaxX][i / MaxX] == 7) {
+			doormodel_->Draw(*worldTransformBlock, *camera_);
 		}
 		else if (map[i % MaxX][i / MaxX] == 31) {
 			mirrormodel2_->Draw(*worldTransformBlock, *camera_);
