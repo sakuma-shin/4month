@@ -43,4 +43,10 @@ private:
 
 	Map* map_ = nullptr;
 
+	KamataEngine::Vector3 velocity_ = {};
+
+	static inline const float kAcceleration = 0.01f;
+
+	static inline const float kAttenuation = 0.85f;
+
 };

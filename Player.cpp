@@ -38,41 +38,89 @@ void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle,Kamat
 void Player::Update()
 {
 
-	//キャラクターの移動ベクトル
-	Vector3 move = { 0,0,0 };
+	////キャラクターの移動ベクトル
+	//Vector3 move = { 0,0,0 };
 
-	//キャラクターの移動速度
-	const float kCharacterSpeed = 0.2f;
+	////キャラクターの移動速度
+	//const float kCharacterSpeed = 0.2f;
 
-	//押した方向で移動ベクトルを変更(左右)
-	if (input_->PushKey(DIK_A)) {
+	////押した方向で移動ベクトルを変更(左右)
+	//if (input_->PushKey(DIK_A)) {
 
-		move.x -= kCharacterSpeed;
+	//	move.x -= kCharacterSpeed;
+
+	//}
+
+	//if (input_->PushKey(DIK_D)) {
+
+	//	move.x += kCharacterSpeed;
+
+	//}
+
+	////押した方向で移動ベクトルを変更(上下)
+	//if (input_->PushKey(DIK_W)) {
+
+	//	move.z += kCharacterSpeed;
+
+	//}
+
+	//if (input_->PushKey(DIK_S)) {
+
+	//	move.z -= kCharacterSpeed;
+
+	//}
+
+	////座標移動
+	//worldTransform_.translation_.x += move.x;
+	//worldTransform_.translation_.z += move.z;
+
+	//移動入力
+	if (Input::GetInstance()->PushKey(DIK_D)||Input::GetInstance()->PushKey(DIK_A)) {
+
+		//加速
+		Vector3 acceleration = {};
+		if (Input::GetInstance()->PushKey(DIK_D)) {
+
+			acceleration.x += kAcceleration;
+
+		} else if (Input::GetInstance()->PushKey(DIK_A)) {
+
+			acceleration.x -= kAcceleration;
+
+		}
+
+		velocity_.x += acceleration.x;
+
+	} else {
+
+		velocity_.x *= (1.0f - kAttenuation);
 
 	}
 
-	if (input_->PushKey(DIK_D)) {
+	if (Input::GetInstance()->PushKey(DIK_W) || Input::GetInstance()->PushKey(DIK_S)) {
 
-		move.x += kCharacterSpeed;
+		//加速
+		Vector3 acceleration = {};
+		if (Input::GetInstance()->PushKey(DIK_W)) {
+
+			acceleration.z += kAcceleration;
+
+		} else if (Input::GetInstance()->PushKey(DIK_S)) {
+
+			acceleration.z -= kAcceleration;
+
+		}
+
+		velocity_.z += acceleration.z;
+
+	} else {
+
+		velocity_.z *= (1.0f - kAttenuation);
 
 	}
 
-	//押した方向で移動ベクトルを変更(上下)
-	if (input_->PushKey(DIK_W)) {
-
-		move.z += kCharacterSpeed;
-
-	}
-
-	if (input_->PushKey(DIK_S)) {
-
-		move.z -= kCharacterSpeed;
-
-	}
-
-	//座標移動
-	worldTransform_.translation_.x += move.x;
-	worldTransform_.translation_.z += move.z;
+	worldTransform_.translation_.x += velocity_.x;
+	worldTransform_.translation_.z += velocity_.z;
 
 	worldTransform_.TransferMatrix();
 	worldTransform_.UpdateMatrix();
