@@ -4,6 +4,9 @@
 #include "3D/WorldTransform.h"
 #include "3D/camera.h"
 #include <input/Input.h>
+#include "Map.h"
+
+class Map;
 
 class Player {
 
@@ -11,7 +14,7 @@ public:
 
 	~Player();
 
-	void Initialize(KamataEngine::Model* model,uint32_t textureHandle,KamataEngine::Camera* camera);
+	void Initialize(KamataEngine::Model* model,uint32_t textureHandle,KamataEngine::Camera* camera,const KamataEngine::Vector3& position);
 
 	void Update();
 
@@ -37,5 +40,7 @@ private:
 
 	//入力
 	KamataEngine::Input* input_ = nullptr;
+
+	Map* map_ = nullptr;
 
 };

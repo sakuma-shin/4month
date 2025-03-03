@@ -89,3 +89,8 @@ void Map::readCSV() {
 
 	file.close();
 }
+
+KamataEngine::Vector3 Map::GetMapChipPositionByIndex(uint32_t xIndex, uint32_t zIndex)
+{
+	return Vector3(kBlockWidth * xIndex, 1.5, kBlockHeight * zIndex);
+}

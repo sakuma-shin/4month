@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Map.h"
 
 using namespace KamataEngine;
 
@@ -9,7 +10,7 @@ Player::~Player()
 
 }
 
-void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle,KamataEngine::Camera* camera)
+void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle,KamataEngine::Camera* camera, const KamataEngine::Vector3& position)
 {
 
 	//NULLチェック
@@ -19,6 +20,7 @@ void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle,Kamat
 	model_ = model;
 	textureHandle_ = textureHandle;
 	camera_ = camera;
+	worldTransform_.translation_ = position;
 
 	//インスタンス
 	input_ = Input::GetInstance();
@@ -27,7 +29,9 @@ void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle,Kamat
 	worldTransform_.Initialize();
 
 	// プレイヤーの初期位置を設定
-	worldTransform_.translation_ = { 0.0f, 0.0f, 0.0f };
+	//worldTransform_.translation_ = { -5.0f, 2.5f, 0.0f };
+
+	//Vector3 playerPosition=map_->
 
 }
 
