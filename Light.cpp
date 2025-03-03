@@ -1,126 +1,579 @@
 #include "Light.h"
+#include "GameScene.h"
 #include <cassert>
-#include"GameScene.h"
+#include <string>
 
 using namespace KamataEngine;
 
-void Light::Initialize(uint32_t textureHandle, Vector3 initialPos, Vector2 velocity) {
+void Light::Initialize(uint32_t textureHandle, Vector3 initialPos, GrowType type) {
 	/*sprite_ = sprite;*/
 	worldTransform_.Initialize();
 	sprite_ = Sprite::Create(textureHandle, {}); // 各LightごとにSpriteを作成
 
 	initialPos_ = initialPos;
-	sprite_->SetSize({width_,height_});
-	velocity_ = velocity;
+	sprite_->SetSize({width_, height_});
 
 	width_ = 20.0f;
 	height_ = 20.0f;
-	/*growtype_ = type;
-	newType_ = NO;*/
-	isReflection_ = false;
+	growtype_ = type;
+	newType_ = NO;
+	prevGrowType_ = growtype_;
+	/*isReflection_ = false;*/
+	isMapHit = false;
+	isRightUpHit = false;
+	isRightDownHit = false;
+	isVerticalHit = false;
+	isHorizonalHit = false;
+	isplysmHit = false;
+	isWallHit = false;
 }
 
 void Light::Update() {
-	/*Grow();*/
 	
-	//if (壁に当たったら速度0)
-	if (height_ >= 400) {
-		velocity_ = {};
+
+
+	/*#ifdef DEBUG*/
+	if (isRightUpHit) {
+		hitType_ = RightUp;
 	}
 
-	float reflectionWidth = 800.0f; // 反射する境界
-	if (width_ >= reflectionWidth) {
-		// if(動きが斜めじゃないとき)
-		isReflection_ = 1;
-		//if(右下がりに当たって反射する場合)
-		newVelocity_ = {velocity_.y,velocity_.x};
 
-		//if (右上がりに当たる場合)
-		/*newVelocity_ = {-velocity_.y, -velocity_.x};*/
-
-	} else {
-		width_ += velocity_.x;
-		height_ += velocity_.y;
+	if (isRightDownHit) {
+		hitType_ = RightDown;
+	}
+	if (isVerticalHit) {
+		hitType_ = Vertical;
+	}
+	if (isHorizonalHit) {
+		hitType_ = Horizonal;
+	}
+	if (isplysmHit) {
+		hitType_ = plysm;
+	}
+	if (isWallHit) {
+		hitType_ = Wall;
 	}
 
-	//switch (growtype_) {
-	//case Right:
+	// #endif // DEBUG
 
-	//	if (width_ >= reflectionWidth &&!isReflection_) {
-	//		growtype_ = Reflection; // 下に反射
-	//		isReflection_ = true;   // 1回だけ反射
-	//		newType_ = Down;
-	//	}
 
-	//	if (width_ >= reflectionWidth && !isReflection_) {
-	//		growtype_ = Reflection; // 上に反射
-	//		isReflection_ = true;   // 1回だけ反射
-	//		newType_ = Up;
-	//	}
+	Grow();
 
-	//	//if (!isReflection_) {
-	//	//	growtype_ = Reflection; 
-	//	//	isReflection_ = true;   // 1回だけ反射
-	//	//}
-	//	break;
+	if (!isMapHit) {
+		growtype_ = prevGrowType_;
+	}
 
-	//case Reflection:
-
-	//	break;
-	//};
-
-	
+	if (isMapHit) {
+		OnCollisionMap();
+	} 
 
 	/*ImGui::Begin("Light");
-	ImGui::DragFloat3("Light.pos", &initialPos_.x, 0.01f);;
+	ImGui::DragFloat3("Light.pos", &initialPos_.x, 0.01f);
 	ImGui::DragFloat("Light.width", &width_, 0.01f);
 	ImGui::DragFloat("Light.height", &height_, 0.01f);
+	ImGui::Checkbox("Light.MapHit", &isMapHit);
+	ImGui::Checkbox("Light.RightUpHit", &isRightUpHit);
+	ImGui::Checkbox("Light.LeftUpHit", &isRightDownHit);
+	ImGui::Checkbox("Light.VerticalHit", &isVerticalHit);
+	ImGui::Checkbox("Light.HorizonalHit", &isHorizonalHit);
+	ImGui::Checkbox("Light.PlysmHit", &isplysmHit);
+	ImGui::Checkbox("Light.wallHit", &isWallHit);
 	ImGui::End();*/
+
+	// 各Lightごとにウィンドウを作成
+	std::string windowName = "Light_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+	ImGui::Begin(windowName.c_str());
+
+	ImGui::DragFloat3("Position", &initialPos_.x, 0.1f);
+	ImGui::DragFloat("Width", &width_, 0.1f);
+	ImGui::DragFloat("Height", &height_, 0.1f);
+
+	ImGui::Checkbox("MapHit", &isMapHit);
+	ImGui::Checkbox("RightUpHit", &isRightUpHit);
+	ImGui::Checkbox("RightDownHit", &isRightDownHit);
+	ImGui::Checkbox("VerticalHit", &isVerticalHit);
+	ImGui::Checkbox("HorizonalHit", &isHorizonalHit);
+	ImGui::Checkbox("PlysmHit", &isplysmHit);
+	ImGui::Checkbox("WallHit", &isWallHit);
+
+	// GrowType の選択 UI
+	/*const char* growTypeNames[] = {"NO", "Up", "Down", "Left", "Right", "DownRight", "UpRight", "UpLeft", "DownLeft"};
+	int currentType = static_cast<int>(growtype_);
+	if (ImGui::Combo("GrowType", &currentType, growTypeNames, IM_ARRAYSIZE(growTypeNames))) {
+	    growtype_ = static_cast<GrowType>(currentType);
+	}*/
+
+
 
 	sprite_->SetSize({width_, height_});
 	sprite_->SetPosition({initialPos_.x, initialPos_.y});
+}
+
+void Light::Draw() { sprite_->Draw(); }
+
+void Light::Grow() {
+	float kSpeed = 1.0f;
+	switch (growtype_) {
+	case Up:
+
+		velocity_ = {0.0f, -kSpeed};
+		sprite_->SetRotation(0.0f);
+
+		break;
+
+	case Down:
+		velocity_ = {0.0f, kSpeed};
+		sprite_->SetRotation(0.0f);
+
+		break;
+
+	case Left:
+		velocity_ = {-kSpeed, 0.0f};
+		sprite_->SetRotation(0.0f);
+
+		break;
+
+	case Right:
+		velocity_ = {kSpeed, 0.0f};
+		sprite_->SetRotation(0.0f);
+
+		break;
+
+	case DownRight:
+		sprite_->SetRotation(0.5f);
+		velocity_ = {kSpeed, 0.0f};
+
+		break;
+
+	case UpRight:
+		sprite_->SetRotation(-0.5f);
+		velocity_ = {kSpeed, 0.0f};
+
+		break;
+
+	case UpLeft:
+		sprite_->SetRotation(0.5f);
+		velocity_ = {-kSpeed, 0.0f};
+
+		break;
+
+	case DownLeft:
+		sprite_->SetRotation(-0.5f);
+		velocity_ = {-kSpeed, 0.0f};
+
+		break;
+	case NO:
+		velocity_ = {0.0f, 0.0f};
+
+		break;
+	}
+	width_ += velocity_.x;
+	height_ += velocity_.y;
+}
+
+Light::~Light() { delete sprite_; }
+
+Vector3 Light::GetEndPosition() {
+	float angle = sprite_->GetRotation(); // 回転角度 (ラジアン)
+
+	// 終点の相対位置 (幅と高さを考慮)
+	float localEndX = width_;
+	float localEndY = height_;
+
+
+	// 回転行列を適用
+	float rotatedX = cos(angle) * localEndX - sin(angle) * localEndY;
+	float rotatedY = sin(angle) * localEndX + cos(angle) * localEndY;
+
+	// 初期位置にオフセットを加える
+	return {initialPos_.x + rotatedX - velocity_.x, initialPos_.y + rotatedY - velocity_.y, initialPos_.z};
 
 }
 
-
-void Light::Draw() {
-	//sprite_->Draw(); 
-}
-
-//void Light::Grow() {
-//	float kSpeed = 10.0f;
+//void Light::OnCollisionMap() {
+//
+//	  // 以前の growtype_ を保存
+//	prevGrowType_ = growtype_;
+//
+//
 //	switch (growtype_) {
 //	case Up:
-//		
-//		velocity_ = {0.0f, -kSpeed, 0.0f};
+//		switch (hitType_) {
+//		case RightUp:
+//
+//			newType_ = Right;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		case RightDown:
+//
+//			newType_ = Left;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		case plysm:
+//			newType_ = UpRight;
+//			newType2_ = UpLeft;
+//
+//			break;
+//
+//		default:
+//			newType_ = NO;
+//			newType2_ = NO;
+//
+//			break;
+//		}
 //
 //		break;
 //
 //	case Down:
-//		velocity_ = {0.0f, kSpeed, 0.0f};
+//		switch (hitType_) {
+//		case RightUp:
+//
+//			newType_ = Left;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		case RightDown:
+//
+//			newType_ = Right;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		case plysm:
+//			newType_ = DownRight;
+//			newType2_ = DownLeft;
+//
+//			break;
+//
+//		default:
+//			newType_ = NO;
+//			newType2_ = NO;
+//
+//			break;
+//		}
 //
 //		break;
 //
 //	case Left:
-//		velocity_ = {-kSpeed, 0.0f, 0.0f};
+//		switch (hitType_) {
+//		case RightUp:
+//
+//			newType_ = Down;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		case RightDown:
+//
+//			newType_ = Up;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		case plysm:
+//			newType_ = DownLeft;
+//			newType2_ = UpLeft;
+//
+//			break;
+//
+//		default:
+//			newType_ = NO;
+//			newType2_ = NO;
+//
+//			break;
+//		}
 //
 //		break;
 //
 //	case Right:
-//		velocity_ = {kSpeed, 0.0f, 0.0f};
+//		switch (hitType_) {
+//		case RightUp:
+//
+//			newType_ = Up;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		case RightDown:
+//
+//			newType_ = Down;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		case plysm:
+//			newType_ = DownRight;
+//			newType2_ = UpRight;
+//
+//			break;
+//
+//		default:
+//			newType_ = NO;
+//			newType2_ = NO;
+//
+//			break;
+//		}
 //
 //		break;
 //
+//	case DownRight:
+//		switch (hitType_) {
+//		case Horizonal:
+//
+//			newType_ = UpRight;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		case Vertical:
+//
+//			newType_ = DownLeft;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		default:
+//			newType_ = NO;
+//			newType2_ = NO;
+//
+//			break;
+//		}
+//
+//		break;
+//
+//	case UpRight:
+//		switch (hitType_) {
+//		case Horizonal:
+//
+//			newType_ = DownRight;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		case Vertical:
+//
+//			newType_ = UpLeft;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		default:
+//			newType_ = NO;
+//			newType2_ = NO;
+//
+//			break;
+//		}
+//
+//		break;
+//
+//	case UpLeft:
+//		switch (hitType_) {
+//		case Horizonal:
+//
+//			newType_ = DownLeft;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		case Vertical:
+//
+//			newType_ = UpRight;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		default:
+//			newType_ = NO;
+//			newType2_ = NO;
+//
+//			break;
+//		}
+//
+//		break;
+//
+//	case DownLeft:
+//		switch (hitType_) {
+//		case Horizonal:
+//
+//			newType_ = UpLeft;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		case Vertical:
+//
+//			newType_ = DownRight;
+//			newType2_ = NO;
+//
+//			break;
+//
+//		default:
+//			newType_ = NO;
+//			newType2_ = NO;
+//
+//			break;
+//		}
+//
+//		break;
 //	case NO:
-//		velocity_ = {0.0f, 0.0f, 0.0f};
+//		velocity_ = {0.0f, 0.0f};
 //
 //		break;
 //	}
-//	width_ += velocity_.x;
-//	height_ += velocity_.y;
+//	growtype_ = NO;
 //}
 
-Light::~Light() { 
-delete sprite_; }
+void Light::OnCollisionMap() {
+	// 以前の growtype_ を保存
+	prevGrowType_ = growtype_;
 
+	switch (growtype_) {
+	case Up:
+		switch (hitType_) {
+		case RightUp:
+			newType_ = Right;
+			break;
+		case RightDown:
+			newType_ = Left;
+			break;
+		case plysm:
+			newType_ = UpRight;
+			newType2_ = UpLeft;
+			break;
+		default:
+			newType_ = NO;
+			newType2_ = NO;
+			break;
+		}
+		break;
 
+	case Down:
+		switch (hitType_) {
+		case RightUp:
+			newType_ = Left;
+			break;
+		case RightDown:
+			newType_ = Right;
+			break;
+		case plysm:
+			newType_ = DownRight;
+			newType2_ = DownLeft;
+			break;
+		default:
+			newType_ = NO;
+			newType2_ = NO;
+			break;
+		}
+		break;
+
+	case Left:
+		switch (hitType_) {
+		case RightUp:
+			newType_ = Down;
+			break;
+		case RightDown:
+			newType_ = Up;
+			break;
+		case plysm:
+			newType_ = DownLeft;
+			newType2_ = UpLeft;
+			break;
+		default:
+			newType_ = NO;
+			newType2_ = NO;
+			break;
+		}
+		break;
+
+	case Right:
+		switch (hitType_) {
+		case RightUp:
+			newType_ = Up;
+			break;
+		case RightDown:
+			newType_ = Down;
+			break;
+		case plysm:
+			newType_ = DownRight;
+			newType2_ = UpRight;
+			break;
+		default:
+			newType_ = NO;
+			newType2_ = NO;
+			break;
+		}
+		break;
+
+	case DownRight:
+		switch (hitType_) {
+		case Horizonal:
+			newType_ = UpRight;
+			break;
+		case Vertical:
+			newType_ = DownLeft;
+			break;
+		default:
+			newType_ = NO;
+			newType2_ = NO;
+			break;
+		}
+		break;
+
+	case UpRight:
+		switch (hitType_) {
+		case Horizonal:
+			newType_ = DownRight;
+			break;
+		case Vertical:
+			newType_ = UpLeft;
+			break;
+		default:
+			newType_ = NO;
+			newType2_ = NO;
+			break;
+		}
+		break;
+
+	case UpLeft:
+		switch (hitType_) {
+		case Horizonal:
+			newType_ = DownLeft;
+			break;
+		case Vertical:
+			newType_ = UpRight;
+			break;
+		default:
+			newType_ = NO;
+			newType2_ = NO;
+			break;
+		}
+		break;
+
+	case DownLeft:
+		switch (hitType_) {
+		case Horizonal:
+			newType_ = UpLeft;
+			break;
+		case Vertical:
+			newType_ = DownRight;
+			break;
+		default:
+			newType_ = NO;
+			newType2_ = NO;
+			break;
+		}
+		break;
+
+	case NO:
+		velocity_ = {0.0f, 0.0f};
+		break;
+	}
+
+	// マップに当たったら動きを止める
+	growtype_ = NO;
+}
