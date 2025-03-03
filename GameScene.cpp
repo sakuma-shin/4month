@@ -27,7 +27,9 @@ void GameScene::Initialize() {
 
 	//プレイヤー関連
 	player_ = new Player();
-	player_->Initialize(playerModel_,textureHandle_,&camera_);
+	Vector3 playerPosition = map_->GetMapChipPositionByIndex(30, 20);
+
+	player_->Initialize(playerModel_, textureHandle_, &camera_, playerPosition);
 
 	camera_.Initialize();
 
