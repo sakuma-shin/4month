@@ -37,6 +37,7 @@ void Light::Update() {
 		hitType_ = RightUp;
 	}
 
+
 	if (isRightDownHit) {
 		hitType_ = RightDown;
 	}
@@ -54,6 +55,7 @@ void Light::Update() {
 	}
 
 	// #endif // DEBUG
+
 
 	Grow();
 
@@ -101,7 +103,7 @@ void Light::Update() {
 	    growtype_ = static_cast<GrowType>(currentType);
 	}*/
 
-	ImGui::End();
+
 
 	sprite_->SetSize({width_, height_});
 	sprite_->SetPosition({initialPos_.x, initialPos_.y});
@@ -178,12 +180,14 @@ Vector3 Light::GetEndPosition() {
 	float localEndX = width_;
 	float localEndY = height_;
 
+
 	// 回転行列を適用
 	float rotatedX = cos(angle) * localEndX - sin(angle) * localEndY;
 	float rotatedY = sin(angle) * localEndX + cos(angle) * localEndY;
 
 	// 初期位置にオフセットを加える
 	return {initialPos_.x + rotatedX - velocity_.x, initialPos_.y + rotatedY - velocity_.y, initialPos_.z};
+
 }
 
 //void Light::OnCollisionMap() {
