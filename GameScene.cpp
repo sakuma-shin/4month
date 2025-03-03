@@ -25,11 +25,11 @@ void GameScene::Initialize() {
 
 	Light* newLight = new Light();
 
-	Vector3 initialPos = {3.0f, 2.0f, 0.0f};
+	Vector3 initialPos = {600.0f, 600.0f, 0.0f};
 	/*Light::GrowType type = Light::Right;*/
 	
 	Vector2 lightVelocity = {20.0f, 0.0f};
-	newLight->Initialize(lightTextureHandle_, initialPos,lightVelocity);
+	newLight->Initialize(lightTextureHandle_, initialPos,Light::Up);
 	/*lightSprite_->SetSize(newLight->GetSize());*/
 	lights_.push_back(newLight);
 }
@@ -44,23 +44,16 @@ void GameScene::Update() {
 		if (light->CanReflect()) {
 			light->SetRefrected();
 			Vector3 newInitialPos = light->GetEndPosition(); // 反射したライトの現在位置を取得
-			LightCreate(light->GetNewVelocity(), newInitialPos);
+			if (light->GetNewType() != Light::NO) {
+				LightCreate(light->GetNewType(), newInitialPos);
+			}
+
+			if (light->GetNewType2() != Light::NO) {
+				LightCreate(light->GetNewType2(), newInitialPos);
+			}
 			
 		}
 	}
-
-	/*for (auto it = lights_.rbegin(); it != lights_.rend(); ++it) {
-		Light* light = *it;
-		light->Update();
-		lightSprite_->SetSize(light->GetSize());
-
-		if (light->GetGrowType() == Light::Reflection) {
-			Vector3 newInitialPos = light->GetEndPosition();
-			Light::GrowType newType = light->GetNewType();
-			light->SetGrowType(Light::NO);
-			LightCreate(newType, newInitialPos);
-		}
-	}*/
 }
 
 void GameScene::Draw() {
@@ -116,11 +109,9 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
-void GameScene::LightCreate(Vector2 velocity,Vector3 pos) {
+void GameScene::LightCreate(Light::GrowType type,Vector3 pos) {
 	Light* newLight = new Light();
-
-	Vector3 initialPos = {3.0f, 2.0f, 0.0f};
-	newLight->Initialize(lightTextureHandle_, pos, velocity);
+	newLight->Initialize(lightTextureHandle_, pos,type);
 	/*lightSprite_->SetSize(newLight->GetSize());*/
 	lights_.push_back(newLight);
 }
