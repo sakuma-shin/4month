@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Map.h"
+#include <algorithm>
 
 using namespace KamataEngine;
 
@@ -28,96 +29,70 @@ void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle,Kamat
 	//ワールド変換の初期化
 	worldTransform_.Initialize();
 
-	// プレイヤーの初期位置を設定
-	//worldTransform_.translation_ = { -5.0f, 2.5f, 0.0f };
-
-	//Vector3 playerPosition=map_->
-
 }
 
 void Player::Update()
 {
 
-	////キャラクターの移動ベクトル
-	//Vector3 move = { 0,0,0 };
+// 移動入力
+bool isMovingX = Input::GetInstance()->PushKey(DIK_D) || Input::GetInstance()->PushKey(DIK_A);
+bool isMovingZ = Input::GetInstance()->PushKey(DIK_W) || Input::GetInstance()->PushKey(DIK_S);
 
-	////キャラクターの移動速度
-	//const float kCharacterSpeed = 0.2f;
-
-	////押した方向で移動ベクトルを変更(左右)
-	//if (input_->PushKey(DIK_A)) {
-
-	//	move.x -= kCharacterSpeed;
-
-	//}
-
-	//if (input_->PushKey(DIK_D)) {
-
-	//	move.x += kCharacterSpeed;
-
-	//}
-
-	////押した方向で移動ベクトルを変更(上下)
-	//if (input_->PushKey(DIK_W)) {
-
-	//	move.z += kCharacterSpeed;
-
-	//}
-
-	//if (input_->PushKey(DIK_S)) {
-
-	//	move.z -= kCharacterSpeed;
-
-	//}
-
-	////座標移動
-	//worldTransform_.translation_.x += move.x;
-	//worldTransform_.translation_.z += move.z;
-
-	//移動入力
-	if (Input::GetInstance()->PushKey(DIK_D)||Input::GetInstance()->PushKey(DIK_A)) {
-
-		//加速
-		Vector3 acceleration = {};
-		if (Input::GetInstance()->PushKey(DIK_D)) {
-
-			acceleration.x += kAcceleration;
-
-		} else if (Input::GetInstance()->PushKey(DIK_A)) {
-
-			acceleration.x -= kAcceleration;
-
+//X軸移動
+if (isMovingX) {
+	//加速
+	Vector3 acceleration = {};
+	if (Input::GetInstance()->PushKey(DIK_D)) {
+		if (velocity_.x < 0.0f) {
+			velocity_.x *= (1.0f - kAttenuation);
 		}
-
-		velocity_.x += acceleration.x;
-
-	} else {
-
-		velocity_.x *= (1.0f - kAttenuation);
-
+		acceleration.x += kAcceleration;
+	} else if (Input::GetInstance()->PushKey(DIK_A)) {
+		if (velocity_.x > 0.0f) {
+			velocity_.x *= (1.0f - kAttenuation);
+		}
+		acceleration.x -= kAcceleration;
 	}
 
-	if (Input::GetInstance()->PushKey(DIK_W) || Input::GetInstance()->PushKey(DIK_S)) {
+	velocity_.x += acceleration.x;
+	velocity_.x = std::clamp(velocity_.x, -kLimitSpeed, kLimitSpeed);
 
-		//加速
-		Vector3 acceleration = {};
-		if (Input::GetInstance()->PushKey(DIK_W)) {
+	//斜め移動を防止
+	velocity_.z = 0.0f;
 
-			acceleration.z += kAcceleration;
-
-		} else if (Input::GetInstance()->PushKey(DIK_S)) {
-
-			acceleration.z -= kAcceleration;
-
-		}
-
-		velocity_.z += acceleration.z;
-
-	} else {
-
-		velocity_.z *= (1.0f - kAttenuation);
-
+} else {
+	velocity_.x *= (1.0f - kAttenuation);
+	if (std::abs(velocity_.x) < 0.01f) {
+		velocity_.x = 0.0f;
 	}
+}
+
+//Z軸移動
+if (!isMovingX && isMovingZ) { //X軸が動いていない場合のみ許可
+	//加速
+	Vector3 acceleration = {};
+	if (Input::GetInstance()->PushKey(DIK_W)) {
+		if (velocity_.z < 0.0f) {
+			velocity_.z *= (1.0f - kAttenuation);
+		}
+		acceleration.z += kAcceleration;
+	} else if (Input::GetInstance()->PushKey(DIK_S)) {
+		if (velocity_.z > 0.0f) {
+			velocity_.z *= (1.0f - kAttenuation);
+		}
+		acceleration.z -= kAcceleration;
+	}
+
+	velocity_.z += acceleration.z;
+	velocity_.z = std::clamp(velocity_.z, -kLimitSpeed, kLimitSpeed);
+
+} else {
+	velocity_.z *= (1.0f - kAttenuation);
+	if (std::abs(velocity_.z) < 0.01f) {
+		velocity_.z = 0.0f;
+	}
+}
+
 
 	worldTransform_.translation_.x += velocity_.x;
 	worldTransform_.translation_.z += velocity_.z;
