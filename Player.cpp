@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "MathUtility.h"
 
 using namespace KamataEngine;
 
@@ -9,7 +10,7 @@ Player::~Player()
 
 }
 
-void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle,KamataEngine::Camera* camera)
+void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera)
 {
 
 	//NULLチェック
@@ -36,6 +37,12 @@ void Player::Update()
 
 	InputMove();
 
+	//衝突情報を初期化
+	CollisionMapInfo collisionMapInfo;
+
+	//移動量に速度の値をコピー
+	collisionMapInfo.move = worldTransform_.translation_;
+
 	worldTransform_.TransferMatrix();
 	worldTransform_.UpdateMatrix();
 
@@ -44,7 +51,7 @@ void Player::Update()
 void Player::Draw(Camera* camera)
 {
 
-	model_->Draw(worldTransform_,*camera,textureHandle_);
+	model_->Draw(worldTransform_, *camera, textureHandle_);
 
 }
 
@@ -87,5 +94,66 @@ void Player::InputMove()
 	//座標移動
 	worldTransform_.translation_.x += move.x;
 	worldTransform_.translation_.z += move.z;
+
+}
+
+void Player::CheckMapCollision(CollisionMapInfo& info)
+{
+	info;
+
+
+}
+
+void Player::CheckMapCollisionTop(CollisionMapInfo& info)
+{
+	//移動後の4つの角の座標
+	std::array<Vector3, kNumCorner> positionsNew;
+
+	for (uint32_t i = 0; i < positionsNew.size(); ++i) {
+
+		positionsNew[i] = CornerPosition(worldTransform_.translation_ + info.move, static_cast<Corner>(i));
+
+	}
+
+	//奥方向当たり判定
+	if (info.move.z <= 0) {
+
+		return;
+
+	}
+}
+
+void Player::CheckMapCollisionBottom(CollisionMapInfo& info)
+{
+	//手前方向当たり判定
+	info;
+}
+
+void Player::CheckMapCollisionLeft(CollisionMapInfo& info)
+{
+	//左方向当たり判定
+	info;
+}
+
+void Player::CheckMapCollisionRight(CollisionMapInfo& info)
+{
+	//右方向当たり判定
+	info;
+}
+
+KamataEngine::Vector3 Player::CornerPosition(const KamataEngine::Vector3& center, Corner corner)
+{
+
+	Vector3 offsetTarble[kNumCorner] = {
+
+		{kWidth / 2.0f,-kHeight / 2.0f,0},
+		{-kWidth / 2.0f,-kHeight / 2.0f,0},
+		{kWidth / 2.0f,kHeight / 2.0f,0},
+		{-kWidth / 2.0f,kHeight / 2.0f,0}
+
+	};
+
+	//return center + offsetTarble[static_cast<uint32_t>(corner)];
+	return Add(center, offsetTarble[static_cast<uint32_t>(corner)]);
 
 }

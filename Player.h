@@ -7,6 +7,26 @@
 
 class Map;
 
+//マップとの当たり判定
+struct CollisionMapInfo {
+
+	bool hitWall = false;
+	KamataEngine::Vector3 move;
+
+};
+
+//角
+enum Corner {
+
+	kRightBottom,
+	kLeftBottom,
+	kRightTop,
+	kLeftTop,
+
+	kNumCorner
+
+};
+
 class Player {
 
 public:
@@ -30,6 +50,18 @@ public:
 
 	void InputMove();
 
+	void CheckMapCollision(CollisionMapInfo& info);
+
+	void CheckMapCollisionTop(CollisionMapInfo& info);
+
+	void CheckMapCollisionBottom(CollisionMapInfo& info);
+
+	void CheckMapCollisionLeft(CollisionMapInfo& info);
+
+	void CheckMapCollisionRight(CollisionMapInfo& info);
+
+	KamataEngine::Vector3 CornerPosition(const KamataEngine::Vector3& center, Corner corner);
+
 private:
 
 	// ワールド変換データ
@@ -49,5 +81,6 @@ private:
 
 	//判定サイズ
 	static inline const float kWidth = 0.8f;
+	static inline const float kHeight = 0.8f;
 
 };
