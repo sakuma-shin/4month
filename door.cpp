@@ -7,7 +7,8 @@ void door::Initialize() {
 }
 
 void door::Update() {
-	ImGui::Begin("door");
+	std::string windowName = "door_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+	ImGui::Begin(windowName.c_str());
 	ImGui::Checkbox("opendoor", &openflag);
 	ImGui::End();
 }

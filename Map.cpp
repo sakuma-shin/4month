@@ -24,7 +24,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	mirrormodel2_->Create();
 	mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
 
-	golemodel_ = Model::CreateFromOBJ("gole", true);
+	goalmodel_ = Model::CreateFromOBJ("gole", true);
 
 	prismmodel_ = Model::CreateFromOBJ("prism", true);
 
@@ -70,7 +70,7 @@ void Map::Draw() {
 		if (map[i % MaxX][i / MaxX] == 8) {
 			model_->Draw(*worldTransformBlock, *camera_);
 		} else if (map[i % MaxX][i / MaxX] == 2) {
-			golemodel_->Draw(*worldTransformBlock, *camera_);
+			goalmodel_->Draw(*worldTransformBlock, *camera_);
 		} else if (map[i % MaxX][i / MaxX] == 7) {
 			door_[doorcount]->Draw(worldTransformBlock, camera_);
 			doorcount++;

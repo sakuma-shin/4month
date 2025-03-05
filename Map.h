@@ -40,7 +40,7 @@ private:
 
 	KamataEngine::Model* mirrormodel2_;
 
-	KamataEngine::Model* golemodel_;
+	KamataEngine::Model* goalmodel_;
 
 	KamataEngine::Model* prismmodel_;
 	
