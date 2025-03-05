@@ -1,4 +1,5 @@
 #include "Map.h"
+
 using namespace KamataEngine;
 
 void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera) {
@@ -27,8 +28,6 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 
 	prismmodel_ = Model::CreateFromOBJ("prism", true);
 
-	doormodel_ = Model::CreateFromOBJ("door", true);
-
 	filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
 	readCSV();
 	
@@ -42,6 +41,11 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		} else {
 			worldTransform_[i]->translation_.y = 2;
 		}
+		if (map[i % MaxX][i / MaxX] == 7) {
+			door* newdoor = new door;
+			newdoor->Initialize();
+			door_.push_back(newdoor);
+		}
 		
 		worldTransform_[i]->translation_.z = int(i / MaxX) * Size.z;
 	}
@@ -52,8 +56,10 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	}
 }
 
-void Map::Update() {
-	
+void Map::Update() { 
+	for (door* door : door_) {
+		door->Update();
+	}
 }
 
 void Map::Draw() {
@@ -64,7 +70,10 @@ void Map::Draw() {
 		} else if (map[i % MaxX][i / MaxX] == 2) {
 			golemodel_->Draw(*worldTransformBlock, *camera_);
 		} else if (map[i % MaxX][i / MaxX] == 7) {
-			doormodel_->Draw(*worldTransformBlock, *camera_);
+			for (door* door : door_) {
+				door->Draw(worldTransformBlock, camera_);
+				//break;
+			}
 		}
 		else if (map[i % MaxX][i / MaxX] == 31) {
 			mirrormodel2_->Draw(*worldTransformBlock, *camera_);

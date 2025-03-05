@@ -71,24 +71,24 @@ void GameScene::Initialize() {
 
 void GameScene::Update() { 
 
-	for (Light* light : lights_) {
-		light->Update();
-		/*lightSprite_->SetSize(light->GetSize());*/
+	//for (Light* light : lights_) {
+	//	light->Update();
+	//	/*lightSprite_->SetSize(light->GetSize());*/
 
-		//// 反射した場合、新しいLightを作成
-		if (light->CanReflect()) {
-			light->SetRefrected();
-			Vector3 newInitialPos = light->GetEndPosition(); // 反射したライトの現在位置を取得
-			if (light->GetNewType() != Light::NO) {
-				LightCreate(light->GetNewType(), newInitialPos);
-			}
+	//	//// 反射した場合、新しいLightを作成
+	//	if (light->CanReflect()) {
+	//		light->SetRefrected();
+	//		Vector3 newInitialPos = light->GetEndPosition(); // 反射したライトの現在位置を取得
+	//		if (light->GetNewType() != Light::NO) {
+	//			LightCreate(light->GetNewType(), newInitialPos);
+	//		}
 
-			if (light->GetNewType2() != Light::NO) {
-				LightCreate(light->GetNewType2(), newInitialPos);
-			}
-			
-		}
-	}
+	//		if (light->GetNewType2() != Light::NO) {
+	//			LightCreate(light->GetNewType2(), newInitialPos);
+	//		}
+	//		
+	//	}
+	//}
   
 	map_->Update();
 	player_->Update();

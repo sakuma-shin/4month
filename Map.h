@@ -8,6 +8,8 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include "door.h"
+#include<list>
 
 class Map {
 public:
@@ -41,6 +43,7 @@ private:
 	KamataEngine::Model* golemodel_;
 
 	KamataEngine::Model* prismmodel_;
-	KamataEngine::Model* doormodel_;
+	
+	std::list<door*> door_;
 	
 };
