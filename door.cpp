@@ -7,7 +7,9 @@ void door::Initialize() {
 }
 
 void door::Update() {
+	ImGui::Begin("door");
 	ImGui::Checkbox("opendoor", &openflag);
+	ImGui::End();
 }
 
 void door::Draw(KamataEngine::WorldTransform* worldtransform, KamataEngine::Camera* camera) {

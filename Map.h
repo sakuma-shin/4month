@@ -44,6 +44,7 @@ private:
 
 	KamataEngine::Model* prismmodel_;
 	
-	std::list<door*> door_;
+	std::vector<door*> door_;
 	
+	int doorcount = 0;
 };

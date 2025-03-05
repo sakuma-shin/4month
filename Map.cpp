@@ -45,6 +45,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 			door* newdoor = new door;
 			newdoor->Initialize();
 			door_.push_back(newdoor);
+
 		}
 		
 		worldTransform_[i]->translation_.z = int(i / MaxX) * Size.z;
@@ -57,6 +58,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 }
 
 void Map::Update() { 
+	doorcount = 0;
 	for (door* door : door_) {
 		door->Update();
 	}
@@ -70,10 +72,8 @@ void Map::Draw() {
 		} else if (map[i % MaxX][i / MaxX] == 2) {
 			golemodel_->Draw(*worldTransformBlock, *camera_);
 		} else if (map[i % MaxX][i / MaxX] == 7) {
-			for (door* door : door_) {
-				door->Draw(worldTransformBlock, camera_);
-				//break;
-			}
+			door_[doorcount]->Draw(worldTransformBlock, camera_);
+			doorcount++;
 		}
 		else if (map[i % MaxX][i / MaxX] == 31) {
 			mirrormodel2_->Draw(*worldTransformBlock, *camera_);
