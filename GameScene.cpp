@@ -54,14 +54,15 @@ void GameScene::Initialize() {
 //ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
 
-
+	lightModel_ = Model::CreateFromOBJ("cube", true);
 	Light* newLight = new Light();
 
 	Vector3 initialPos = {600.0f, 600.0f, 0.0f};
 	/*Light::GrowType type = Light::Right;*/
 	
 	Vector2 lightVelocity = {20.0f, 0.0f};
-	newLight->Initialize(lightTextureHandle_, initialPos,Light::Up);
+	newLight->Initialize(lightTextureHandle_, lightModel_,Light::Up);
+	newLight->SetMapData(map_);
 	/*lightSprite_->SetSize(newLight->GetSize());*/
 	lights_.push_back(newLight);
 }
@@ -73,7 +74,6 @@ void GameScene::Update() {
 
 	for (Light* light : lights_) {
 		light->Update();
-		/*lightSprite_->SetSize(light->GetSize());*/
 
 		//// 反射した場合、新しいLightを作成
 		if (light->CanReflect()) {
@@ -133,6 +133,9 @@ void GameScene::Draw() {
 	///
 	map_->Draw();
 
+	for (Light* light : lights_) {
+		light->Draw(&camera_);
+	}
 	player_->Draw(&camera_);
 
 	///
@@ -150,9 +153,7 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// 
 	/// 
-	for (Light* light : lights_) {
-		light->Draw();
-	}
+	
 	/// 
 	/// </summary>
 
@@ -164,7 +165,9 @@ void GameScene::Draw() {
 
 void GameScene::LightCreate(Light::GrowType type,Vector3 pos) {
 	Light* newLight = new Light();
-	newLight->Initialize(lightTextureHandle_, pos,type);
+	pos = pos;
+	newLight->Initialize(lightTextureHandle_, lightModel_, type);
+	newLight->SetMapData(map_);
 	/*lightSprite_->SetSize(newLight->GetSize());*/
 	lights_.push_back(newLight);
 }

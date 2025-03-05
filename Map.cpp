@@ -119,3 +119,23 @@ void Map::readCSV() {
 
 	file.close();
 }
+
+int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を計算
+	int mapX = static_cast<int>(pos.x / Size.x);
+	int mapZ = static_cast<int>(pos.z / Size.z);
+
+	// **範囲外なら即「衝突」として処理**
+	if (mapX < 0 || mapX >= MaxX || mapZ < 0 || mapZ >= MaxY) {
+		return 1; // マップ外は壁扱い
+	}
+
+	// マップの範囲内かチェック
+	if (mapX >= 0 && mapX < MaxX && mapZ >= 0 && mapZ < MaxY) {
+		// その位置のマップ値が 10 なら壁
+		if (map[mapX][mapZ] == 10) {
+			return 1;
+		}
+	}
+	// 範囲外も壁とみなす
+	return 0;
+}

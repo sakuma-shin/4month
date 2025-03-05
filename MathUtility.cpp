@@ -228,7 +228,7 @@ Vector3 operator*(const Vector3& v, float s) {
 	return temp *= s;
 }
 
-Vector3& operator+=(Vector3& lhv, const Vector3& rhv) {
+Vector3& operator+=(Vector3& lhv, Vector3& rhv) {
 	lhv.x += rhv.x;
 	lhv.y += rhv.y;
 	lhv.z += rhv.z;
