@@ -45,5 +45,13 @@ private:
 	static inline const uint32_t kNumBlockHorizontal = 100;
 
 
+	KamataEngine::Model* mirrormodel_;
+
+	KamataEngine::Model* mirrormodel2_;
+
+	KamataEngine::Model* golemodel_;
+
+	KamataEngine::Model* prismmodel_;
+	KamataEngine::Model* doormodel_;
 	
 };

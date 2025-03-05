@@ -25,7 +25,7 @@ public:
 
 	void Draw();
 
-	void LightCreate(Vector2 velocity,Vector3 pos);
+	void LightCreate(Light::GrowType type, Vector3 pos);
 
 	bool IsFinished() { return isFinished_; }
 
