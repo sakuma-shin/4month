@@ -15,6 +15,8 @@ public:
 	void Update();
 	void Draw();
 	void readCSV();
+
+	int CheckCollision(KamataEngine::Vector3 pos);
 	
 private:
 	std::string filename;
