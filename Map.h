@@ -19,6 +19,8 @@ public:
 	void Update();
 	void Draw();
 	void readCSV();
+
+	int CheckCollision(KamataEngine::Vector3 pos);
 	
 	int Digit(int number);
 

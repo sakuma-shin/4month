@@ -1,20 +1,23 @@
 #include "Light.h"
 #include "GameScene.h"
+#include "Map.h"
 #include <cassert>
 #include <string>
 
 using namespace KamataEngine;
 
-void Light::Initialize(uint32_t textureHandle, Vector3 initialPos, GrowType type) {
+void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type) {
 	/*sprite_ = sprite;*/
 	worldTransform_.Initialize();
-	sprite_ = Sprite::Create(textureHandle, {}); // 各LightごとにSpriteを作成
+	worldTransform_.scale_ = {0.3f, 0.3f, 0.3f};
+	worldTransform_.translation_ = {0.1f, 0.0f, 1.7f};
+	// sprite_ = Sprite::Create(textureHandle, {}); // 各LightごとにSpriteを作成
+	model_ = model;
+	textureHandle_ = textureHandle;
+	// sprite_->SetSize({width_, height_});
 
-	initialPos_ = initialPos;
-	sprite_->SetSize({width_, height_});
-
-	width_ = 20.0f;
-	height_ = 20.0f;
+	// width_ = 20.0f;
+	// height_ = 20.0f;
 	growtype_ = type;
 	newType_ = NO;
 	prevGrowType_ = growtype_;
@@ -25,37 +28,38 @@ void Light::Initialize(uint32_t textureHandle, Vector3 initialPos, GrowType type
 	isVerticalHit = false;
 	isHorizonalHit = false;
 	isplysmHit = false;
-	isWallHit = false;
+	isWallHit = true;
 }
 
 void Light::Update() {
-	
-
 
 	/*#ifdef DEBUG*/
-	if (isRightUpHit) {
-		hitType_ = RightUp;
+	/*if (isRightUpHit) {
+	    hitType_ = RightUp;
 	}
 
 
 	if (isRightDownHit) {
-		hitType_ = RightDown;
+	    hitType_ = RightDown;
 	}
 	if (isVerticalHit) {
-		hitType_ = Vertical;
+	    hitType_ = Vertical;
 	}
 	if (isHorizonalHit) {
-		hitType_ = Horizonal;
+	    hitType_ = Horizonal;
 	}
 	if (isplysmHit) {
-		hitType_ = plysm;
+	    hitType_ = plysm;
 	}
 	if (isWallHit) {
-		hitType_ = Wall;
-	}
+	    hitType_ = Wall;
+	}*/
 
 	// #endif // DEBUG
 
+	// 移動前の座標を保存
+	Vector3 prevPos = worldTransform_.translation_;
+	Vector3 prevScale = worldTransform_.scale_;
 
 	Grow();
 
@@ -63,31 +67,23 @@ void Light::Update() {
 		growtype_ = prevGrowType_;
 	}
 
-	if (isMapHit) {
-		OnCollisionMap();
-	} 
-
-	/*ImGui::Begin("Light");
-	ImGui::DragFloat3("Light.pos", &initialPos_.x, 0.01f);
-	ImGui::DragFloat("Light.width", &width_, 0.01f);
-	ImGui::DragFloat("Light.height", &height_, 0.01f);
-	ImGui::Checkbox("Light.MapHit", &isMapHit);
-	ImGui::Checkbox("Light.RightUpHit", &isRightUpHit);
-	ImGui::Checkbox("Light.LeftUpHit", &isRightDownHit);
-	ImGui::Checkbox("Light.VerticalHit", &isVerticalHit);
-	ImGui::Checkbox("Light.HorizonalHit", &isHorizonalHit);
-	ImGui::Checkbox("Light.PlysmHit", &isplysmHit);
-	ImGui::Checkbox("Light.wallHit", &isWallHit);
-	ImGui::End();*/
+	if (map_->CheckCollision(worldTransform_.translation_)) {
+		OnCollisionMap(map_->CheckCollision(worldTransform_.translation_));
+		worldTransform_.translation_ = prevPos;
+		worldTransform_.scale_ = prevScale;
+	}
 
 	// 各Lightごとにウィンドウを作成
 	std::string windowName = "Light_" + std::to_string(reinterpret_cast<uintptr_t>(this));
 	ImGui::Begin(windowName.c_str());
 
-	ImGui::DragFloat3("Position", &initialPos_.x, 0.1f);
-	ImGui::DragFloat("Width", &width_, 0.1f);
-	ImGui::DragFloat("Height", &height_, 0.1f);
+	// ImGui::DragFloat3("Position", &initialPos_.x, 0.1f);
+	// ImGui::DragFloat("Width", &width_, 0.1f);
+	// ImGui::DragFloat("Height", &height_, 0.1f);
 
+	ImGui::DragFloat3("light.translation", &worldTransform_.translation_.x, 0.01f);
+	ImGui::DragFloat3("light.rotate", &worldTransform_.rotation_.x, 0.01f);
+	ImGui::DragFloat3("light.scale", &worldTransform_.scale_.x, 0.01f);
 	ImGui::Checkbox("MapHit", &isMapHit);
 	ImGui::Checkbox("RightUpHit", &isRightUpHit);
 	ImGui::Checkbox("RightDownHit", &isRightDownHit);
@@ -103,62 +99,62 @@ void Light::Update() {
 	    growtype_ = static_cast<GrowType>(currentType);
 	}*/
 
+	// sprite_->SetSize({width_, height_});
+	// sprite_->SetPosition({initialPos_.x, initialPos_.y});
 
-
-	sprite_->SetSize({width_, height_});
-	sprite_->SetPosition({initialPos_.x, initialPos_.y});
+	worldTransform_.UpdateMatrix();
 }
 
-void Light::Draw() { sprite_->Draw(); }
+void Light::Draw(Camera* camera) { model_->Draw(worldTransform_, *camera, textureHandle_); }
 
 void Light::Grow() {
 	float kSpeed = 1.0f;
 	switch (growtype_) {
 	case Up:
 
-		velocity_ = {0.0f, -kSpeed};
-		sprite_->SetRotation(0.0f);
+		velocity_ = {0.0f, 0.0f, -kSpeed};
+		// sprite_->SetRotation(0.0f);
 
 		break;
 
 	case Down:
-		velocity_ = {0.0f, kSpeed};
-		sprite_->SetRotation(0.0f);
+		velocity_ = {0.0f, 0.0f, kSpeed};
+		// sprite_->SetRotation(0.0f);
 
 		break;
 
 	case Left:
-		velocity_ = {-kSpeed, 0.0f};
-		sprite_->SetRotation(0.0f);
+		velocity_ = {kSpeed, 0.0f, 0.0f};
+		// sprite_->SetRotation(0.0f);
 
 		break;
 
 	case Right:
-		velocity_ = {kSpeed, 0.0f};
-		sprite_->SetRotation(0.0f);
+		velocity_ = {-kSpeed, 0.0f, 0.0f};
+		// sprite_->SetRotation(0.0f);
 
 		break;
 
 	case DownRight:
-		sprite_->SetRotation(0.5f);
-		velocity_ = {kSpeed, 0.0f};
+		// sprite_->SetRotation(0.5f);
+		velocity_ = {kSpeed, 0.0f, 0.0f};
 
 		break;
 
 	case UpRight:
-		sprite_->SetRotation(-0.5f);
+		// sprite_->SetRotation(-0.5f);
 		velocity_ = {kSpeed, 0.0f};
 
 		break;
 
 	case UpLeft:
-		sprite_->SetRotation(0.5f);
+		// sprite_->SetRotation(0.5f);
 		velocity_ = {-kSpeed, 0.0f};
 
 		break;
 
 	case DownLeft:
-		sprite_->SetRotation(-0.5f);
+		// sprite_->SetRotation(-0.5f);
 		velocity_ = {-kSpeed, 0.0f};
 
 		break;
@@ -167,410 +163,108 @@ void Light::Grow() {
 
 		break;
 	}
-	width_ += velocity_.x;
-	height_ += velocity_.y;
+	worldTransform_.scale_.x += velocity_.x / 2;
+	worldTransform_.scale_.y += velocity_.y / 2;
+	worldTransform_.scale_.z += velocity_.z / 2;
+	worldTransform_.translation_.x += velocity_.x / 2;
+	worldTransform_.translation_.y += velocity_.y / 2;
+	worldTransform_.translation_.z += velocity_.z / 2;
 }
 
-Light::~Light() { delete sprite_; }
+Light::~Light() {}
 
 Vector3 Light::GetEndPosition() {
-	float angle = sprite_->GetRotation(); // 回転角度 (ラジアン)
+	// float angle = sprite_->GetRotation(); // 回転角度 (ラジアン)
 
-	// 終点の相対位置 (幅と高さを考慮)
-	float localEndX = width_;
-	float localEndY = height_;
+	//// 終点の相対位置 (幅と高さを考慮)
+	// float localEndX = width_;
+	// float localEndY = height_;
 
+	//// 回転行列を適用
+	// float rotatedX = cos(angle) * localEndX - sin(angle) * localEndY;
+	// float rotatedY = sin(angle) * localEndX + cos(angle) * localEndY;
 
-	// 回転行列を適用
-	float rotatedX = cos(angle) * localEndX - sin(angle) * localEndY;
-	float rotatedY = sin(angle) * localEndX + cos(angle) * localEndY;
-
-	// 初期位置にオフセットを加える
-	return {initialPos_.x + rotatedX - velocity_.x, initialPos_.y + rotatedY - velocity_.y, initialPos_.z};
-
+	//// 初期位置にオフセットを加える
+	// return {initialPos_.x + rotatedX - velocity_.x, initialPos_.y + rotatedY - velocity_.y, initialPos_.z};
+	return {worldTransform_.translation_.x + worldTransform_.scale_.x, worldTransform_.translation_.y + worldTransform_.scale_.y, worldTransform_.translation_.z + worldTransform_.scale_.z};
 }
 
-//void Light::OnCollisionMap() {
-//
-//	  // 以前の growtype_ を保存
-//	prevGrowType_ = growtype_;
-//
-//
-//	switch (growtype_) {
-//	case Up:
-//		switch (hitType_) {
-//		case RightUp:
-//
-//			newType_ = Right;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		case RightDown:
-//
-//			newType_ = Left;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		case plysm:
-//			newType_ = UpRight;
-//			newType2_ = UpLeft;
-//
-//			break;
-//
-//		default:
-//			newType_ = NO;
-//			newType2_ = NO;
-//
-//			break;
-//		}
-//
-//		break;
-//
-//	case Down:
-//		switch (hitType_) {
-//		case RightUp:
-//
-//			newType_ = Left;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		case RightDown:
-//
-//			newType_ = Right;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		case plysm:
-//			newType_ = DownRight;
-//			newType2_ = DownLeft;
-//
-//			break;
-//
-//		default:
-//			newType_ = NO;
-//			newType2_ = NO;
-//
-//			break;
-//		}
-//
-//		break;
-//
-//	case Left:
-//		switch (hitType_) {
-//		case RightUp:
-//
-//			newType_ = Down;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		case RightDown:
-//
-//			newType_ = Up;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		case plysm:
-//			newType_ = DownLeft;
-//			newType2_ = UpLeft;
-//
-//			break;
-//
-//		default:
-//			newType_ = NO;
-//			newType2_ = NO;
-//
-//			break;
-//		}
-//
-//		break;
-//
-//	case Right:
-//		switch (hitType_) {
-//		case RightUp:
-//
-//			newType_ = Up;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		case RightDown:
-//
-//			newType_ = Down;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		case plysm:
-//			newType_ = DownRight;
-//			newType2_ = UpRight;
-//
-//			break;
-//
-//		default:
-//			newType_ = NO;
-//			newType2_ = NO;
-//
-//			break;
-//		}
-//
-//		break;
-//
-//	case DownRight:
-//		switch (hitType_) {
-//		case Horizonal:
-//
-//			newType_ = UpRight;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		case Vertical:
-//
-//			newType_ = DownLeft;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		default:
-//			newType_ = NO;
-//			newType2_ = NO;
-//
-//			break;
-//		}
-//
-//		break;
-//
-//	case UpRight:
-//		switch (hitType_) {
-//		case Horizonal:
-//
-//			newType_ = DownRight;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		case Vertical:
-//
-//			newType_ = UpLeft;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		default:
-//			newType_ = NO;
-//			newType2_ = NO;
-//
-//			break;
-//		}
-//
-//		break;
-//
-//	case UpLeft:
-//		switch (hitType_) {
-//		case Horizonal:
-//
-//			newType_ = DownLeft;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		case Vertical:
-//
-//			newType_ = UpRight;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		default:
-//			newType_ = NO;
-//			newType2_ = NO;
-//
-//			break;
-//		}
-//
-//		break;
-//
-//	case DownLeft:
-//		switch (hitType_) {
-//		case Horizonal:
-//
-//			newType_ = UpLeft;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		case Vertical:
-//
-//			newType_ = DownRight;
-//			newType2_ = NO;
-//
-//			break;
-//
-//		default:
-//			newType_ = NO;
-//			newType2_ = NO;
-//
-//			break;
-//		}
-//
-//		break;
-//	case NO:
-//		velocity_ = {0.0f, 0.0f};
-//
-//		break;
-//	}
-//	growtype_ = NO;
-//}
-
-void Light::OnCollisionMap() {
+void Light::OnCollisionMap(int mapNum) {
 	// 以前の growtype_ を保存
 	prevGrowType_ = growtype_;
 
 	switch (growtype_) {
 	case Up:
-		switch (hitType_) {
-		case RightUp:
-			newType_ = Right;
-			break;
-		case RightDown:
-			newType_ = Left;
-			break;
-		case plysm:
-			newType_ = UpRight;
-			newType2_ = UpLeft;
-			break;
-		default:
-			newType_ = NO;
-			newType2_ = NO;
+		switch (mapNum) {
+		case 1:
+			growtype_ = NO;
+
 			break;
 		}
 		break;
 
 	case Down:
-		switch (hitType_) {
-		case RightUp:
-			newType_ = Left;
-			break;
-		case RightDown:
-			newType_ = Right;
-			break;
-		case plysm:
-			newType_ = DownRight;
-			newType2_ = DownLeft;
-			break;
-		default:
-			newType_ = NO;
-			newType2_ = NO;
+		switch (mapNum) {
+		case 1:
+			growtype_ = NO;
+
 			break;
 		}
 		break;
 
 	case Left:
-		switch (hitType_) {
-		case RightUp:
-			newType_ = Down;
-			break;
-		case RightDown:
-			newType_ = Up;
-			break;
-		case plysm:
-			newType_ = DownLeft;
-			newType2_ = UpLeft;
-			break;
-		default:
-			newType_ = NO;
-			newType2_ = NO;
+		switch (mapNum) {
+		case 1:
+			growtype_ = NO;
+
 			break;
 		}
 		break;
 
 	case Right:
-		switch (hitType_) {
-		case RightUp:
-			newType_ = Up;
-			break;
-		case RightDown:
-			newType_ = Down;
-			break;
-		case plysm:
-			newType_ = DownRight;
-			newType2_ = UpRight;
-			break;
-		default:
-			newType_ = NO;
-			newType2_ = NO;
+		switch (mapNum) {
+		case 1:
+			growtype_ = NO;
+
 			break;
 		}
 		break;
 
 	case DownRight:
-		switch (hitType_) {
-		case Horizonal:
-			newType_ = UpRight;
-			break;
-		case Vertical:
-			newType_ = DownLeft;
-			break;
-		default:
-			newType_ = NO;
-			newType2_ = NO;
+
+		switch (mapNum) {
+		case 1:
+			growtype_ = NO;
+
 			break;
 		}
 		break;
 
 	case UpRight:
-		switch (hitType_) {
-		case Horizonal:
-			newType_ = DownRight;
-			break;
-		case Vertical:
-			newType_ = UpLeft;
-			break;
-		default:
-			newType_ = NO;
-			newType2_ = NO;
+		switch (mapNum) {
+		case 1:
+			growtype_ = NO;
+
 			break;
 		}
 		break;
 
 	case UpLeft:
-		switch (hitType_) {
-		case Horizonal:
-			newType_ = DownLeft;
-			break;
-		case Vertical:
-			newType_ = UpRight;
-			break;
-		default:
-			newType_ = NO;
-			newType2_ = NO;
+		switch (mapNum) {
+		case 1:
+			growtype_ = NO;
+
 			break;
 		}
 		break;
 
 	case DownLeft:
-		switch (hitType_) {
-		case Horizonal:
-			newType_ = UpLeft;
-			break;
-		case Vertical:
-			newType_ = DownRight;
-			break;
-		default:
-			newType_ = NO;
-			newType2_ = NO;
+		switch (mapNum) {
+		case 1:
+			growtype_ = NO;
+
 			break;
 		}
-		break;
-
-	case NO:
-		velocity_ = {0.0f, 0.0f};
 		break;
 	}
 

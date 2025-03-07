@@ -55,6 +55,7 @@ private:
 	std::list<Light*> lights_;
 	/*Sprite* lightSprite_ = nullptr;*/
 	uint32_t lightTextureHandle_ = 0u;
+	Model* lightModel_ = nullptr;
 
 	Map* map_ = nullptr;
 
