@@ -23,6 +23,12 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
+	mapModel_ = Model::Create();
+
+	map_ = new Map;
+
+	map_->Initialize(mapModel_, textureHandle_, &camera_);
+
 	//3Dモデルの生成
 	playerModel_ = Model::Create();
 
@@ -32,6 +38,8 @@ void GameScene::Initialize() {
 	Vector3 playerPosition = map_->GetMapChipPositionByIndex(30, 20);
 
 	player_->Initialize(playerModel_,textureHandle_,&camera_,playerPosition);
+
+	player_->SetMapChipField(map_);
 
 	camera_.Initialize();
 
@@ -47,12 +55,6 @@ void GameScene::Initialize() {
 
 
 	lightTextureHandle_ = TextureManager::Load("uvChecker.png");
-
-	mapModel_ = Model::Create();
-
-	map_ = new Map;
-
-	map_->Initialize(mapModel_, textureHandle_, &camera_);
 
 //ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/

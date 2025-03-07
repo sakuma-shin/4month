@@ -12,6 +12,15 @@ class Player {
 
 public:
 
+	struct CollisionMapInfo {
+
+		bool isWallHitX = false;
+		bool isHitWallZ = false;
+
+		KamataEngine::Vector3 move;
+
+	};
+
 	~Player();
 
 	void Initialize(KamataEngine::Model* model,uint32_t textureHandle,KamataEngine::Camera* camera,const KamataEngine::Vector3& position);
@@ -26,6 +35,12 @@ public:
 	void SetPosition(const KamataEngine::Vector3& position) { worldTransform_.translation_ = position; }
 
 	KamataEngine::Vector3 GetRotation() const { return worldTransform_.rotation_; }
+
+	void SetMapChipField(Map* mapChipField) { map_ = mapChipField; }
+
+	void InputMove();
+
+	void CheckMapCollision(CollisionMapInfo& info);
 
 private:
 
@@ -50,5 +65,10 @@ private:
 	static inline const float kAttenuation = 0.99f;
 
 	static inline const float kLimitSpeed = 0.5f;
+
+	//キャラクターの当たりサイズ
+	static inline const float kWidth = 0.8f;
+	static inline const float kHeight = 0.8f;
+
 
 };

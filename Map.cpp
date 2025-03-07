@@ -1,5 +1,20 @@
 #include "Map.h"
+#include <map>
+
 using namespace KamataEngine;
+
+namespace {
+
+	std::map<std::string, MapChipType> mapChipTable = {
+
+	{"0", MapChipType::kBlank},
+
+	{"8", MapChipType::kBlock},
+
+	};
+
+};
+
 
 void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera) {
 	// NULLチェック

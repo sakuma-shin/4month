@@ -9,6 +9,19 @@
 #include <vector>
 #include <sstream>
 
+enum class MapChipType {
+
+	kBlank, // 空白
+	kBlock, // ブロック
+
+};
+
+struct MapChipData {
+
+	std::vector<std::vector<MapChipType>> data;
+
+};
+
 class Map {
 public:
 	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera);
@@ -20,8 +33,9 @@ public:
 	
 private:
 	std::string filename;
-	static const int MaxX = 10;
-	static const int MaxY = 15;
+	static const int MaxX = 10; //10個並ぶ
+	static const int MaxY = 15; //15個並ぶ
+
 	int map[MaxX][MaxY];
 	//ブロックの大きさ
 	KamataEngine::Vector3 Size;
