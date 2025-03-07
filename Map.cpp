@@ -176,7 +176,7 @@ int Map::UnFirstnumber(int number) {
 	return number - Digit(number) * (k);
 }
 
-}
+
 
 int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を計算
 	int mapX = static_cast<int>(pos.x / Size.x);
