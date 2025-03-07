@@ -1,7 +1,7 @@
 #include "Map.h"
 using namespace KamataEngine;
 
-void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera) {
+void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera,int stagenumber) {
 	// NULLチェック
 	assert(model);
 	
@@ -28,8 +28,18 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	prismmodel_ = Model::CreateFromOBJ("prism", true);
 
 	doormodel_ = Model::CreateFromOBJ("door", true);
-
-	filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
+	
+	if (stagenumber == 1) {
+		filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
+	} else if (stagenumber == 2) {
+		filename = "Resources/map/debugMap1.csv"; // 読み込むCSVファイル名
+	} else if (stagenumber == 3) {
+		filename = "Resources/map/debugMap2.csv"; // 読み込むCSVファイル名
+	} else if (stagenumber == 4) {
+		filename = "Resources/map/debugMap3.csv"; // 読み込むCSVファイル名
+	} else if (stagenumber == 5) {
+		filename = "Resources/map/debugMap4.csv"; // 読み込むCSVファイル名
+	}
 	readCSV();
 	
 	worldTransform_.resize(MaxX*MaxY); 

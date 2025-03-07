@@ -49,7 +49,7 @@ void GameScene::Initialize() {
 
 	map_ = new Map;
 
-	map_->Initialize(mapModel_, textureHandle_, &camera_);
+	map_->Initialize(mapModel_, textureHandle_, &camera_,stagenumber);
 
 //ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
@@ -102,6 +102,14 @@ void GameScene::Update() {
 
 		isFinished_ = true;
 
+	}
+	if (input_->TriggerKey(DIK_P) && stagenumber <= 5) {
+		stagenumber++;
+		Initialize();
+	}
+	if (input_->TriggerKey(DIK_O) && stagenumber > 0) {
+		stagenumber--;
+		Initialize();
 	}
 
 }
