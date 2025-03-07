@@ -2,8 +2,9 @@
 
 using namespace KamataEngine;
 
-void door::Initialize() { 
+void door::Initialize(int key) { 
 	doormodel_ = Model::CreateFromOBJ("door", true); 
+	key_ = key;
 }
 
 void door::Update() {

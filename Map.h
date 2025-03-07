@@ -20,7 +20,9 @@ public:
 	
 	int Digit(int number);
 
-	int Digit
+	int Digitnamber(int number);
+
+	int UnFirstnumber(int number);
 
 	private:
 	std::string filename;

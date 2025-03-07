@@ -7,11 +7,12 @@
 
 class door {
 public:
-	void Initialize();
+	void Initialize(int key);
 	void Update();
 	void Draw(KamataEngine::WorldTransform* worldtransform, KamataEngine::Camera* camera);
 
 private:
 	KamataEngine::Model* doormodel_;
 	bool openflag = false;
+	int key_;
 };

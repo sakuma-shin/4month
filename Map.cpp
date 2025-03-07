@@ -43,7 +43,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		}
 		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door* newdoor = new door;
-			newdoor->Initialize();
+			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]));
 			door_.push_back(newdoor);
 
 		}
@@ -139,5 +139,25 @@ int Map::Digit(int number) {
 	}
 	return number;
 
+}
+
+int Map::Digitnamber(int number) { 
+	if (number / 10 < 1) {
+		return number;
+	}
+	int k = 0;
+	for (; number / 10 >= 1; k++) {
+		number = number / 10;
+	}
+	return k;
+}
+
+int Map::UnFirstnumber(int number) { 
+	int k = 1;
+	for (int i = 0; i < Digitnamber(number); i++) {
+		k *= 10;
+	}
+
+	return number - Digit(number) * (k);
 }
 
