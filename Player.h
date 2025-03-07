@@ -5,6 +5,8 @@
 #include "3D/camera.h"
 #include <input/Input.h>
 
+class Map;
+
 class Player {
 
 public:
@@ -13,7 +15,7 @@ public:
 
 	void Initialize(KamataEngine::Model* model,uint32_t textureHandle,KamataEngine::Camera* camera);
 
-	void Update();
+	void Update(Map* map);
 
 	void Draw(KamataEngine::Camera* camera);
 
@@ -23,6 +25,8 @@ public:
 	void SetPosition(const KamataEngine::Vector3& position) { worldTransform_.translation_ = position; }
 
 	KamataEngine::Vector3 GetRotation() const { return worldTransform_.rotation_; }
+
+	void SetMap(Map* map) { map_ = map; }
 
 private:
 
@@ -37,5 +41,7 @@ private:
 
 	//入力
 	KamataEngine::Input* input_ = nullptr;
+
+	Map* map_ = nullptr;
 
 };

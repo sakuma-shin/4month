@@ -38,7 +38,7 @@ public:
 	static const int MaxY = 15;
 	int map[MaxX][MaxY];
 	//ブロックの大きさ
-	KamataEngine::Vector3 Size;
+	KamataEngine::Vector3 Size = { 2,2,2 };
 	// ワールド変換データ
 	std::vector<KamataEngine::WorldTransform*> worldTransform_;
 	// モデル

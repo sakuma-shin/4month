@@ -5,7 +5,9 @@ using namespace KamataEngine;
 void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera) {
 	// NULLチェック
 	assert(model);
-	
+
+	//Size = { 2,2,2 };
+
 	// 引数の内容をメンバ変数に記録
 	//this->model_ = model;
 
@@ -13,15 +15,14 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	textureHandle_ = textureHandle;
 	camera_ = camera;
 
-	Size = {2,2,2};
 	walltextureHandle_= TextureManager::Load("white1x1.png");
 	
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 
-	mirrormodel_->Create();
+//	mirrormodel_->Create();
 	mirrormodel_= Model::CreateFromOBJ("mirorr",true);
 
-	mirrormodel2_->Create();
+	//mirrormodel2_->Create();
 	mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
 
 	goalmodel_ = Model::CreateFromOBJ("gole", true);
@@ -179,21 +180,27 @@ int Map::UnFirstnumber(int number) {
 
 
 int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を計算
+
+
 	int mapX = static_cast<int>(pos.x / Size.x);
 	int mapZ = static_cast<int>(pos.z / Size.z);
+	
+	if (map == nullptr) {
+		// エラーハンドリング
+		return 1; // 衝突と見なす
+	}
 
-	// **範囲外なら即「衝突」として処理**
+	// 範囲外なら即「衝突」として処理
 	if (mapX < 0 || mapX >= MaxX || mapZ < 0 || mapZ >= MaxY) {
 		return 1; // マップ外は壁扱い
 	}
 
-	// マップの範囲内かチェック
-	if (mapX >= 0 && mapX < MaxX && mapZ >= 0 && mapZ < MaxY) {
-		// その位置のマップ値が 10 なら壁
-		if (map[mapX][mapZ] == 10) {
-			return 1;
-		}
+	// マップ内での衝突チェック
+	if (map[mapX][mapZ] == 8) { // その位置のマップ値が 10 なら壁
+		return 1;
 	}
-	// 範囲外も壁とみなす
+
+	// 範囲内かつ衝突しない場合は「衝突なし」
 	return 0;
+
 }
