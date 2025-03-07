@@ -19,6 +19,9 @@ public:
 	void readCSV();
 	
 	int Digit(int number);
+
+	int Digit
+
 	private:
 	std::string filename;
 	static const int MaxX = 10;
