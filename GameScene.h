@@ -61,5 +61,7 @@ private:
 
 	Model* mapModel_ = nullptr;
 
+	int stagenumber = 1;
+
 
 };
