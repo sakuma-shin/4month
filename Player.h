@@ -21,6 +21,8 @@ public:
 
 	KamataEngine::Vector3 GetPosition() const { return worldTransform_.translation_; }
 
+	const KamataEngine::WorldTransform& GetWorldTransform() const { return worldTransform_; }
+
 	// プレイヤーの位置を設定する
 	void SetPosition(const KamataEngine::Vector3& position) { worldTransform_.translation_ = position; }
 

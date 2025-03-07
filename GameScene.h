@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "CameraAngle.h"
+#include "CameraController.h"
 
 #include "Light.h"
 #include<list>
@@ -48,6 +49,9 @@ private:
 
 	//カメラアングル
 	CameraAngle* cameraAngle_ = nullptr;
+
+	//追従カメラ
+	CameraController* cameraController_ = nullptr;
 
 	bool isFinished_ = false;
 

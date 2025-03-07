@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "MathUtility.h"
 
 using namespace KamataEngine;
 GameScene::GameScene() {}
@@ -42,7 +43,10 @@ void GameScene::Initialize() {
 	cameraAngle_ = new CameraAngle();
 	cameraAngle_->Initialize(initialTransform, player_);
 
-
+	cameraController_ = new CameraController();
+	cameraController_->Initialize();
+	cameraController_->SetTarget(player_);
+	cameraController_->Reset();
 
 	lightTextureHandle_ = TextureManager::Load("uvChecker.png");
 
@@ -94,10 +98,37 @@ void GameScene::Update() {
 	map_->Update();
 	player_->Update(map_);
 	cameraAngle_->Update();
+	cameraController_->Update();
 
+	/*camera_.matView = cameraController_->GetCamera().matView;
+	camera_.matProjection = cameraController_->GetCamera().matProjection;
+	camera_.TransferMatrix();
 	camera_.matView = cameraAngle_->GetCamera().matView;
 	camera_.matProjection = cameraAngle_->GetCamera().matProjection;
+	camera_.TransferMatrix();*/
+
+	/*Matrix4x4 viewMatrix = Multiply(cameraAngle_->GetCamera().matView, cameraController_->GetCamera().matView);
+	Matrix4x4 projectionMatrix = Multiply(cameraAngle_->GetCamera().matProjection, cameraController_->GetCamera().matProjection);
+
+	camera_.matView = viewMatrix;
+	camera_.matProjection = projectionMatrix;
+	camera_.TransferMatrix();*/
+
+	// 1. カメラの移動行列 (cameraController_)
+	Matrix4x4 translationMatrix = cameraController_->GetCamera().matView;
+
+	// 2. カメラの回転行列 (cameraAngle_)
+	Matrix4x4 rotationMatrix = cameraAngle_->GetCamera().matView;
+
+	// 3. カメラの行列を適切な順序で掛け算
+	Matrix4x4 viewMatrix = Multiply(rotationMatrix, translationMatrix);
+	Matrix4x4 projectionMatrix = cameraController_->GetCamera().matProjection;
+
+	// 4. 結果を適用
+	camera_.matView = viewMatrix;
+	camera_.matProjection = projectionMatrix;
 	camera_.TransferMatrix();
+
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 
