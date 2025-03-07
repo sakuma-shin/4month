@@ -18,7 +18,8 @@ public:
 	void Draw();
 	void readCSV();
 	
-private:
+	int Digit(int number);
+	private:
 	std::string filename;
 	static const int MaxX = 10;
 	static const int MaxY = 15;

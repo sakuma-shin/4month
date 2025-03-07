@@ -10,6 +10,4 @@ void Target::Update() {
 	
 }
 
-void Target::Draw(KamataEngine::Camera* camera) {
-
-}
+void Target::Draw(KamataEngine::Camera* camera) { camera; }

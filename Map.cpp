@@ -41,7 +41,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		} else {
 			worldTransform_[i]->translation_.y = 2;
 		}
-		if (map[i % MaxX][i / MaxX] == 7) {
+		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door* newdoor = new door;
 			newdoor->Initialize();
 			door_.push_back(newdoor);
@@ -71,7 +71,7 @@ void Map::Draw() {
 			model_->Draw(*worldTransformBlock, *camera_);
 		} else if (map[i % MaxX][i / MaxX] == 2) {
 			goalmodel_->Draw(*worldTransformBlock, *camera_);
-		} else if (map[i % MaxX][i / MaxX] == 7) {
+		} else if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door_[doorcount]->Draw(worldTransformBlock, camera_);
 			doorcount++;
 		}
@@ -128,3 +128,16 @@ void Map::readCSV() {
 
 	file.close();
 }
+
+int Map::Digit(int number) { 
+	if (number / 10 < 1) {
+		return number;
+	}
+	int k = 0;
+	for (; number / 10 >= 1; k++) {
+		number = number / 10;
+	}
+	return number;
+
+}
+
