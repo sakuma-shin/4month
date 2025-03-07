@@ -19,8 +19,6 @@ void CameraController::Update()
 	camera_.translation_.y = targetWorldTransform.translation_.y + targetOffset_.y;
 	camera_.translation_.z = targetWorldTransform.translation_.z + targetOffset_.z;
 
-	camera_.lookAt_ = targetWorldTransform.translation_;
-
 	//行列更新
 	camera_.UpdateMatrix();
 
