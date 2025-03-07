@@ -41,14 +41,22 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		} else {
 			worldTransform_[i]->translation_.y = 2;
 		}
-		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
-			door* newdoor = new door;
-			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]));
-			door_.push_back(newdoor);
-
+		
+		if (Digit(map[i % MaxX][i / MaxX]) == 6) {
+			Target* newtarget = new Target;
+			newtarget->Initialize(map[i % MaxX][i / MaxX], worldTransform_[i]);
+			target_.push_back(newtarget);
 		}
 		
 		worldTransform_[i]->translation_.z = int(i / MaxX) * Size.z;
+	}
+	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
+		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
+			door* newdoor = new door;
+			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]),target_);
+			door_.push_back(newdoor);
+
+		}
 	}
 
 	for (WorldTransform* worldTransformBlock : worldTransform_) {
@@ -59,8 +67,12 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 
 void Map::Update() { 
 	doorcount = 0;
+	targetcount = 0;
 	for (door* door : door_) {
-		door->Update();
+		door->Update(target_);
+	}
+	for (Target* target : target_) { //
+		target->Update();
 	}
 }
 
@@ -71,6 +83,9 @@ void Map::Draw() {
 			model_->Draw(*worldTransformBlock, *camera_);
 		} else if (map[i % MaxX][i / MaxX] == 2) {
 			goalmodel_->Draw(*worldTransformBlock, *camera_);
+		} else if (Digit(map[i % MaxX][i / MaxX]) == 6) {
+			target_[targetcount]->Draw(camera_);
+			targetcount++;
 		} else if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door_[doorcount]->Draw(worldTransformBlock, camera_);
 			doorcount++;
@@ -143,7 +158,7 @@ int Map::Digit(int number) {
 
 int Map::Digitnamber(int number) { 
 	if (number / 10 < 1) {
-		return number;
+		return 0;
 	}
 	int k = 0;
 	for (; number / 10 >= 1; k++) {

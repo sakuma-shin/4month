@@ -11,8 +11,15 @@ class Target {
 		void Initialize(int number, KamataEngine::WorldTransform* worldTransform);
 		void Update();
 		void Draw(KamataEngine::Camera* camera);
+
+		bool GetHit() { return Hit;
+		}
+
+		int Getcoad() { return coad;
+		}
 	
 	private:
+	    KamataEngine::Model* targetmodel_;
 		int coad;
 	    int color;
 		bool Hit;

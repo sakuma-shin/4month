@@ -10,6 +10,8 @@
 #include <sstream>
 #include "door.h"
 #include<list>
+#include "Target.h"
+
 
 class Map {
 public:
@@ -23,6 +25,10 @@ public:
 	int Digitnamber(int number);
 
 	int UnFirstnumber(int number);
+
+	std::vector<Target*> Gettargetlist() { 
+		return target_;
+	}
 
 	private:
 	std::string filename;
@@ -51,6 +57,9 @@ public:
 	KamataEngine::Model* prismmodel_;
 	
 	std::vector<door*> door_;
+
+	std::vector<Target*> target_;
 	
 	int doorcount = 0;
+	int targetcount = 0;
 };
