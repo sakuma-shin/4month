@@ -126,8 +126,8 @@ void GameScene::Update() {
 
 	map_->Update();
 	player_->Update(map_);
-	cameraAngle_->Update();
-	cameraController_->Update();
+//	cameraAngle_->Update();
+cameraController_->Update();
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 
