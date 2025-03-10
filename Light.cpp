@@ -71,8 +71,16 @@ void Light::Update() {
 		growtype_ = prevGrowType_;
 	}
 
-	if (map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {
-		OnCollisionMap(map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_)));
+	if (worldTransform_.scale_.x >= 1.0f&&growtype_==Down||growtype_==Up) {
+		if (map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {
+			OnCollisionMap(map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_)));
+		}
+	}
+
+	if (worldTransform_.scale_.z >= 1.0f && growtype_ == Right || growtype_ == Left) {
+		if (map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {
+			OnCollisionMap(map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_)));
+		}
 	}
 
 	// 各Lightごとにウィンドウを作成
@@ -198,13 +206,12 @@ Vector3 Light::GetEndPosition() {
 
 	//// 初期位置にオフセットを加える
 	// return {initialPos_.x + rotatedX - velocity_.x, initialPos_.y + rotatedY - velocity_.y, initialPos_.z};
-	return {worldTransform_.translation_.x + worldTransform_.scale_.x, worldTransform_.translation_.y + worldTransform_.scale_.y, worldTransform_.translation_.z + worldTransform_.scale_.z};
+	return {worldTransform_.translation_.x + worldTransform_.scale_.x, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z};
 }
 
 
 void Light::OnCollisionMap(int mapNum) {
 
-	growtype_ = NO;
 	// 以前の growtype_ を保存
 	prevGrowType_ = growtype_;
 
@@ -222,7 +229,7 @@ void Light::OnCollisionMap(int mapNum) {
 		switch (mapNum) {
 		case 31:
 			growtype_ = NO;
-
+			newType_ = Left;
 			break;
 		}
 		break;
@@ -282,7 +289,9 @@ void Light::OnCollisionMap(int mapNum) {
 		}
 		break;
 	}
+	growtype_ = NO;
 	velocity_ = {};
+	isMapHit = true;
 
 	Vector3 tip = initialPos_ /*+ worldTransform_.scale_*/;
 	Vector3 initial2MapCenter;
