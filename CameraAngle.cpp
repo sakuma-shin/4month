@@ -2,6 +2,15 @@
 #include <ImGui.h>
 #include "MathUtility.h"
 #include "Player.h"
+#include <algorithm>
+#include <cmath>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846f
+#endif
+
+#define XM_PIDIV4 (M_PI / 2.0f)
+#define XM_3PIDIV4 (3.0f * M_PI / 4.0f)
 
 using namespace KamataEngine;
 
@@ -29,69 +38,18 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform, Player* playe
 	camera_.Initialize();
 
     translation_ = { 0.0f, 30.0f, -30.0f };  //初期位置
-    rotation_ = { 0.5f, 0.0f, 0.0f };        //初期回転
+    rotation_ = { -1.5f, 0.0f, 0.0f };        //初期回転
 
     //カメラの初期ターゲット位置
     cameraTarget_ = { 0.0f, 0.0f, 0.0f };    //ターゲットの位置
     cameraUp_ = { 0.0f, 1.0f, 0.0f };
 
 }
-//
-//void CameraAngle::Update() {
-//    
-//    //カメラの移動速度
-//    const float kCameraSpeed = 0.02f;
-//    
-//    //カメラとターゲットの距離
-//    const float kCameraDistance = 50.0f;
-//
-//    if (input_->PushKey(DIK_LEFT)) {
-//        rotation_.y -= kCameraSpeed; //左
-//    }
-//    if (input_->PushKey(DIK_RIGHT)) {
-//        rotation_.y += kCameraSpeed;  //右
-//    }
-//    if (input_->PushKey(DIK_UP)) {
-//        rotation_.x -= kCameraSpeed;  //上
-//    }
-//    if (input_->PushKey(DIK_DOWN)) {
-//        rotation_.x += kCameraSpeed;  //下
-//    }
-//
-//    //カメラの向きをプレイヤーに向ける
-//    //cameraTarget_ = player_->GetPosition();
-//
-//    //特定の座標をターゲットとして設定
-//    KamataEngine::Vector3 targetPosition = { 0.0f, 0.0f, 0.0f };
-//
-//    //カメラの位置を更新
-//    translation_.x = targetPosition.x + kCameraDistance * sinf(rotation_.y);
-//    translation_.y = targetPosition.y + kCameraDistance * sinf(rotation_.x);
-//    translation_.z = targetPosition.z + kCameraDistance * cosf(rotation_.y);
-//
-//    //カメラの向きをターゲットに向ける
-//    camera_.matView = MakeLookAtMatrix(translation_, targetPosition, cameraUp_);
-//
-//    //変換行列を更新
-//    worldTransform_.translation_ = translation_;
-//    worldTransform_.rotation_ = rotation_;
-//    worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
-//
-//    //カメラの行列を更新
-//    camera_.matView = MakeLookAtMatrix(translation_, targetPosition, cameraUp_);
-//    worldTransform_.UpdateMatrix();
-//
-//    ImGui::Begin("Camera");
-//    ImGui::DragFloat3("Translation", &translation_.x, 0.01f);
-//    ImGui::DragFloat3("Rotation", &rotation_.x, 0.01f);
-//    ImGui::End();
-//}
-
 
 void CameraAngle::Update() {
     // カメラの移動速度
     const float kCameraSpeed = 0.02f;
-    const float kCameraDistance = 70.0f;  //カメラとターゲットの距離
+    const float kCameraDistance = 40.0f;  //カメラとターゲットの距離
 
     // 左右矢印キーで回転
     if (input_->PushKey(DIK_LEFT)) {
@@ -102,9 +60,11 @@ void CameraAngle::Update() {
     }
     if (input_->PushKey(DIK_UP)) {
         rotation_.x -= kCameraSpeed;  //上
+        if (rotation_.x < -1) rotation_.x = -1;  // 上限を-45度に制限
     }
     if (input_->PushKey(DIK_DOWN)) {
         rotation_.x += kCameraSpeed;  //下
+        if (rotation_.x > 0) rotation_.x = 0;
     }
 
     // カメラの位置更新（修正後）
