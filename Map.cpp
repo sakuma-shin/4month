@@ -128,7 +128,7 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 	// マップの範囲内かチェック
 	if (mapX >= 0 && mapX < MaxX && mapZ >= 0 && mapZ < MaxY) {
 		// その位置のマップ値が 10 なら壁
-		if (map[mapX][mapZ]) {
+		if (map[mapX][mapZ]== 8) {
 			return 1;
 		}
 	}
@@ -146,7 +146,7 @@ std::vector<KamataEngine::Vector3> Map::GetTilePositionsInRange(int min, int max
 				// ワールド座標に変換
 				KamataEngine::Vector3 worldPos;
 				worldPos.x = x * Size.x; // サイズを考慮
-				worldPos.y = 2.0f;
+				worldPos.y = 0.0f;
  				worldPos.z = y*Size.z;
 
 				positions.push_back(worldPos);

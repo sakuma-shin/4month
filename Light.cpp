@@ -71,7 +71,7 @@ void Light::Update() {
 		growtype_ = prevGrowType_;
 	}
 
-	if (map_->CheckCollision(Add(initialPos_, worldTransform_.scale_))) {
+	if (map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {
 		OnCollisionMap(map_->CheckCollision(Add(initialPos_, worldTransform_.scale_)));
 	}
 
@@ -107,7 +107,9 @@ void Light::Update() {
 	worldTransform_.UpdateMatrix();
 }
 
-void Light::Draw(Camera* camera) { model_->Draw(worldTransform_, *camera, textureHandle_); }
+void Light::Draw(Camera* camera) {
+	model_->Draw(worldTransform_, *camera, textureHandle_); 
+}
 
 void Light::Grow() {
 	float kSpeed = 1.0f;
@@ -169,7 +171,7 @@ void Light::Grow() {
 
 		break;
 	case NO:
-		velocity_ = {0.0f, 0.0f};
+		velocity_ = {0.0f, 0.0f,0.0f};
 
 		break;
 	}
@@ -198,6 +200,7 @@ Vector3 Light::GetEndPosition() {
 	// return {initialPos_.x + rotatedX - velocity_.x, initialPos_.y + rotatedY - velocity_.y, initialPos_.z};
 	return {worldTransform_.translation_.x + worldTransform_.scale_.x, worldTransform_.translation_.y + worldTransform_.scale_.y, worldTransform_.translation_.z + worldTransform_.scale_.z};
 }
+
 
 void Light::OnCollisionMap(int mapNum) {
 
@@ -281,22 +284,22 @@ void Light::OnCollisionMap(int mapNum) {
 	}
 	velocity_ = {};
 
-	Vector3 tip = initialPos_ + worldTransform_.scale_;
+	Vector3 tip = initialPos_ /*+ worldTransform_.scale_*/;
 	Vector3 initial2MapCenter;
-	initial2MapCenter.x = tip.x / 2.0f;
-	initial2MapCenter.y = tip.y / 2.0f;
-	initial2MapCenter.z = tip.z / 2.0f;
+	initial2MapCenter.x = tip.x;
+	initial2MapCenter.y = tip.y;
+	initial2MapCenter.z = tip.z;
 
 	/*worldTransform_.translation_ = initial2MapCenter;
 	worldTransform_.scale_.x= abs(tip.x);
 	worldTransform_.scale_.y = abs(tip.y);
 	worldTransform_.scale_.z = abs(tip.z);*/
 
-	worldTransform_.scale_.x = std::clamp(worldTransform_.scale_.x, -initial2MapCenter.x, initial2MapCenter.x);
+	//worldTransform_.scale_.x = std::clamp(worldTransform_.scale_.x, -initial2MapCenter.x, initial2MapCenter.x);
 	/*worldTransform_.scale_.y = std::clamp(worldTransform_.scale_.y, -initial2MapCenter.y, initial2MapCenter.y);*/
-	worldTransform_.scale_.z = std::clamp(worldTransform_.scale_.z, -initial2MapCenter.z, initial2MapCenter.z);
+	//worldTransform_.scale_.z = std::clamp(worldTransform_.scale_.z, -initial2MapCenter.z, initial2MapCenter.z);
 
-	worldTransform_.translation_.x = std::clamp(worldTransform_.translation_.x, initial2MapCenter.x, initial2MapCenter.x);
+	//worldTransform_.translation_.x = std::clamp(worldTransform_.translation_.x, initial2MapCenter.x, initial2MapCenter.x);
 	/*worldTransform_.translation_.y = std::clamp(worldTransform_.translation_.y, initial2MapCenter.y, initial2MapCenter.y);*/
-	worldTransform_.translation_.z = std::clamp(worldTransform_.translation_.z, initial2MapCenter.z, initial2MapCenter.z);
+	//worldTransform_.translation_.z = std::clamp(worldTransform_.translation_.z, initial2MapCenter.z, initial2MapCenter.z);
 }
