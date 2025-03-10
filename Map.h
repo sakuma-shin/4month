@@ -8,6 +8,7 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include"Light.h"
 
 class Map {
 public:
@@ -18,6 +19,9 @@ public:
 
 	int CheckCollision(KamataEngine::Vector3 pos);
 	
+	std::vector<KamataEngine::Vector3> GetTilePositionsInRange(int min, int max);
+	std::vector<Light::GrowType> GetMirrorTypesInRange();
+
 private:
 	std::string filename;
 	static const int MaxX = 10;
