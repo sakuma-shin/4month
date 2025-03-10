@@ -42,38 +42,63 @@ void Player::Update(Map* map)
 	//キャラクターの移動速度
 	const float kCharacterSpeed = 0.2f;
 
-	//押した方向で移動ベクトルを変更(左右)
-	if (input_->PushKey(DIK_A) && map_->CheckCollision({ worldTransform_.translation_.x- kCharacterSpeed,worldTransform_.translation_.y,worldTransform_.translation_.z  })==0) {
+	////押した方向で移動ベクトルを変更(左右)
+	//if (input_->PushKey(DIK_A) && map_->CheckCollision({ worldTransform_.translation_.x- kCharacterSpeed,worldTransform_.translation_.y,worldTransform_.translation_.z  })==0) {
+
+	//	move.x -= kCharacterSpeed;
+
+	//}
+
+	//if (input_->PushKey(DIK_D) && map_->CheckCollision({ worldTransform_.translation_.x + kCharacterSpeed ,worldTransform_.translation_.y,worldTransform_.translation_.z})==0) {
+
+	//	move.x += kCharacterSpeed;
+
+	//}
+
+	////押した方向で移動ベクトルを変更(上下)
+	//if (input_->PushKey(DIK_W) && map_->CheckCollision({ worldTransform_.translation_.x,worldTransform_.translation_.y,worldTransform_.translation_.z + kCharacterSpeed })==0) {
+
+	//	move.z += kCharacterSpeed;
+
+	//}
+
+	//if (input_->PushKey(DIK_S) && map_->CheckCollision({ worldTransform_.translation_.x,worldTransform_.translation_.y,worldTransform_.translation_.z - kCharacterSpeed })==0) {
+
+	//	move.z -= kCharacterSpeed;
+
+	//}
+
+	//if (map_->CheckCollision(worldTransform_.translation_)) {
+	//	move = { 0,0,0 };
+	//}
+
+	if (input_->PushKey(DIK_A)) {
 
 		move.x -= kCharacterSpeed;
 
 	}
 
-	if (input_->PushKey(DIK_D) && map_->CheckCollision({ worldTransform_.translation_.x + kCharacterSpeed ,worldTransform_.translation_.y,worldTransform_.translation_.z})==0) {
+	if (input_->PushKey(DIK_D)) {
 
 		move.x += kCharacterSpeed;
 
 	}
 
-	//押した方向で移動ベクトルを変更(上下)
-	if (input_->PushKey(DIK_W) && map_->CheckCollision({ worldTransform_.translation_.x,worldTransform_.translation_.y,worldTransform_.translation_.z + kCharacterSpeed })==0) {
+	if (input_->PushKey(DIK_W)) {
 
 		move.z += kCharacterSpeed;
 
 	}
 
-	if (input_->PushKey(DIK_S) && map_->CheckCollision({ worldTransform_.translation_.x,worldTransform_.translation_.y,worldTransform_.translation_.z - kCharacterSpeed })==0) {
+	if (input_->PushKey(DIK_S)) {
 
 		move.z -= kCharacterSpeed;
 
 	}
 
-	if (map_->CheckCollision(worldTransform_.translation_)) {
-		move = { 0,0,0 };
-	}
-
 	//座標移動
 	worldTransform_.translation_.x += move.x;
+	worldTransform_.translation_.y += move.y;
 	worldTransform_.translation_.z += move.z;
 
 	worldTransform_.TransferMatrix();

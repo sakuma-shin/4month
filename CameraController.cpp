@@ -21,6 +21,7 @@ void CameraController::Update()
 
 	//行列更新
 	camera_.UpdateMatrix();
+	camera_.TransferMatrix();
 
 }
 
@@ -36,3 +37,4 @@ void CameraController::Reset()
 	camera_.translation_.z = targetWorldTransform.translation_.z + targetOffset_.z;
 
 }
+

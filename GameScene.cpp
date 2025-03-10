@@ -95,11 +95,6 @@ void GameScene::Update() {
 		}
 	}
   
-	map_->Update();
-	player_->Update(map_);
-	cameraAngle_->Update();
-	cameraController_->Update();
-
 	/*camera_.matView = cameraController_->GetCamera().matView;
 	camera_.matProjection = cameraController_->GetCamera().matProjection;
 	camera_.TransferMatrix();
@@ -129,6 +124,10 @@ void GameScene::Update() {
 	camera_.matProjection = projectionMatrix;
 	camera_.TransferMatrix();
 
+	map_->Update();
+	player_->Update(map_);
+	cameraAngle_->Update();
+	cameraController_->Update();
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 
