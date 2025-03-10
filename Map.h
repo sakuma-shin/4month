@@ -8,11 +8,13 @@
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include"Light.h"
 #include "door.h"
 #include<list>
 #include "Target.h"
 #include "mirror.h"
 #include "Player.h"
+
 
 
 class Map {
@@ -24,6 +26,12 @@ public:
 
 	int CheckCollision(KamataEngine::Vector3 pos);
 	
+
+	std::vector<KamataEngine::Vector3> GetTilePositionsInRange(int min, int max);
+	std::vector<Light::GrowType> GetMirrorTypesInRange();
+
+private:
+
 	int Digit(int number);
 
 	int Digitnamber(int number);
@@ -59,6 +67,8 @@ public:
 	KamataEngine::Model* goalmodel_;
 
 	KamataEngine::Model* prismmodel_;
+
+	KamataEngine::Model* doormodel_;
 	
 	std::vector<door*> door_;
 

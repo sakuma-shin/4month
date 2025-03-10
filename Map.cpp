@@ -6,17 +6,17 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	// NULLチェック
 	assert(model);
 
-	//Size = { 2,2,2 };
-
 	// 引数の内容をメンバ変数に記録
-	//this->model_ = model;
+	// this->model_ = model;
 
 	model_ = Model::CreateFromOBJ("wall", true);
 	textureHandle_ = textureHandle;
 	camera_ = camera;
 
-	walltextureHandle_= TextureManager::Load("white1x1.png");
-	
+
+	Size = {2, 2, 2};
+	walltextureHandle_ = TextureManager::Load("white1x1.png");
+
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 
 //	mirrormodel_->Create();
@@ -40,24 +40,23 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		filename = "Resources/map/debugMap4.csv"; // 読み込むCSVファイル名
 	}
 	readCSV();
-	
-	worldTransform_.resize(MaxX*MaxY); 
+
+	worldTransform_.resize(MaxX * MaxY);
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
 		worldTransform_[i] = new WorldTransform;
 		worldTransform_[i]->Initialize();
 		worldTransform_[i]->translation_.x = (i % MaxX) * Size.x;
-		if (map[i % MaxX][i / MaxX] != 0  &&map[i % MaxX][i / MaxX] != 1) {
+		if (map[i % MaxX][i / MaxX] != 0 && map[i % MaxX][i / MaxX] != 1) {
 			worldTransform_[i]->translation_.y = 0;
 		} else {
 			worldTransform_[i]->translation_.y = 2;
 		}
-		
+
 		if (Digit(map[i % MaxX][i / MaxX]) == 6) {
 			Target* newtarget = new Target;
 			newtarget->Initialize(map[i % MaxX][i / MaxX], worldTransform_[i]);
 			target_.push_back(newtarget);
 		}
-		
 		worldTransform_[i]->translation_.z = int(i / MaxX) * Size.z;
 	}
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
@@ -121,9 +120,8 @@ void Map::Draw() {
 			prismmodel_->Draw(*worldTransformBlock, *camera_);
 		} else if (map[i % MaxX][i / MaxX] == 0) {
 			model_->Draw(*worldTransformBlock, *camera_, walltextureHandle_);
-		} 
-		else {
-			model_->Draw(*worldTransformBlock, *camera_,textureHandle_);
+		} else {
+			model_->Draw(*worldTransformBlock, *camera_, textureHandle_);
 		}
 		i++;
 	}
@@ -228,4 +226,54 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 	// 範囲内かつ衝突しない場合は「衝突なし」
 	return 0;
 
+}
+
+std::vector<KamataEngine::Vector3> Map::GetTilePositionsInRange(int min, int max) {
+	std::vector<KamataEngine::Vector3> positions;
+
+	// マップを走査
+	for (int y = 0; y < MaxY; ++y) {
+		for (int x = 0; x < MaxX; ++x) {
+			if (map[x][y] >= min && map[x][y] < max) {
+				// ワールド座標に変換
+				KamataEngine::Vector3 worldPos;
+				worldPos.x = x * Size.x; // サイズを考慮
+				worldPos.y = 0.0f;
+ 				worldPos.z = y*Size.z;
+
+				positions.push_back(worldPos);
+			}
+		}
+	}
+
+	return positions;
+}
+
+std::vector<Light::GrowType> Map::GetMirrorTypesInRange() {
+	std::vector<Light::GrowType> types;
+	// マップを走査
+	for (int y = 0; y < MaxY; ++y) {
+		for (int x = 0; x < MaxX; ++x) {
+			if (map[x][y] == 41) {
+				Light::GrowType type;
+				type = Light::Up;
+				types.push_back(type);
+			} else if (map[x][y] == 42) {
+				Light::GrowType type;
+				type = Light::Down;
+				types.push_back(type);
+			} else if (map[x][y] == 43) {
+				Light::GrowType type;
+				type = Light::Left;
+				types.push_back(type);
+			} else if (map[x][y] == 44) {
+				Light::GrowType type;
+				type = Light::Right;
+				types.push_back(type);
+			}
+		}
+
+		
+	}
+	return types;
 }

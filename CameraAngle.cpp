@@ -2,6 +2,15 @@
 #include <ImGui.h>
 #include "MathUtility.h"
 #include "Player.h"
+#include <algorithm>
+#include <cmath>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846f
+#endif
+
+#define XM_PIDIV4 (M_PI / 2.0f)
+#define XM_3PIDIV4 (3.0f * M_PI / 4.0f)
 
 using namespace KamataEngine;
 
@@ -29,7 +38,7 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform, Player* playe
 	camera_.Initialize();
 
     translation_ = { 0.0f, 30.0f, -30.0f };  //初期位置
-    rotation_ = { 0.5f, 0.0f, 0.0f };        //初期回転
+    rotation_ = { -1.5f, 0.0f, 0.0f };        //初期回転
 
     //カメラの初期ターゲット位置
     cameraTarget_ = { 0.0f, 0.0f, 0.0f };    //ターゲットの位置
@@ -38,47 +47,44 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform, Player* playe
 }
 
 void CameraAngle::Update() {
-    
-    //カメラの移動速度
-    const float kCameraSpeed = 0.02f;
-    
-    //カメラとターゲットの距離
-    const float kCameraDistance = 50.0f;
 
+    // カメラの移動速度
+    const float kCameraSpeed = 0.02f;
+    const float kCameraDistance = 40.0f;  //カメラとターゲットの距離
+
+    // 左右矢印キーで回転
     if (input_->PushKey(DIK_LEFT)) {
-        rotation_.y -= kCameraSpeed; //左
+        rotation_.y -= kCameraSpeed;  //左
     }
     if (input_->PushKey(DIK_RIGHT)) {
         rotation_.y += kCameraSpeed;  //右
     }
+
+    // 上下矢印キーで回転（プレイヤーと同じ目線から真上まで制限）
     if (input_->PushKey(DIK_UP)) {
         rotation_.x -= kCameraSpeed;  //上
+        if (rotation_.x < -XM_PIDIV4) rotation_.x = -XM_PIDIV4;  // 上限を真上（-90度）に制限
     }
     if (input_->PushKey(DIK_DOWN)) {
         rotation_.x += kCameraSpeed;  //下
+        if (rotation_.x > 0) rotation_.x = 0;  // 下限をプレイヤーと同じ目線（0度）に制限
     }
 
+    // カメラの位置更新（修正後）
+    translation_.x = cameraTarget_.x + kCameraDistance * sinf(rotation_.y);
+    translation_.y = cameraTarget_.y + kCameraDistance * sinf(rotation_.x);
+    translation_.z = cameraTarget_.z - kCameraDistance * cosf(rotation_.y);
+
     //カメラの向きをプレイヤーに向ける
-    //cameraTarget_ = player_->GetPosition();
-
-    //特定の座標をターゲットとして設定
-    KamataEngine::Vector3 targetPosition = { 0.0f, 0.0f, 0.0f };
-
-    //カメラの位置を更新
-    translation_.x = targetPosition.x + kCameraDistance * sinf(rotation_.y);
-    translation_.y = targetPosition.y + kCameraDistance * sinf(rotation_.x);
-    translation_.z = targetPosition.z + kCameraDistance * cosf(rotation_.y);
-
-    //カメラの向きをターゲットに向ける
-    camera_.matView = MakeLookAtMatrix(translation_, targetPosition, cameraUp_);
+    cameraTarget_ = player_->GetPosition();
 
     //変換行列を更新
     worldTransform_.translation_ = translation_;
     worldTransform_.rotation_ = rotation_;
     worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
-    //カメラの行列を更新
-    camera_.matView = MakeLookAtMatrix(translation_, targetPosition, cameraUp_);
+    //カメラビュー行列を更新
+    camera_.matView = MakeLookAtMatrix(translation_, cameraTarget_, cameraUp_);
     worldTransform_.UpdateMatrix();
 
     ImGui::Begin("Camera");
@@ -91,7 +97,7 @@ void CameraAngle::Update() {
 //void CameraAngle::Update() {
 //    // カメラの移動速度
 //    const float kCameraSpeed = 0.02f;
-//    const float kCameraDistance = 70.0f;  //カメラとターゲットの距離
+//    const float kCameraDistance = 40.0f;  //カメラとターゲットの距離
 //
 //    // 左右矢印キーで回転
 //    if (input_->PushKey(DIK_LEFT)) {
@@ -102,15 +108,17 @@ void CameraAngle::Update() {
 //    }
 //    if (input_->PushKey(DIK_UP)) {
 //        rotation_.x -= kCameraSpeed;  //上
+//        if (rotation_.x < -1.5) rotation_.x = -1.5;  // 上限を-45度に制限
 //    }
 //    if (input_->PushKey(DIK_DOWN)) {
 //        rotation_.x += kCameraSpeed;  //下
+//        if (rotation_.x > 0) rotation_.x = 0;
 //    }
 //
-//    //カメラの位置更新
+//    // カメラの位置更新（修正後）
 //    translation_.x = cameraTarget_.x + kCameraDistance * sinf(rotation_.y);
 //    translation_.y = cameraTarget_.y + kCameraDistance * sinf(rotation_.x);
-//    translation_.z = cameraTarget_.z + kCameraDistance * cosf(rotation_.y);
+//    translation_.z = cameraTarget_.z - kCameraDistance * cosf(rotation_.y);
 //
 //    //カメラの向きをプレイヤーに向ける
 //    cameraTarget_ = player_->GetPosition();

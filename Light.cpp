@@ -1,16 +1,20 @@
 #include "Light.h"
 #include "GameScene.h"
 #include "Map.h"
+#include "MathUtility.h"
+#include <algorithm>
 #include <cassert>
 #include <string>
 
 using namespace KamataEngine;
 
-void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type) {
+void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos) {
 	/*sprite_ = sprite;*/
+	initialPos_ = initialPos;
+
 	worldTransform_.Initialize();
-	worldTransform_.scale_ = {0.3f, 0.3f, 0.3f};
-	worldTransform_.translation_ = {0.1f, 0.0f, 1.7f};
+	worldTransform_.scale_ = {0.5f, 0.5f, 0.5f};
+	worldTransform_.translation_ = initialPos_;
 	// sprite_ = Sprite::Create(textureHandle, {}); // 各LightごとにSpriteを作成
 	model_ = model;
 	textureHandle_ = textureHandle;
@@ -57,20 +61,18 @@ void Light::Update() {
 
 	// #endif // DEBUG
 
-	// 移動前の座標を保存
-	Vector3 prevPos = worldTransform_.translation_;
-	Vector3 prevScale = worldTransform_.scale_;
+	//// 移動前の座標を保存
+	//Vector3 prevPos = worldTransform_.translation_;
+	//Vector3 prevScale = worldTransform_.scale_;
 
 	Grow();
 
-	if (!isMapHit) {
+	if (!map_->CheckCollision(Add(initialPos_, worldTransform_.scale_))) {
 		growtype_ = prevGrowType_;
 	}
 
-	if (map_->CheckCollision(worldTransform_.translation_)) {
-		OnCollisionMap(map_->CheckCollision(worldTransform_.translation_));
-		worldTransform_.translation_ = prevPos;
-		worldTransform_.scale_ = prevScale;
+	if (map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {
+		OnCollisionMap(map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_)));
 	}
 
 	// 各Lightごとにウィンドウを作成
@@ -105,32 +107,42 @@ void Light::Update() {
 	worldTransform_.UpdateMatrix();
 }
 
-void Light::Draw(Camera* camera) { model_->Draw(worldTransform_, *camera, textureHandle_); }
+void Light::Draw(Camera* camera) {
+	model_->Draw(worldTransform_, *camera, textureHandle_); 
+}
 
 void Light::Grow() {
 	float kSpeed = 1.0f;
 	switch (growtype_) {
 	case Up:
 
-		velocity_ = {0.0f, 0.0f, -kSpeed};
+		velocity_ = {-kSpeed, 0.0f, 0.0f};
 		// sprite_->SetRotation(0.0f);
 
 		break;
 
 	case Down:
-		velocity_ = {0.0f, 0.0f, kSpeed};
-		// sprite_->SetRotation(0.0f);
-
-		break;
-
-	case Left:
 		velocity_ = {kSpeed, 0.0f, 0.0f};
 		// sprite_->SetRotation(0.0f);
 
 		break;
 
+	case Left:
+		velocity_ = {
+		    0.0f,
+		    0.0f,
+		    kSpeed,
+		};
+		// sprite_->SetRotation(0.0f);
+
+		break;
+
 	case Right:
-		velocity_ = {-kSpeed, 0.0f, 0.0f};
+		velocity_ = {
+		    0.0f,
+		    0.0f,
+		    -kSpeed,
+		};
 		// sprite_->SetRotation(0.0f);
 
 		break;
@@ -159,7 +171,7 @@ void Light::Grow() {
 
 		break;
 	case NO:
-		velocity_ = {0.0f, 0.0f};
+		velocity_ = {0.0f, 0.0f,0.0f};
 
 		break;
 	}
@@ -189,14 +201,17 @@ Vector3 Light::GetEndPosition() {
 	return {worldTransform_.translation_.x + worldTransform_.scale_.x, worldTransform_.translation_.y + worldTransform_.scale_.y, worldTransform_.translation_.z + worldTransform_.scale_.z};
 }
 
+
 void Light::OnCollisionMap(int mapNum) {
+
+	growtype_ = NO;
 	// 以前の growtype_ を保存
 	prevGrowType_ = growtype_;
 
 	switch (growtype_) {
 	case Up:
 		switch (mapNum) {
-		case 1:
+		case 11:
 			growtype_ = NO;
 
 			break;
@@ -205,7 +220,7 @@ void Light::OnCollisionMap(int mapNum) {
 
 	case Down:
 		switch (mapNum) {
-		case 1:
+		case 31:
 			growtype_ = NO;
 
 			break;
@@ -267,7 +282,24 @@ void Light::OnCollisionMap(int mapNum) {
 		}
 		break;
 	}
+	velocity_ = {};
 
-	// マップに当たったら動きを止める
-	growtype_ = NO;
+	Vector3 tip = initialPos_ /*+ worldTransform_.scale_*/;
+	Vector3 initial2MapCenter;
+	initial2MapCenter.x = tip.x;
+	initial2MapCenter.y = tip.y;
+	initial2MapCenter.z = tip.z;
+
+	/*worldTransform_.translation_ = initial2MapCenter;
+	worldTransform_.scale_.x= abs(tip.x);
+	worldTransform_.scale_.y = abs(tip.y);
+	worldTransform_.scale_.z = abs(tip.z);*/
+
+	//worldTransform_.scale_.x = std::clamp(worldTransform_.scale_.x, -initial2MapCenter.x, initial2MapCenter.x);
+	/*worldTransform_.scale_.y = std::clamp(worldTransform_.scale_.y, -initial2MapCenter.y, initial2MapCenter.y);*/
+	//worldTransform_.scale_.z = std::clamp(worldTransform_.scale_.z, -initial2MapCenter.z, initial2MapCenter.z);
+
+	//worldTransform_.translation_.x = std::clamp(worldTransform_.translation_.x, initial2MapCenter.x, initial2MapCenter.x);
+	/*worldTransform_.translation_.y = std::clamp(worldTransform_.translation_.y, initial2MapCenter.y, initial2MapCenter.y);*/
+	//worldTransform_.translation_.z = std::clamp(worldTransform_.translation_.z, initial2MapCenter.z, initial2MapCenter.z);
 }
