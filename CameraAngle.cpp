@@ -48,6 +48,7 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform, Player* playe
 
 void CameraAngle::Update() {
 
+
     // カメラの移動速度
     const float kCameraSpeed = 0.02f;
     const float kCameraDistance = 40.0f;  //カメラとターゲットの距離
