@@ -29,6 +29,7 @@ void GameScene::Initialize() {
 	//プレイヤー関連
 	player_ = new Player();
 	player_->Initialize(playerModel_,textureHandle_,&camera_);
+	player_->SetMap(map_);
 
 	camera_.Initialize();
 
@@ -49,7 +50,7 @@ void GameScene::Initialize() {
 
 	map_ = new Map;
 
-	map_->Initialize(mapModel_, textureHandle_, &camera_);
+	map_->Initialize(mapModel_, textureHandle_, &camera_,stagenumber);
 
 //ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
@@ -91,7 +92,7 @@ void GameScene::Update() {
 	}
   
 	map_->Update();
-	player_->Update();
+	player_->Update(map_);
 	cameraAngle_->Update();
 
 	camera_.matView = cameraAngle_->GetCamera().matView;
@@ -102,6 +103,14 @@ void GameScene::Update() {
 
 		isFinished_ = true;
 
+	}
+	if (input_->TriggerKey(DIK_P) && stagenumber <= 5) {
+		stagenumber++;
+		Initialize();
+	}
+	if (input_->TriggerKey(DIK_O) && stagenumber > 0) {
+		stagenumber--;
+		Initialize();
 	}
 
 }
