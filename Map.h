@@ -11,6 +11,7 @@
 #include "door.h"
 #include<list>
 #include "Target.h"
+#include "Prism.h"
 
 
 class Map {
@@ -61,7 +62,10 @@ public:
 	std::vector<door*> door_;
 
 	std::vector<Target*> target_;
+
+	std::vector<Prism*> prism_;
 	
 	int doorcount = 0;
 	int targetcount = 0;
+	int prismcount = 0;
 };

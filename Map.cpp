@@ -19,7 +19,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 
-//	mirrormodel_->Create();
+	//mirrormodel_->Create();
 	mirrormodel_= Model::CreateFromOBJ("mirorr",true);
 
 	//mirrormodel2_->Create();
@@ -27,9 +27,9 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 
 	goalmodel_ = Model::CreateFromOBJ("gole", true);
 
-	prismmodel_ = Model::CreateFromOBJ("prism", true);
+	//prismmodel_ = Model::CreateFromOBJ("prism", true);
 
-	doormodel_ = Model::CreateFromOBJ("door", true);
+	//doormodel_ = Model::CreateFromOBJ("door", true);
 	
 	if (stagenumber == 1) {
 		filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
@@ -72,6 +72,14 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		}
 	}
 
+	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
+		if (Digit(map[i % MaxX][i / MaxX]) == 9) {
+			Prism* newprism = new Prism;
+			newprism->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]));
+			prism_.push_back(newprism);
+		}
+	}
+
 	for (WorldTransform* worldTransformBlock : worldTransform_) {
 		worldTransformBlock->TransferMatrix();
 		worldTransformBlock->UpdateMatrix();
@@ -81,11 +89,15 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 void Map::Update() { 
 	doorcount = 0;
 	targetcount = 0;
+	prismcount = 0;
 	for (door* door : door_) {
 		door->Update(target_);
 	}
 	for (Target* target : target_) { //
 		target->Update();
+	}
+	for (Prism* prism : prism_) {
+		prism->Update();
 	}
 }
 
@@ -108,7 +120,8 @@ void Map::Draw() {
 		}else if (map[i % MaxX][i / MaxX] == 32) {
 			mirrormodel_->Draw(*worldTransformBlock, *camera_);
 		} else if (map[i % MaxX][i / MaxX] == 9) {
-			prismmodel_->Draw(*worldTransformBlock, *camera_);
+			prism_[prismcount]->Draw(worldTransformBlock, camera_);
+			prismcount++;
 		} else if (map[i % MaxX][i / MaxX] == 0) {
 			model_->Draw(*worldTransformBlock, *camera_, walltextureHandle_);
 		} 

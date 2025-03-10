@@ -115,6 +115,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MathUtility.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Prism.cpp" />
     <ClCompile Include="Target.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="WorldTransformEX.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="MathUtility.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Prism.h" />
     <ClInclude Include="Target.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
