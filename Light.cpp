@@ -72,7 +72,7 @@ void Light::Update() {
 	}
 
 	if (map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {
-		OnCollisionMap(map_->CheckCollision(Add(initialPos_, worldTransform_.scale_)));
+		OnCollisionMap(map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_)));
 	}
 
 	// 各Lightごとにウィンドウを作成

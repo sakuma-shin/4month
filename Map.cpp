@@ -128,7 +128,7 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 	// マップの範囲内かチェック
 	if (mapX >= 0 && mapX < MaxX && mapZ >= 0 && mapZ < MaxY) {
 		// その位置のマップ値が 10 なら壁
-		if (map[mapX][mapZ]== 8) {
+		if (map[mapX][mapZ]) {
 			return 1;
 		}
 	}
