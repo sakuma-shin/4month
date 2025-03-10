@@ -75,6 +75,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	}
 }
 
+
 void Map::Update() {
 	doorcount = 0;
 	targetcount = 0;
@@ -200,6 +201,7 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 
 	// マップの範囲内かチェック
 	if (mapX >= 0 && mapX < MaxX && mapZ >= 0 && mapZ < MaxY) {
+
 		// その位置のマップ値が 8 なら壁
 		switch (map[mapX][mapZ]) {
 
