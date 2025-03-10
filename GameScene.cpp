@@ -91,7 +91,7 @@ void GameScene::Update() {
 		}
 	}
   
-	map_->Update();
+	map_->Update(player_);
 	player_->Update(map_);
 	cameraAngle_->Update();
 

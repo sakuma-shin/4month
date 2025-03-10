@@ -11,12 +11,14 @@
 #include "door.h"
 #include<list>
 #include "Target.h"
+#include "mirror.h"
+#include "Player.h"
 
 
 class Map {
 public:
 	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber);
-	void Update();
+	void Update(Player* player);
 	void Draw();
 	void readCSV();
 
@@ -50,9 +52,7 @@ public:
 
 	KamataEngine::Camera* camera_;
 
-	KamataEngine::Model* mirrormodel_;
-
-	KamataEngine::Model* mirrormodel2_;
+	
 
 	KamataEngine::Model* goalmodel_;
 
@@ -61,7 +61,11 @@ public:
 	std::vector<door*> door_;
 
 	std::vector<Target*> target_;
+
+	std::vector<mirror*> mirror_;
 	
 	int doorcount = 0;
 	int targetcount = 0;
+
+	int mirrorcount = 0;
 };

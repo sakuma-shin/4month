@@ -20,10 +20,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 
 //	mirrormodel_->Create();
-	mirrormodel_= Model::CreateFromOBJ("mirorr",true);
-
-	//mirrormodel2_->Create();
-	mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
+	
 
 	goalmodel_ = Model::CreateFromOBJ("gole", true);
 
@@ -70,6 +67,11 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 			door_.push_back(newdoor);
 
 		}
+		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
+			mirror* newmirror = new mirror;
+			newmirror->Initialize(worldTransform_[i]);
+			mirror_.push_back(newmirror);
+		}
 	}
 
 	for (WorldTransform* worldTransformBlock : worldTransform_) {
@@ -78,8 +80,9 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	}
 }
 
-void Map::Update() { 
+void Map::Update(Player* player) { 
 	doorcount = 0;
+	mirrorcount = 0;
 	targetcount = 0;
 	for (door* door : door_) {
 		door->Update(target_);
@@ -87,6 +90,10 @@ void Map::Update() {
 	for (Target* target : target_) { //
 		target->Update();
 	}
+	for (mirror* mirror : mirror_) { //
+		mirror->Update(player);
+	}
+
 }
 
 void Map::Draw() {
@@ -104,9 +111,11 @@ void Map::Draw() {
 			doorcount++;
 		}
 		else if (map[i % MaxX][i / MaxX] == 31) {
-			mirrormodel2_->Draw(*worldTransformBlock, *camera_);
+			mirror_[mirrorcount]->Draw(1, camera_);
+			mirrorcount++;
 		}else if (map[i % MaxX][i / MaxX] == 32) {
-			mirrormodel_->Draw(*worldTransformBlock, *camera_);
+			mirror_[mirrorcount]->Draw(2, camera_);
+			mirrorcount++;
 		} else if (map[i % MaxX][i / MaxX] == 9) {
 			prismmodel_->Draw(*worldTransformBlock, *camera_);
 		} else if (map[i % MaxX][i / MaxX] == 0) {
@@ -210,6 +219,9 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 	// マップ内での衝突チェック
 	if (map[mapX][mapZ] == 8) { // その位置のマップ値が 10 なら壁
 		return 1;
+	}
+	if (map[mapX][mapZ] >= 30 && map[mapX][mapZ] <= 34) { // その位置のマップ値が 10 なら壁
+		return 2;
 	}
 
 	// 範囲内かつ衝突しない場合は「衝突なし」
