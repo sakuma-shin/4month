@@ -34,6 +34,8 @@ public:
 		return target_;
 	}
 
+
+
 	private:
 	std::string filename;
 	static const int MaxX = 10;

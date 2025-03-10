@@ -92,6 +92,7 @@ void Map::Update(Player* player) {
 	}
 	for (mirror* mirror : mirror_) { //
 		mirror->Update(player);
+		if (mirror->Getpos())
 	}
 
 }

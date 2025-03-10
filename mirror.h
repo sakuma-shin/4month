@@ -13,6 +13,10 @@ public:
 	void Update(Player* player);
 	void Draw(int i,KamataEngine::Camera* camera);
 	bool isInsideRhombus(KamataEngine::Vector3 mirror, KamataEngine::Vector3 player);
+	KamataEngine::Vector3 Getpos() { 
+		return worldtransform_->translation_;
+	}
+
 
 	private:
 	KamataEngine::WorldTransform* worldtransform_;

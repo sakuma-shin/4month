@@ -22,20 +22,20 @@ void mirror::Update(Player* player) {
 	if (input_->PushKey(DIK_B)&& isInsideRhombus(this->worldtransform_->translation_, Vector3(player->GetPosition().x, player->GetPosition().y, player->GetPosition().z))) {
 		//textureHandle_ = TextureManager::Load("mirorron/mirorr.png");
 		if (input_->PushKey(DIK_W) ) {
-			worldtransform_->translation_.z += 0.2f;
+			worldtransform_->translation_.z += player->Getmove().z;
 			worldtransform_->TransferMatrix();
 			worldtransform_->UpdateMatrix();
 		}
 		else if (input_->PushKey(DIK_A) ) {
-			worldtransform_->translation_.x -= 0.2f;
+			worldtransform_->translation_.x += player->Getmove().x;
 			worldtransform_->TransferMatrix();
 			worldtransform_->UpdateMatrix();
 		} else if (input_->PushKey(DIK_S)) {
-			worldtransform_->translation_.z -= 0.2f;
+			worldtransform_->translation_.z += player->Getmove().z;
 			worldtransform_->TransferMatrix();
 			worldtransform_->UpdateMatrix();
 		} else if (input_->PushKey(DIK_D)) {
-			worldtransform_->translation_.x += 0.2f;
+			worldtransform_->translation_.x += player->Getmove().x;
 			worldtransform_->TransferMatrix();
 			worldtransform_->UpdateMatrix();
 		}

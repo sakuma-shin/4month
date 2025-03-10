@@ -37,7 +37,7 @@ void Player::Update(Map* map)
 	map_=map;
 
 	//キャラクターの移動ベクトル
-	Vector3 move = { 0,0,0 };
+	move = { 0,0,0 };
 
 	//キャラクターの移動速度
 	const float kCharacterSpeed = 0.2f;
