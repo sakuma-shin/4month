@@ -29,7 +29,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 
 	prismmodel_ = Model::CreateFromOBJ("prism", true);
 
-	doormodel_ = Model::CreateFromOBJ("door", true);
+	//doormodel_ = Model::CreateFromOBJ("door", true);
 	
 	if (stagenumber == 1) {
 		filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
