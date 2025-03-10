@@ -57,6 +57,8 @@ public:
 	KamataEngine::Model* goalmodel_;
 
 	KamataEngine::Model* prismmodel_;
+
+	KamataEngine::Model* doormodel_;
 	
 	std::vector<door*> door_;
 
