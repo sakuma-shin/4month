@@ -78,7 +78,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 }
 
 
-void Map::Update() { 
+void Map::Update() {
 	doorcount = 0;
 	targetcount = 0;
 	for (door* door : door_) {
@@ -87,6 +87,7 @@ void Map::Update() {
 	for (Target* target : target_) { //
 		target->Update();
 	}
+}
 
 
 void Map::Draw() {
