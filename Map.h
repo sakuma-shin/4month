@@ -15,7 +15,7 @@
 #include "mirror.h"
 #include "Player.h"
 
-
+class mirror;
 
 class Map {
 public:

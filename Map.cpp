@@ -68,7 +68,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
 			mirror* newmirror = new mirror;
-			newmirror->Initialize(worldTransform_[i]);
+			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX,this);
 			mirror_.push_back(newmirror);
 		}
 	}
@@ -91,7 +91,27 @@ void Map::Update(Player* player) {
 	}
 	for (mirror* mirror : mirror_) { //
 		mirror->Update(player);
-		//if (mirror->Getpos())
+		if (int(mirror->Getpos().x / 2.0f) != mirror->GetPos(0) || int(mirror->Getpos().z / 2.0f) != mirror->GetPos(1)) {
+			int i=0;
+			if (int(mirror->Getpos().x / 2.0f)-mirror->GetPos(0) == 1) {
+				i = 1;
+			}
+			else if (int(mirror->Getpos().x / 2.0f)-mirror->GetPos(0) == -1) {
+				i = 2;
+			}
+			else if (int(mirror->Getpos().z / 2.0f) - mirror->GetPos(1)==1) {
+				i = 3;
+			} 
+			else if (int(mirror->Getpos().z / 2.0f) - mirror->GetPos(1)==-1) {
+				i = 4;
+			}
+			 
+			int x;
+			x=map[mirror->GetPos(0)][mirror->GetPos(1)];
+			map[mirror->GetPos(0)][mirror->GetPos(1)] = map[int(mirror->Getpos().x / 2.0f)][int(mirror->Getpos().z / 2.0f)];
+			map[int(mirror->Getpos().x / 2.0f)][int(mirror->Getpos().z / 2.0f)] = x;
+			mirror->PosChange(i);
+		}
 	}
 
 }

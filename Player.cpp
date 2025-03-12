@@ -70,6 +70,8 @@ void Player::Update(Map* map)
 
 		move.z += kCharacterSpeed;
 
+	} else {
+		move.z = 0;
 	}
 
 	if (input_->PushKey(DIK_S) 
