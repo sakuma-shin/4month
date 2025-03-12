@@ -89,7 +89,7 @@ void GameScene::Update() {
 			if (light->GetNewType2() != Light::NO) {
 				LightCreate(light->GetNewType2(), newInitialPos);
 			}
-			
+
 		}
 	}
   

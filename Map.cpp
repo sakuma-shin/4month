@@ -18,12 +18,15 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 
-//	mirrormodel_->Create();
-	
+	//mirrormodel_->Create();
+	mirrormodel_= Model::CreateFromOBJ("mirorr",true);
+
+	//mirrormodel2_->Create();
+	mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
 
 	goalmodel_ = Model::CreateFromOBJ("gole", true);
 
-	prismmodel_ = Model::CreateFromOBJ("prism", true);
+	//prismmodel_ = Model::CreateFromOBJ("prism", true);
 
 	//doormodel_ = Model::CreateFromOBJ("door", true);
 	
@@ -71,6 +74,14 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		}
 	}
 
+	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
+		if (Digit(map[i % MaxX][i / MaxX]) == 9) {
+			Prism* newprism = new Prism;
+			newprism->Initialize(map[i % MaxX][i / MaxX], worldTransform_[i]);
+			prism_.push_back(newprism);
+		}
+	}
+
 	for (WorldTransform* worldTransformBlock : worldTransform_) {
 		worldTransformBlock->TransferMatrix();
 		worldTransformBlock->UpdateMatrix();
@@ -81,12 +92,14 @@ void Map::Update(Player* player) {
 	doorcount = 0;
 	mirrorcount = 0;
 	targetcount = 0;
+	prismcount = 0;
 	for (door* door : door_) {
 		door->Update(target_);
 	}
 	for (Target* target : target_) { //
 		target->Update();
 	}
+
 	for (mirror* mirror : mirror_) { //
 		mirror->Update(player);
 		if (int(mirror->Getpos().x / 2.0f) != mirror->GetPos(0) || int(mirror->Getpos().z / 2.0f) != mirror->GetPos(1)) {
@@ -112,6 +125,9 @@ void Map::Update(Player* player) {
 		}
 	}
 
+	for (Prism* prism : prism_) {
+		prism->Update();
+	}
 }
 
 void Map::Draw() {
@@ -134,8 +150,9 @@ void Map::Draw() {
 		}else if (map[i % MaxX][i / MaxX] == 32) {
 			mirror_[mirrorcount]->Draw(2, camera_);
 			mirrorcount++;
-		} else if (map[i % MaxX][i / MaxX] == 9) {
-			prismmodel_->Draw(*worldTransformBlock, *camera_);
+		} else if (Digit(map[i % MaxX][i / MaxX]) == 9) {
+			prism_[prismcount]->Draw(camera_);
+			prismcount++;
 		} else if (map[i % MaxX][i / MaxX] == 0) {
 			model_->Draw(*worldTransformBlock, *camera_, walltextureHandle_);
 		} else {
