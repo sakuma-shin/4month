@@ -7,16 +7,16 @@ using namespace KamataEngine;
 
 class Prism {
 public:
-	void Initialize(int key);
+	void Initialize(int key, WorldTransform* worldTransform);
 
 	void Update();
 
-	void Draw(WorldTransform* worldTransform, Camera* camera);
+	void Draw( Camera* camera);
 
 	/// <summary>
 	/// 光との当たり判定の結果を返す
 	/// </summary>
-	bool CheckLight2Direction();
+	int CheckLight2Direction();
 
 	/// <summary>
 	/// 光の反射の際の処理
@@ -40,6 +40,8 @@ private:
 	bool isSet_ = true;
 
 	int key_;
+
+	WorldTransform* worldTransform_;
 
 	Light::GrowType prismDirection_;
 };

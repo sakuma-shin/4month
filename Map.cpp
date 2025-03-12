@@ -75,7 +75,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
 		if (Digit(map[i % MaxX][i / MaxX]) == 9) {
 			Prism* newprism = new Prism;
-			newprism->Initialize(Digit(map[i % MaxX][i / MaxX]));
+			newprism->Initialize(map[i % MaxX][i / MaxX], worldTransform_[i]);
 			prism_.push_back(newprism);
 		}
 	}
@@ -119,8 +119,8 @@ void Map::Draw() {
 			mirrormodel2_->Draw(*worldTransformBlock, *camera_);
 		}else if (map[i % MaxX][i / MaxX] == 32) {
 			mirrormodel_->Draw(*worldTransformBlock, *camera_);
-		} else if (map[i % MaxX][i / MaxX] == 9) {
-			prism_[prismcount]->Draw(worldTransformBlock, camera_);
+		} else if (Digit(map[i % MaxX][i / MaxX]) == 9) {
+			prism_[prismcount]->Draw(camera_);
 			prismcount++;
 		} else if (map[i % MaxX][i / MaxX] == 0) {
 			model_->Draw(*worldTransformBlock, *camera_, walltextureHandle_);

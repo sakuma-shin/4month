@@ -1,7 +1,8 @@
 #include "Prism.h"
 
-void Prism::Initialize(int key) {
+void Prism::Initialize(int key, WorldTransform* worldTransform) {
 	key_ = key;
+	worldTransform_ = worldTransform;
 
 	// keyに応じて対応したモデルを読み、自身の向きを決定する
 	if (key_ == 91) {
@@ -18,7 +19,7 @@ void Prism::Initialize(int key) {
 		prismDirection_ = Light::GrowType::Right;
 	} else { // 仮に数字が該当しなかったら向きは右とする
 		model_ = Model::CreateFromOBJ("prism", true);
-		prismDirection_ = Light::GrowType::Right;
+		prismDirection_ = Light::GrowType::NO;
 	}
 }
 
@@ -34,13 +35,13 @@ void Prism::Update() {
 	ImGui::End();
 }
 
-void Prism::Draw(WorldTransform* worldTransform, Camera* camera) {
+void Prism::Draw( Camera* camera) {
 	if (isSet_) {
-		model_->Draw(*worldTransform, *camera);
+		model_->Draw(*worldTransform_, *camera);
 	}
 }
 
-bool Prism::CheckLight2Direction() { return false; }
+int Prism::CheckLight2Direction() { return 1; }
 
 void Prism::ReflectLight() {}
 
