@@ -9,6 +9,8 @@
 
 #include "Map.h"
 
+#include "Color.h"
+
 using namespace KamataEngine;
 
 class GameScene {
@@ -48,6 +50,9 @@ private:
 
 	//カメラアングル
 	CameraAngle* cameraAngle_ = nullptr;
+
+	//カラー
+	Color* color_ = nullptr;
 
 	bool isFinished_ = false;
 

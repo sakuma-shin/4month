@@ -10,6 +10,7 @@ GameScene::~GameScene() {
 	delete player_;
 	delete cameraAngle_;
 	delete map_;
+	delete color_;
 	
 	/*delete lightSprite_;*/
 	for (Light* light : lights_) {
@@ -42,7 +43,8 @@ void GameScene::Initialize() {
 	cameraAngle_ = new CameraAngle();
 	cameraAngle_->Initialize(initialTransform, player_);
 
-
+	color_ = new Color();
+	color_->Initialize();
 
 	lightTextureHandle_ = TextureManager::Load("uvChecker.png");
 
@@ -94,6 +96,7 @@ void GameScene::Update() {
 	map_->Update();
 	player_->Update(map_);
 	cameraAngle_->Update();
+	color_->Update();
 
 	camera_.matView = cameraAngle_->GetCamera().matView;
 	camera_.matProjection = cameraAngle_->GetCamera().matProjection;
@@ -146,6 +149,7 @@ void GameScene::Draw() {
 		light->Draw(&camera_);
 	}
 	player_->Draw(&camera_);
+	color_->Draw();
 
 	///
 	/// </summary>
