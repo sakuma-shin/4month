@@ -6,16 +6,11 @@ class Color {
 
 public:
 
-	void Initialize();
+	void Initialize(KamataEngine::Model* model,uint32_t purpleTextureHandle,uint32_t redTextureHandle,uint32_t blueTextureHandle);
 
 	void Update();
 
-	void Draw();
-
-	void SetColor(int red, int blue, int green);
-
-	//紫を分解
-	void SplitColor1(int& color1, int& color2);
+	void Draw(KamataEngine::Camera* camera);
 
 private:
 
@@ -26,6 +21,8 @@ private:
 
 	//入力
 	KamataEngine::Input* input_ = nullptr;
+
+	KamataEngine::Model* model_ = nullptr;
 
 	int red_ = 0;
 	int blue_ = 0;

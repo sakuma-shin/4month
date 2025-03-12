@@ -43,8 +43,14 @@ void GameScene::Initialize() {
 	cameraAngle_ = new CameraAngle();
 	cameraAngle_->Initialize(initialTransform, player_);
 
+	colorModel_ = Model::CreateFromOBJ("cube", true);
+
+	redTextureHandle_ = TextureManager::Load("color/red.png");
+	blueTextureHandle_ = TextureManager::Load("color/blue.png");
+	purpleTextureHandle_ = TextureManager::Load("color/purple.png");
+
 	color_ = new Color();
-	color_->Initialize();
+	color_->Initialize(colorModel_,purpleTextureHandle_,redTextureHandle_,blueTextureHandle_);
 
 	lightTextureHandle_ = TextureManager::Load("uvChecker.png");
 
@@ -68,6 +74,9 @@ void GameScene::Initialize() {
 	newLight->SetMapData(map_);
 	/*lightSprite_->SetSize(newLight->GetSize());*/
 	lights_.push_back(newLight);
+
+
+
 }
 
 	
@@ -149,7 +158,7 @@ void GameScene::Draw() {
 		light->Draw(&camera_);
 	}
 	player_->Draw(&camera_);
-	color_->Draw();
+	color_->Draw(&camera_);
 
 	///
 	/// </summary>
