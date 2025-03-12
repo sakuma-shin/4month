@@ -114,6 +114,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MathUtility.cpp" />
+    <ClCompile Include="mirror.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Prism.cpp" />
     <ClCompile Include="Target.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MathUtility.h" />
+    <ClInclude Include="mirror.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Prism.h" />
     <ClInclude Include="Target.h" />
