@@ -18,18 +18,18 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 
-	//mirrormodel_->Create();
-	mirrormodel_= Model::CreateFromOBJ("mirorr",true);
+	// mirrormodel_->Create();
+	// mirrormodel_= Model::CreateFromOBJ("mirorr",true);
 
-	//mirrormodel2_->Create();
-	mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
+	// mirrormodel2_->Create();
+	// mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
 
 	goalmodel_ = Model::CreateFromOBJ("gole", true);
 
-	//prismmodel_ = Model::CreateFromOBJ("prism", true);
+	// prismmodel_ = Model::CreateFromOBJ("prism", true);
 
-	//doormodel_ = Model::CreateFromOBJ("door", true);
-	
+	// doormodel_ = Model::CreateFromOBJ("door", true);
+
 	if (stagenumber == 1) {
 		filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
 	} else if (stagenumber == 2) {
@@ -69,7 +69,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
 			mirror* newmirror = new mirror;
-			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX,this);
+			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX, this);
 			mirror_.push_back(newmirror);
 		}
 	}
@@ -88,7 +88,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	}
 }
 
-void Map::Update(Player* player) { 
+void Map::Update(Player* player) {
 	doorcount = 0;
 	mirrorcount = 0;
 	targetcount = 0;
@@ -103,22 +103,19 @@ void Map::Update(Player* player) {
 	for (mirror* mirror : mirror_) { //
 		mirror->Update(player);
 		if (int(mirror->Getpos().x / 2.0f) != mirror->GetPos(0) || int(mirror->Getpos().z / 2.0f) != mirror->GetPos(1)) {
-			int i=0;
-			if (int(mirror->Getpos().x / 2.0f)-mirror->GetPos(0) == 1) {
+			int i = 0;
+			if (int(mirror->Getpos().x / 2.0f) - mirror->GetPos(0) == 1) {
 				i = 1;
-			}
-			else if (int(mirror->Getpos().x / 2.0f)-mirror->GetPos(0) == -1) {
+			} else if (int(mirror->Getpos().x / 2.0f) - mirror->GetPos(0) == -1) {
 				i = 2;
-			}
-			else if (int(mirror->Getpos().z / 2.0f) - mirror->GetPos(1)==1) {
+			} else if (int(mirror->Getpos().z / 2.0f) - mirror->GetPos(1) == 1) {
 				i = 3;
-			} 
-			else if (int(mirror->Getpos().z / 2.0f) - mirror->GetPos(1)==-1) {
+			} else if (int(mirror->Getpos().z / 2.0f) - mirror->GetPos(1) == -1) {
 				i = 4;
 			}
-			 
+
 			int x;
-			x=map[mirror->GetPos(0)][mirror->GetPos(1)];
+			x = map[mirror->GetPos(0)][mirror->GetPos(1)];
 			map[mirror->GetPos(0)][mirror->GetPos(1)] = map[int(mirror->Getpos().x / 2.0f)][int(mirror->Getpos().z / 2.0f)];
 			map[int(mirror->Getpos().x / 2.0f)][int(mirror->Getpos().z / 2.0f)] = x;
 			mirror->PosChange(i);
@@ -143,11 +140,10 @@ void Map::Draw() {
 		} else if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door_[doorcount]->Draw(worldTransformBlock, camera_);
 			doorcount++;
-		}
-		else if (map[i % MaxX][i / MaxX] == 31) {
+		} else if (map[i % MaxX][i / MaxX] == 31) {
 			mirror_[mirrorcount]->Draw(1, camera_);
 			mirrorcount++;
-		}else if (map[i % MaxX][i / MaxX] == 32) {
+		} else if (map[i % MaxX][i / MaxX] == 32) {
 			mirror_[mirrorcount]->Draw(2, camera_);
 			mirrorcount++;
 		} else if (Digit(map[i % MaxX][i / MaxX]) == 9) {
@@ -252,7 +248,7 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 		// その位置のマップ値が 8 なら壁
 		switch (map[mapX][mapZ]) {
 
-			//マップ番号と同じ数字を返す
+			// マップ番号と同じ数字を返す
 		case 8:
 			// 壁
 			return 8;
@@ -276,6 +272,26 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 		case 34:
 			// 垂直鏡
 			return 34;
+			break;
+
+		case 91:
+			// プリズム上
+			return 91;
+			break;
+
+		case 92:
+			// プリズム下
+			return 92;
+			break;
+
+		case 93:
+			// プリズム左
+			return 93;
+			break;
+
+		case 94:
+			// プリズム右
+			return 94;
 			break;
 		}
 	}

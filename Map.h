@@ -63,8 +63,6 @@ private:
 
 	KamataEngine::Camera* camera_;
 
-	
-
 	KamataEngine::Model* goalmodel_;
 
 	KamataEngine::Model* prismmodel_;

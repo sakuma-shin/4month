@@ -244,12 +244,12 @@ void Light::OnCollisionMap(int mapNum) {
 
 		case 93:
 			growtype_ = NO;
-			newType_ = Left;
+			newType_ = Right;
 			break;
 
 		case 94:
 			growtype_ = NO;
-			newType_ = Right;
+			newType_ = Left;
 			break;
 		}
 		break;
