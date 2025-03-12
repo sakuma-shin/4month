@@ -75,7 +75,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
 		if (Digit(map[i % MaxX][i / MaxX]) == 9) {
 			Prism* newprism = new Prism;
-			newprism->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]));
+			newprism->Initialize(Digit(map[i % MaxX][i / MaxX]));
 			prism_.push_back(newprism);
 		}
 	}

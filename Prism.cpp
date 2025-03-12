@@ -3,7 +3,7 @@
 void Prism::Initialize(int key) {
 	key_ = key;
 
-	//keyに応じて対応したモデルを読み、自身の向きを決定する
+	// keyに応じて対応したモデルを読み、自身の向きを決定する
 	if (key_ == 91) {
 		model_ = Model::CreateFromOBJ("prism", true);
 		prismDirection_ = Light::GrowType::Up;
@@ -16,7 +16,7 @@ void Prism::Initialize(int key) {
 	} else if (key_ == 94) {
 		model_ = Model::CreateFromOBJ("prism", true);
 		prismDirection_ = Light::GrowType::Right;
-	} else {//仮に数字が該当しなかったら向きは右とする
+	} else { // 仮に数字が該当しなかったら向きは右とする
 		model_ = Model::CreateFromOBJ("prism", true);
 		prismDirection_ = Light::GrowType::Right;
 	}
@@ -24,6 +24,7 @@ void Prism::Initialize(int key) {
 
 void Prism::Update() {
 	ImGui::Begin("prism");
+	ImGui::InputInt("key", &key_);
 	if (ImGui::Button("broken", {50, 50})) {
 		Broken();
 	}
@@ -41,13 +42,9 @@ void Prism::Draw(WorldTransform* worldTransform, Camera* camera) {
 
 bool Prism::CheckLight2Direction() { return false; }
 
-void Prism::ReflectLight() {
+void Prism::ReflectLight() {}
 
-}
-
-void Prism::DecompositionLight() {
-
-}
+void Prism::DecompositionLight() {}
 
 void Prism::Broken() { isSet_ = false; }
 
