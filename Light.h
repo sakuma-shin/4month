@@ -44,6 +44,7 @@ public:
 
 	void SetMapData(Map* map) { map_ = map; }
 
+
 private:
 
 	//float width_=0.0f;
