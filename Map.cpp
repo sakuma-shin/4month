@@ -89,7 +89,6 @@ void Map::Update() {
 	}
 }
 
-
 void Map::Draw() {
 	int i = 0;
 	for (WorldTransform* worldTransformBlock : worldTransform_) {
