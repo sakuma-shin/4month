@@ -15,7 +15,9 @@ public:
 private:
 
 	// ワールド変換データ
-	KamataEngine::WorldTransform worldTransform_;
+	KamataEngine::WorldTransform redWorldTransform_;
+	KamataEngine::WorldTransform blueWorldTransform_;
+	KamataEngine::WorldTransform purpleWorldTransform_;
 
 	KamataEngine::Camera* camera_ = nullptr;
 

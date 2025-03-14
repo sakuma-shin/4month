@@ -2,43 +2,46 @@
 
 using namespace KamataEngine;
 
-void Color::Initialize(KamataEngine::Model* model, uint32_t purpleTextureHandle, uint32_t redTextureHandle, uint32_t blueTextureHandle)
-{
+void Color::Initialize(KamataEngine::Model* model, uint32_t purpleTextureHandle, uint32_t redTextureHandle, uint32_t blueTextureHandle) {
+    assert(model);
 
-	assert(model);
+    model_ = model;
+    purpleTextureHandle_ = purpleTextureHandle;
+    redTextureHandle_ = redTextureHandle;
+    blueTextureHandle_ = blueTextureHandle;
 
-	model_ = model;
-	purpleTextureHandle_ = purpleTextureHandle;
-	redTextureHandle_ = redTextureHandle;
-	blueTextureHandle_ = blueTextureHandle;
+    // インスタンス
+    input_ = Input::GetInstance();
 
+    // それぞれのワールド変換を初期化
+    purpleWorldTransform_.Initialize();
+    redWorldTransform_.Initialize();
+    blueWorldTransform_.Initialize();
 
-
-	//インスタンス
-	input_ = Input::GetInstance();
-
-	worldTransform_.Initialize();
-
+    // 青の位置を左にずらす
+    blueWorldTransform_.translation_.x -= 5.0f;
+    blueWorldTransform_.UpdateMatrix();
 }
 
-void Color::Update()
-{
+void Color::Update() {
+    // Enterキーで isSplit を切り替え
+    if (input_->TriggerKey(DIK_RETURN)) {
+        isSplit = !isSplit;  // true/falseをトグル
+    }
 
-	if (input_->TriggerKey(DIK_RETURN)) {
-
-		isSplit = true;
-
-	}
-
+    // isSplit の状態をImGuiで表示
+    ImGui::Begin("isSplit");
+    ImGui::Checkbox("IsSplit", &isSplit);
+    ImGui::End();
 }
 
-void Color::Draw(Camera* camera)
-{
-	if (!isSplit) {
-
-		model_->Draw(worldTransform_, *camera, purpleTextureHandle_);
-
-	}
-	
-
+void Color::Draw(Camera* camera) {
+    if (!isSplit) {
+        // 紫のテクスチャを描画
+        model_->Draw(purpleWorldTransform_, *camera, purpleTextureHandle_);
+    } else {
+        // 赤と青のテクスチャを描画
+        model_->Draw(redWorldTransform_, *camera, redTextureHandle_);
+        model_->Draw(blueWorldTransform_, *camera, blueTextureHandle_);
+    }
 }
