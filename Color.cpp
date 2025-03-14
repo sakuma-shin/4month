@@ -18,8 +18,13 @@ void Color::Initialize(KamataEngine::Model* model, uint32_t purpleTextureHandle,
     redWorldTransform_.Initialize();
     blueWorldTransform_.Initialize();
 
-    // 青の位置を左にずらす
-    blueWorldTransform_.translation_.x -= 5.0f;
+    purpleWorldTransform_.translation_ = { -5.0f,0.0f,0.0f };
+    purpleWorldTransform_.UpdateMatrix();
+
+    redWorldTransform_.translation_.x = purpleWorldTransform_.translation_.x + 5.0f;
+    redWorldTransform_.UpdateMatrix();
+
+    blueWorldTransform_.translation_.x = purpleWorldTransform_.translation_.x - 5.0f;
     blueWorldTransform_.UpdateMatrix();
 }
 
