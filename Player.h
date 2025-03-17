@@ -13,7 +13,7 @@ public:
 
 	~Player();
 
-	void Initialize(KamataEngine::Model* model,uint32_t textureHandle,KamataEngine::Camera* camera);
+	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, Map* map);
 
 	void Update(Map* map);
 

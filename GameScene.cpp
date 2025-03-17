@@ -29,7 +29,7 @@ void GameScene::Initialize() {
 
 	//プレイヤー関連
 	player_ = new Player();
-	player_->Initialize(playerModel_,textureHandle_,&camera_);
+	player_->Initialize(playerModel_,textureHandle_,&camera_,map_);
 	player_->SetMap(map_);
 
 	camera_.Initialize();

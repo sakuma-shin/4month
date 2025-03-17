@@ -10,16 +10,18 @@ Player::~Player()
 
 }
 
-void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle,KamataEngine::Camera* camera)
+void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, Map* map)
 {
 
 	//NULLチェック
 	assert(model);
+	//assert(map);
 
 	//引数の内容をメンバ変数に記録
 	model_ = model;
 	textureHandle_ = textureHandle;
 	camera_ = camera;
+	map_ = map;
 
 	//インスタンス
 	input_ = Input::GetInstance();
@@ -29,6 +31,7 @@ void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle,Kamat
 
 	// プレイヤーの初期位置を設定
 	worldTransform_.translation_ = { 0.0f, 0.0f, 0.0f };
+	//worldTransform_.translation_ = map_->GetStartPosition();
 
 }
 
@@ -84,11 +87,6 @@ void Player::Update(Map* map)
 
 	}
 
-	
-
-	/*if (map_->CheckCollision(worldTransform_.translation_)) {
-		move = { 0,0,0 };
-	}*/
 
 	//座標移動
 	worldTransform_.translation_.x += move.x;

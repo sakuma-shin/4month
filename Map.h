@@ -26,10 +26,11 @@ public:
 	void readCSV();
 
 	int CheckCollision(KamataEngine::Vector3 pos);
-	
 
 	std::vector<KamataEngine::Vector3> GetTilePositionsInRange(int min, int max);
 	std::vector<Light::GrowType> GetMirrorTypesInRange();
+
+	KamataEngine::Vector3 GetStartPosition();
 
 private:
 
