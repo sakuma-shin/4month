@@ -10,6 +10,7 @@
 #include "Map.h"
 
 #include "Color.h"
+#include "ColorGlass.h"
 
 using namespace KamataEngine;
 
@@ -53,6 +54,9 @@ private:
 
 	//カラー
 	Color* color_ = nullptr;
+
+	//色ガラス
+	ColorGlass* colorGlass_ = nullptr;
 
 	bool isFinished_ = false;
 

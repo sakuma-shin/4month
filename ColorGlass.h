@@ -14,11 +14,13 @@ class ColorGlass {
 
 public:
 
-	void Initialize();
+	void Initialize(KamataEngine::WorldTransform* worldtransform, Map* map);
 
 	void Update();
 
-	void Draw();
+	void Draw(KamataEngine::Camera* camera);
+
+	KamataEngine::Vector3 GetPosition() const;
 
 private:
 

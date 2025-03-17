@@ -53,6 +53,9 @@ void GameScene::Initialize() {
 	color_ = new Color();
 	color_->Initialize(colorModel_, purpleTextureHandle_, redTextureHandle_, blueTextureHandle_, greenTextureHandle_);
 
+	//colorGlass_ = new ColorGlass();
+	//colorGlass_->Initialize(worldTra)
+
 	lightTextureHandle_ = TextureManager::Load("uvChecker.png");
 
 	mapModel_ = Model::Create();
@@ -157,7 +160,7 @@ void GameScene::Draw() {
 	}
 	player_->Draw(&camera_);
 	color_->Draw(&camera_);
-
+	//colorGlass_->Draw(&camera_);
 	///
 	/// </summary>
 

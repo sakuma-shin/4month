@@ -93,6 +93,8 @@ void Map::Update(Player* player) {
 	mirrorcount = 0;
 	targetcount = 0;
 	prismcount = 0;
+	colorGlassCount = 0;
+
 	for (door* door : door_) {
 		door->Update(target_);
 	}
@@ -125,6 +127,15 @@ void Map::Update(Player* player) {
 	for (Prism* prism : prism_) {
 		prism->Update();
 	}
+
+	for (ColorGlass* colorGlass : colorGlass_) {
+
+		KamataEngine::Vector3 position = colorGlass->GetPosition();
+
+		colorGlass->Update();
+
+	}
+
 }
 
 void Map::Draw() {
@@ -149,6 +160,9 @@ void Map::Draw() {
 		} else if (Digit(map[i % MaxX][i / MaxX]) == 9) {
 			prism_[prismcount]->Draw(camera_);
 			prismcount++;
+		} else if (Digit(map[i % MaxX][i / MaxX]) == 52) {
+			colorGlass_[colorGlassCount]->Draw(camera_);
+			colorGlassCount++;
 		} else if (map[i % MaxX][i / MaxX] == 0) {
 			model_->Draw(*worldTransformBlock, *camera_, walltextureHandle_);
 		} else {

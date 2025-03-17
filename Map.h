@@ -18,6 +18,7 @@
 #include "ColorGlass.h"
 
 class mirror;
+class ColorGlass;
 
 class Map {
 public:
@@ -80,7 +81,7 @@ private:
   
 	std::vector<Prism*> prism_;
   
-	//std::vector<ColorGlass*> colorGlass_;
+	std::vector<ColorGlass*> colorGlass_;
 
 	int doorcount = 0;
 	int targetcount = 0;
@@ -88,5 +89,7 @@ private:
 	int mirrorcount = 0;
 
 	int prismcount = 0;
+
+	int colorGlassCount = 0;
 
 };
