@@ -14,6 +14,7 @@
 #include "Target.h"
 #include "mirror.h"
 #include "Player.h"
+#include "Prism.h"
 
 class mirror;
 
@@ -62,8 +63,6 @@ private:
 
 	KamataEngine::Camera* camera_;
 
-	
-
 	KamataEngine::Model* goalmodel_;
 
 	KamataEngine::Model* prismmodel_;
@@ -75,9 +74,14 @@ private:
 	std::vector<Target*> target_;
 
 	std::vector<mirror*> mirror_;
-	
+  
+		std::vector<Prism*> prism_;
+  
 	int doorcount = 0;
 	int targetcount = 0;
 
 	int mirrorcount = 0;
+
+	int prismcount = 0;
+
 };

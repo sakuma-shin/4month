@@ -18,15 +18,18 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 
-//	mirrormodel_->Create();
-	
+	// mirrormodel_->Create();
+	// mirrormodel_= Model::CreateFromOBJ("mirorr",true);
+
+	// mirrormodel2_->Create();
+	// mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
 
 	goalmodel_ = Model::CreateFromOBJ("gole", true);
 
-	prismmodel_ = Model::CreateFromOBJ("prism", true);
+	// prismmodel_ = Model::CreateFromOBJ("prism", true);
 
-	//doormodel_ = Model::CreateFromOBJ("door", true);
-	
+	// doormodel_ = Model::CreateFromOBJ("door", true);
+
 	if (stagenumber == 1) {
 		filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
 	} else if (stagenumber == 2) {
@@ -66,8 +69,16 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
 			mirror* newmirror = new mirror;
-			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX,this);
+			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX, this);
 			mirror_.push_back(newmirror);
+		}
+	}
+
+	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
+		if (Digit(map[i % MaxX][i / MaxX]) == 9) {
+			Prism* newprism = new Prism;
+			newprism->Initialize(map[i % MaxX][i / MaxX], worldTransform_[i]);
+			prism_.push_back(newprism);
 		}
 	}
 
@@ -77,10 +88,11 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	}
 }
 
-void Map::Update(Player* player) { 
+void Map::Update(Player* player) {
 	doorcount = 0;
 	mirrorcount = 0;
 	targetcount = 0;
+	prismcount = 0;
 	for (door* door : door_) {
 		door->Update(target_);
 	}
@@ -131,8 +143,10 @@ void Map::Update(Player* player) {
 	if (i != 0) {
 		Reorldtransform();
 	}
-	
 
+	for (Prism* prism : prism_) {
+		prism->Update();
+	}
 }
 
 void Map::Draw() {
@@ -148,15 +162,15 @@ void Map::Draw() {
 		} else if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door_[doorcount]->Draw(worldTransformBlock, camera_);
 			doorcount++;
-		}
-		else if (map[i % MaxX][i / MaxX] == 31) {
+		} else if (map[i % MaxX][i / MaxX] == 31) {
 			mirror_[mirrorcount]->Draw(1, camera_);
 			mirrorcount++;
-		}else if (map[i % MaxX][i / MaxX] == 32) {
+		} else if (map[i % MaxX][i / MaxX] == 32) {
 			mirror_[mirrorcount]->Draw(2, camera_);
 			mirrorcount++;
-		} else if (map[i % MaxX][i / MaxX] == 9) {
-			prismmodel_->Draw(*worldTransformBlock, *camera_);
+		} else if (Digit(map[i % MaxX][i / MaxX]) == 9) {
+			prism_[prismcount]->Draw(camera_);
+			prismcount++;
 		} else if (map[i % MaxX][i / MaxX] == 0) {
 			model_->Draw(*worldTransformBlock, *camera_, walltextureHandle_);
 		} else {
@@ -256,7 +270,7 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 		// その位置のマップ値が 8 なら壁
 		switch (map[mapX][mapZ]) {
 
-			//マップ番号と同じ数字を返す
+			// マップ番号と同じ数字を返す
 		case 8:
 			// 壁
 			return 8;
@@ -282,9 +296,24 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 			return 34;
 			break;
 
-		case 42:
-			// 垂直鏡
-			return 42;
+		case 91:
+			// プリズム上
+			return 91;
+			break;
+
+		case 92:
+			// プリズム下
+			return 92;
+			break;
+
+		case 93:
+			// プリズム左
+			return 93;
+			break;
+
+		case 94:
+			// プリズム右
+			return 94;
 			break;
 		}
 	}
