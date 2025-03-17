@@ -54,19 +54,31 @@ void Prism::Update(Player* player) {
 		prismDirection_ = Light::GrowType::Right;
 	}
 
-	if (isSet_) {
+	if (!isSet_) {
 		if (input_->TriggerKey(DIK_L)) {
 			if (prismDirection_ == Light::GrowType::Up) {
 				if (map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z + 2.0f)) == 0) {
+					key_ = 91;
+					model_ = Model::CreateFromOBJ("prism", true); // 対応するモデルを読み込み直す
+					Set();
 				}
 			} else if (prismDirection_ == Light::GrowType::Down) {
 				if (map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z - 2.0f)) == 0) {
+					key_ = 92;
+					model_ = Model::CreateFromOBJ("prism", true);
+					Set();
 				}
 			} else if (prismDirection_ == Light::GrowType::Left) {
 				if (map_->CheckCollision(Vector3(player_->GetPosition().x - 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == 0) {
+					key_ = 93;
+					model_ = Model::CreateFromOBJ("prism", true);
+					Set();
 				}
 			} else if (prismDirection_ == Light::GrowType::Right) {
 				if (map_->CheckCollision(Vector3(player_->GetPosition().x + 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == 0) {
+					key_ = 94;
+					model_ = Model::CreateFromOBJ("prism", true);
+					Set();
 				}
 			}
 		}
