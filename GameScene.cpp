@@ -10,6 +10,7 @@ GameScene::~GameScene() {
 	delete player_;
 	delete cameraAngle_;
 	delete map_;
+	delete color_;
 	
 	/*delete lightSprite_;*/
 	for (Light* light : lights_) {
@@ -42,7 +43,15 @@ void GameScene::Initialize() {
 	cameraAngle_ = new CameraAngle();
 	cameraAngle_->Initialize(initialTransform, player_);
 
+	colorModel_ = Model::CreateFromOBJ("cube", true);
 
+	redTextureHandle_ = TextureManager::Load("color/red.png");
+	blueTextureHandle_ = TextureManager::Load("color/blue.png");
+	purpleTextureHandle_ = TextureManager::Load("color/purple.png");
+	greenTextureHandle_ = TextureManager::Load("color/green.png");
+
+	color_ = new Color();
+	color_->Initialize(colorModel_, purpleTextureHandle_, redTextureHandle_, blueTextureHandle_, greenTextureHandle_);
 
 	lightTextureHandle_ = TextureManager::Load("uvChecker.png");
 
@@ -56,8 +65,9 @@ void GameScene::Initialize() {
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
 
 	lightModel_ = Model::CreateFromOBJ("cube", true);
-	
 
+	Vector2 lightVelocity = {20.0f, 0.0f};
+	
 	std::vector<Vector3> initialPositions = map_->GetTilePositionsInRange(41, 44);
 	std::vector<Light::GrowType> initialTypes = map_->GetMirrorTypesInRange();
 
@@ -69,9 +79,6 @@ void GameScene::Initialize() {
 		lights_.push_back(newLight);
 	}
 }
-
-	
-
 
 void GameScene::Update() { 
 
@@ -96,6 +103,7 @@ void GameScene::Update() {
 	map_->Update(player_);
 	player_->Update(map_);
 	cameraAngle_->Update();
+	color_->Update();
 
 	camera_.matView = cameraAngle_->GetCamera().matView;
 	camera_.matProjection = cameraAngle_->GetCamera().matProjection;
@@ -148,6 +156,7 @@ void GameScene::Draw() {
 		light->Draw(&camera_);
 	}
 	player_->Draw(&camera_);
+	color_->Draw(&camera_);
 
 	///
 	/// </summary>
