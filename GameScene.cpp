@@ -80,9 +80,6 @@ void GameScene::Initialize() {
 
 }
 
-	
-
-
 void GameScene::Update() { 
 
 	for (Light* light : lights_) {
