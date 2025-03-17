@@ -249,6 +249,17 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 		switch (map[mapX][mapZ]) {
 
 			// マップ番号と同じ数字を返す
+
+		case 2:
+			//ゴール
+			return 2;
+			break;
+
+		case 7:
+			//ドア
+			return 7;
+			break;
+
 		case 8:
 			// 壁
 			return 8;
@@ -272,6 +283,81 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 		case 34:
 			// 垂直鏡
 			return 34;
+			break;
+
+		case 41:
+			//上向きライト
+			return 41;
+			break;
+
+		case 42:
+			//下向きライト
+			return 42;
+			break;
+
+		case 43:
+			//左向きライト
+			return 43;
+			break;
+
+		case 44:
+			//右向きライト
+			return 44;
+			break;
+
+		case 51:
+			//色なしガラス
+			return 51;
+			break;
+
+		case 52:
+			//紫ガラス
+			return 52;
+			break;
+
+		case 53:
+			//緑ガラス
+			return 53;
+			break;
+
+		case 54:
+			//橙ガラス
+			return 54;
+			break;
+
+		case 61:
+			//色無しセンサー
+			return 61;
+			break;
+
+		case 62:
+			//紫センサー
+			return 62;
+			break;
+
+		case 63:
+			//緑センサー
+			return 63;
+			break;
+
+		case 64:
+			//橙センサー
+			return 64;
+			break;
+
+		case 65:
+			//赤センサー
+			return 65;
+			break;
+
+		case 66:
+			//青センサー
+			return 66;
+			break;
+
+		case 67:
+			//黄センサー
+			return 67;
 			break;
 
 		case 91:
