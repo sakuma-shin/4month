@@ -67,11 +67,7 @@ void GameScene::Initialize() {
 	lightModel_ = Model::CreateFromOBJ("cube", true);
 
 	Vector2 lightVelocity = {20.0f, 0.0f};
-	newLight->Initialize(lightTextureHandle_, lightModel_,Light::Up);
-	newLight->SetMapData(map_);
-	/*lightSprite_->SetSize(newLight->GetSize());*/
-	lights_.push_back(newLight);
-
+	
 	std::vector<Vector3> initialPositions = map_->GetTilePositionsInRange(41, 44);
 	std::vector<Light::GrowType> initialTypes = map_->GetMirrorTypesInRange();
 
@@ -82,8 +78,6 @@ void GameScene::Initialize() {
 		/*lightSprite_->SetSize(newLight->GetSize());*/
 		lights_.push_back(newLight);
 	}
-}
-
 }
 
 void GameScene::Update() { 
