@@ -10,7 +10,7 @@ public:
 	enum GrowType { Up, Down, Right, Left,UpRight,DownRight,UpLeft,DownLeft, NO };
 
 	enum HitType {RightUp,RightDown,Horizonal,Vertical,Wall,plysm};
-	void Initialize(uint32_t textureHandle, Model* model, GrowType type);
+	void Initialize(uint32_t textureHandle, Model* model, GrowType type,Vector3 initialPos);
 
 	void Update();
 
@@ -44,6 +44,7 @@ public:
 
 	void SetMapData(Map* map) { map_ = map; }
 
+
 private:
 
 	//float width_=0.0f;
@@ -53,7 +54,7 @@ private:
 
 	Model* model_ = nullptr;
 
-	//Vector3 initialPos_ = {};
+	Vector3 initialPos_ = {};
 
 	uint32_t textureHandle_ = 0;
 	WorldTransform worldTransform_;

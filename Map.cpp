@@ -2,35 +2,34 @@
 
 using namespace KamataEngine;
 
-void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera,int stagenumber) {
+void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber) {
 	// NULLチェック
 	assert(model);
 
-	//Size = { 2,2,2 };
-
 	// 引数の内容をメンバ変数に記録
-	//this->model_ = model;
+	// this->model_ = model;
 
 	model_ = Model::CreateFromOBJ("wall", true);
 	textureHandle_ = textureHandle;
 	camera_ = camera;
 
-	walltextureHandle_= TextureManager::Load("white1x1.png");
-	
+	Size = {2, 2, 2};
+	walltextureHandle_ = TextureManager::Load("white1x1.png");
+
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 
-//	mirrormodel_->Create();
-	mirrormodel_= Model::CreateFromOBJ("mirorr",true);
+	// mirrormodel_->Create();
+	// mirrormodel_= Model::CreateFromOBJ("mirorr",true);
 
-	//mirrormodel2_->Create();
-	mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
+	// mirrormodel2_->Create();
+	// mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
 
 	goalmodel_ = Model::CreateFromOBJ("gole", true);
 
-	prismmodel_ = Model::CreateFromOBJ("prism", true);
+	// prismmodel_ = Model::CreateFromOBJ("prism", true);
 
-	doormodel_ = Model::CreateFromOBJ("door", true);
-	
+	// doormodel_ = Model::CreateFromOBJ("door", true);
+
 	if (stagenumber == 1) {
 		filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
 	} else if (stagenumber == 2) {
@@ -43,32 +42,43 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		filename = "Resources/map/debugMap4.csv"; // 読み込むCSVファイル名
 	}
 	readCSV();
-	
-	worldTransform_.resize(MaxX*MaxY); 
+
+	worldTransform_.resize(MaxX * MaxY);
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
 		worldTransform_[i] = new WorldTransform;
 		worldTransform_[i]->Initialize();
 		worldTransform_[i]->translation_.x = (i % MaxX) * Size.x;
-		if (map[i % MaxX][i / MaxX] != 0  &&map[i % MaxX][i / MaxX] != 1) {
+		if (map[i % MaxX][i / MaxX] != 0 && map[i % MaxX][i / MaxX] != 1) {
 			worldTransform_[i]->translation_.y = 0;
 		} else {
 			worldTransform_[i]->translation_.y = 2;
 		}
-		
+
 		if (Digit(map[i % MaxX][i / MaxX]) == 6) {
 			Target* newtarget = new Target;
 			newtarget->Initialize(map[i % MaxX][i / MaxX], worldTransform_[i]);
 			target_.push_back(newtarget);
 		}
-		
 		worldTransform_[i]->translation_.z = int(i / MaxX) * Size.z;
 	}
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
 		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door* newdoor = new door;
-			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]),target_);
+			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_);
 			door_.push_back(newdoor);
+		}
+		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
+			mirror* newmirror = new mirror;
+			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX, this);
+			mirror_.push_back(newmirror);
+		}
+	}
 
+	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
+		if (Digit(map[i % MaxX][i / MaxX]) == 9) {
+			Prism* newprism = new Prism;
+			newprism->Initialize(map[i % MaxX][i / MaxX], worldTransform_[i]);
+			prism_.push_back(newprism);
 		}
 	}
 
@@ -78,14 +88,42 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	}
 }
 
-void Map::Update() { 
+void Map::Update(Player* player) {
 	doorcount = 0;
+	mirrorcount = 0;
 	targetcount = 0;
+	prismcount = 0;
 	for (door* door : door_) {
 		door->Update(target_);
 	}
 	for (Target* target : target_) { //
 		target->Update();
+	}
+
+	for (mirror* mirror : mirror_) { //
+		mirror->Update(player);
+		if (int(mirror->Getpos().x / 2.0f) != mirror->GetPos(0) || int(mirror->Getpos().z / 2.0f) != mirror->GetPos(1)) {
+			int i = 0;
+			if (int(mirror->Getpos().x / 2.0f) - mirror->GetPos(0) == 1) {
+				i = 1;
+			} else if (int(mirror->Getpos().x / 2.0f) - mirror->GetPos(0) == -1) {
+				i = 2;
+			} else if (int(mirror->Getpos().z / 2.0f) - mirror->GetPos(1) == 1) {
+				i = 3;
+			} else if (int(mirror->Getpos().z / 2.0f) - mirror->GetPos(1) == -1) {
+				i = 4;
+			}
+
+			int x;
+			x = map[mirror->GetPos(0)][mirror->GetPos(1)];
+			map[mirror->GetPos(0)][mirror->GetPos(1)] = map[int(mirror->Getpos().x / 2.0f)][int(mirror->Getpos().z / 2.0f)];
+			map[int(mirror->Getpos().x / 2.0f)][int(mirror->Getpos().z / 2.0f)] = x;
+			mirror->PosChange(i);
+		}
+	}
+
+	for (Prism* prism : prism_) {
+		prism->Update();
 	}
 }
 
@@ -102,18 +140,19 @@ void Map::Draw() {
 		} else if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door_[doorcount]->Draw(worldTransformBlock, camera_);
 			doorcount++;
-		}
-		else if (map[i % MaxX][i / MaxX] == 31) {
-			mirrormodel2_->Draw(*worldTransformBlock, *camera_);
-		}else if (map[i % MaxX][i / MaxX] == 32) {
-			mirrormodel_->Draw(*worldTransformBlock, *camera_);
-		} else if (map[i % MaxX][i / MaxX] == 9) {
-			prismmodel_->Draw(*worldTransformBlock, *camera_);
+		} else if (map[i % MaxX][i / MaxX] == 31) {
+			mirror_[mirrorcount]->Draw(1, camera_);
+			mirrorcount++;
+		} else if (map[i % MaxX][i / MaxX] == 32) {
+			mirror_[mirrorcount]->Draw(2, camera_);
+			mirrorcount++;
+		} else if (Digit(map[i % MaxX][i / MaxX]) == 9) {
+			prism_[prismcount]->Draw(camera_);
+			prismcount++;
 		} else if (map[i % MaxX][i / MaxX] == 0) {
 			model_->Draw(*worldTransformBlock, *camera_, walltextureHandle_);
-		} 
-		else {
-			model_->Draw(*worldTransformBlock, *camera_,textureHandle_);
+		} else {
+			model_->Draw(*worldTransformBlock, *camera_, textureHandle_);
 		}
 		i++;
 	}
@@ -157,7 +196,7 @@ void Map::readCSV() {
 	file.close();
 }
 
-int Map::Digit(int number) { 
+int Map::Digit(int number) {
 	if (number / 10 < 1) {
 		return number;
 	}
@@ -166,10 +205,9 @@ int Map::Digit(int number) {
 		number = number / 10;
 	}
 	return number;
-
 }
 
-int Map::Digitnamber(int number) { 
+int Map::Digitnamber(int number) {
 	if (number / 10 < 1) {
 		return 0;
 	}
@@ -180,7 +218,7 @@ int Map::Digitnamber(int number) {
 	return k;
 }
 
-int Map::UnFirstnumber(int number) { 
+int Map::UnFirstnumber(int number) {
 	int k = 1;
 	for (int i = 0; i < Digitnamber(number); i++) {
 		k *= 10;
@@ -189,14 +227,11 @@ int Map::UnFirstnumber(int number) {
 	return number - Digit(number) * (k);
 }
 
-
-
 int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を計算
-
 
 	int mapX = static_cast<int>(pos.x / Size.x);
 	int mapZ = static_cast<int>(pos.z / Size.z);
-	
+
 	if (map == nullptr) {
 		// エラーハンドリング
 		return 1; // 衝突と見なす
@@ -207,12 +242,108 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 		return 1; // マップ外は壁扱い
 	}
 
-	// マップ内での衝突チェック
-	if (map[mapX][mapZ] == 8) { // その位置のマップ値が 10 なら壁
-		return 1;
+	// マップの範囲内かチェック
+	if (mapX >= 0 && mapX < MaxX && mapZ >= 0 && mapZ < MaxY) {
+
+		// その位置のマップ値が 8 なら壁
+		switch (map[mapX][mapZ]) {
+
+			// マップ番号と同じ数字を返す
+		case 8:
+			// 壁
+			return 8;
+			break;
+
+		case 31:
+			// 右下鏡
+			return 31;
+			break;
+
+		case 32:
+			// 右上鏡
+			return 32;
+			break;
+
+		case 33:
+			// 水平鏡
+			return 33;
+			break;
+
+		case 34:
+			// 垂直鏡
+			return 34;
+			break;
+
+		case 91:
+			// プリズム上
+			return 91;
+			break;
+
+		case 92:
+			// プリズム下
+			return 92;
+			break;
+
+		case 93:
+			// プリズム左
+			return 93;
+			break;
+
+		case 94:
+			// プリズム右
+			return 94;
+			break;
+		}
 	}
 
 	// 範囲内かつ衝突しない場合は「衝突なし」
 	return 0;
+}
 
+std::vector<KamataEngine::Vector3> Map::GetTilePositionsInRange(int min, int max) {
+	std::vector<KamataEngine::Vector3> positions;
+
+	// マップを走査
+	for (int y = 0; y < MaxY; ++y) {
+		for (int x = 0; x < MaxX; ++x) {
+			if (map[x][y] >= min && map[x][y] < max) {
+				// ワールド座標に変換
+				KamataEngine::Vector3 worldPos;
+				worldPos.x = x * Size.x; // サイズを考慮
+				worldPos.y = 0.0f;
+				worldPos.z = y * Size.z;
+
+				positions.push_back(worldPos);
+			}
+		}
+	}
+
+	return positions;
+}
+
+std::vector<Light::GrowType> Map::GetMirrorTypesInRange() {
+	std::vector<Light::GrowType> types;
+	// マップを走査
+	for (int y = 0; y < MaxY; ++y) {
+		for (int x = 0; x < MaxX; ++x) {
+			if (map[x][y] == 41) {
+				Light::GrowType type;
+				type = Light::Up;
+				types.push_back(type);
+			} else if (map[x][y] == 42) {
+				Light::GrowType type;
+				type = Light::Down;
+				types.push_back(type);
+			} else if (map[x][y] == 43) {
+				Light::GrowType type;
+				type = Light::Left;
+				types.push_back(type);
+			} else if (map[x][y] == 44) {
+				Light::GrowType type;
+				type = Light::Right;
+				types.push_back(type);
+			}
+		}
+	}
+	return types;
 }

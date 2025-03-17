@@ -65,18 +65,24 @@ void GameScene::Initialize() {
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
 
 	lightModel_ = Model::CreateFromOBJ("cube", true);
-	Light* newLight = new Light();
 
-	Vector3 initialPos = {600.0f, 600.0f, 0.0f};
-	/*Light::GrowType type = Light::Right;*/
-	
 	Vector2 lightVelocity = {20.0f, 0.0f};
 	newLight->Initialize(lightTextureHandle_, lightModel_,Light::Up);
 	newLight->SetMapData(map_);
 	/*lightSprite_->SetSize(newLight->GetSize());*/
 	lights_.push_back(newLight);
 
+	std::vector<Vector3> initialPositions = map_->GetTilePositionsInRange(41, 44);
+	std::vector<Light::GrowType> initialTypes = map_->GetMirrorTypesInRange();
 
+	for (int i = 0; i < initialPositions.size(); i++) {
+		Light* newLight = new Light();
+		newLight->Initialize(lightTextureHandle_, lightModel_, initialTypes[i], initialPositions[i]);
+		newLight->SetMapData(map_);
+		/*lightSprite_->SetSize(newLight->GetSize());*/
+		lights_.push_back(newLight);
+	}
+}
 
 }
 
@@ -96,11 +102,11 @@ void GameScene::Update() {
 			if (light->GetNewType2() != Light::NO) {
 				LightCreate(light->GetNewType2(), newInitialPos);
 			}
-			
+
 		}
 	}
   
-	map_->Update();
+	map_->Update(player_);
 	player_->Update(map_);
 	cameraAngle_->Update();
 	color_->Update();
@@ -185,8 +191,7 @@ void GameScene::Draw() {
 
 void GameScene::LightCreate(Light::GrowType type,Vector3 pos) {
 	Light* newLight = new Light();
-	pos = pos;
-	newLight->Initialize(lightTextureHandle_, lightModel_, type);
+	newLight->Initialize(lightTextureHandle_, lightModel_, type,pos);
 	newLight->SetMapData(map_);
 	/*lightSprite_->SetSize(newLight->GetSize());*/
 	lights_.push_back(newLight);

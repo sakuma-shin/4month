@@ -28,6 +28,10 @@ public:
 
 	void SetMap(Map* map) { map_ = map; }
 
+	KamataEngine::Vector3 Getmove() { 
+		return move;
+	}
+
 private:
 
 	// ワールド変換データ
@@ -43,5 +47,7 @@ private:
 	KamataEngine::Input* input_ = nullptr;
 
 	Map* map_ = nullptr;
+
+	KamataEngine::Vector3 move = {0, 0, 0};
 
 };
