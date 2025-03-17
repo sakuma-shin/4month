@@ -2,13 +2,14 @@
 
 using namespace KamataEngine;
 
-void Color::Initialize(KamataEngine::Model* model, uint32_t purpleTextureHandle, uint32_t redTextureHandle, uint32_t blueTextureHandle) {
+void Color::Initialize(KamataEngine::Model* model, uint32_t purpleTextureHandle, uint32_t redTextureHandle, uint32_t blueTextureHandle, uint32_t greenTextureHandle) {
     assert(model);
 
     model_ = model;
     purpleTextureHandle_ = purpleTextureHandle;
     redTextureHandle_ = redTextureHandle;
     blueTextureHandle_ = blueTextureHandle;
+    greenTextureHandle_ = greenTextureHandle;
 
     //インスタンス
     input_ = Input::GetInstance();

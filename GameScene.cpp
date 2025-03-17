@@ -48,9 +48,10 @@ void GameScene::Initialize() {
 	redTextureHandle_ = TextureManager::Load("color/red.png");
 	blueTextureHandle_ = TextureManager::Load("color/blue.png");
 	purpleTextureHandle_ = TextureManager::Load("color/purple.png");
+	greenTextureHandle_ = TextureManager::Load("color/green.png");
 
 	color_ = new Color();
-	color_->Initialize(colorModel_,purpleTextureHandle_,redTextureHandle_,blueTextureHandle_);
+	color_->Initialize(colorModel_, purpleTextureHandle_, redTextureHandle_, blueTextureHandle_, greenTextureHandle_);
 
 	lightTextureHandle_ = TextureManager::Load("uvChecker.png");
 

@@ -69,11 +69,10 @@ private:
 	int stagenumber = 1;
 
 	//カラー類
-
 	Model* colorModel_ = nullptr;
 	uint32_t redTextureHandle_ = 0u;
 	uint32_t blueTextureHandle_ = 0u;
-	//uint32_t greenTextureHandle_ = 0u;
+	uint32_t greenTextureHandle_ = 0u;
 
 	uint32_t purpleTextureHandle_ = 0u;
 

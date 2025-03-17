@@ -6,7 +6,7 @@ class Color {
 
 public:
 
-	void Initialize(KamataEngine::Model* model,uint32_t purpleTextureHandle,uint32_t redTextureHandle,uint32_t blueTextureHandle);
+	void Initialize(KamataEngine::Model* model, uint32_t purpleTextureHandle, uint32_t redTextureHandle, uint32_t blueTextureHandle, uint32_t greenTextureHandle);
 
 	void Update();
 
@@ -17,6 +17,7 @@ private:
 	// ワールド変換データ
 	KamataEngine::WorldTransform redWorldTransform_;
 	KamataEngine::WorldTransform blueWorldTransform_;
+	KamataEngine::WorldTransform greenWorldTransform_;
 	KamataEngine::WorldTransform purpleWorldTransform_;
 
 	KamataEngine::Camera* camera_ = nullptr;
@@ -34,6 +35,7 @@ private:
 	uint32_t redTextureHandle_ = 0u;
 	uint32_t blueTextureHandle_ = 0u;
 	uint32_t greenTextureHandle_ = 0u;
+
 
 	uint32_t purpleTextureHandle_ = 0u;
 
