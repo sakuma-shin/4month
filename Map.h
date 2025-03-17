@@ -18,6 +18,8 @@
 
 class mirror;
 
+class Prism;
+
 class Map {
 public:
 	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber);
@@ -75,7 +77,7 @@ private:
 
 	std::vector<mirror*> mirror_;
   
-		std::vector<Prism*> prism_;
+	std::vector<Prism*> prism_;
   
 	int doorcount = 0;
 	int targetcount = 0;

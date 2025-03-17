@@ -77,7 +77,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
 		if (Digit(map[i % MaxX][i / MaxX]) == 9) {
 			Prism* newprism = new Prism;
-			newprism->Initialize(map[i % MaxX][i / MaxX], worldTransform_[i]);
+			newprism->Initialize(map[i % MaxX][i / MaxX], worldTransform_[i], i % MaxX, i / MaxX, this);
 			prism_.push_back(newprism);
 		}
 	}
@@ -123,7 +123,12 @@ void Map::Update(Player* player) {
 	}
 
 	for (Prism* prism : prism_) {
-		prism->Update();
+		prism->Update(player);
+		if (!prism->IsSet()) {
+			map[prism->GetPos(0)][prism->GetPos(1)] = 0;
+		} else if (prism->IsSet()) {
+			map[prism->GetPos(0)][prism->GetPos(1)] = prism->ReturnKey();
+		}
 	}
 }
 
