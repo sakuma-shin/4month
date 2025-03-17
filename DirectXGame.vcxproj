@@ -109,6 +109,7 @@
     <ClCompile Include="CameraAngle.cpp" />
     <ClCompile Include="ClearScene.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="ColorGlass.cpp" />
     <ClCompile Include="door.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="CameraAngle.h" />
     <ClInclude Include="ClearScene.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="ColorGlass.h" />
     <ClInclude Include="door.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Light.h" />

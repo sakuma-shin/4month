@@ -274,6 +274,11 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 			return 34;
 			break;
 
+		case 52:
+			//紫ガラス
+			return 52;
+			break;
+
 		case 91:
 			// プリズム上
 			return 91;
