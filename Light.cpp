@@ -6,6 +6,7 @@
 #include <cassert>
 #include <string>
 
+
 using namespace KamataEngine;
 
 void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos) {
@@ -66,9 +67,26 @@ void Light::Update() {
 	//Vector3 prevScale = worldTransform_.scale_;
 
 	Grow();
-
-	if (!map_->CheckCollision(Add(initialPos_, worldTransform_.scale_))) {
+	/*if (growtype_ == NO) {
 		growtype_ = prevGrowType_;
+
+		Vector3 daiS = worldTransform_.scale_;
+		Vector3 daiT = worldTransform_.translation_;
+		
+		for (; growtype_ == NO;) {
+			Update();
+		}
+	}*/
+
+	if (!map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {
+		if (growtype_ == NO) {
+			worldTransform_.scale_ = {0.5f, 0.5f, 0.5f};
+			worldTransform_.translation_ = initialPos_;
+		}
+		
+		
+		growtype_ = prevGrowType_;
+		isRefrected = false;
 	}
 
 	if (worldTransform_.scale_.x >= 1.0f&&growtype_==Down||growtype_==Up) {
@@ -206,14 +224,14 @@ Vector3 Light::GetEndPosition() {
 
 	//// 初期位置にオフセットを加える
 	// return {initialPos_.x + rotatedX - velocity_.x, initialPos_.y + rotatedY - velocity_.y, initialPos_.z};
-	return {worldTransform_.translation_.x + worldTransform_.scale_.x, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z};
+	return {worldTransform_.translation_.x + worldTransform_.scale_.x+0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z+0.5f};
 }
 
 
 void Light::OnCollisionMap(int mapNum) {
 
 	// 以前の growtype_ を保存
-	prevGrowType_ = growtype_;
+	//prevGrowType_ = growtype_;
 
 	switch (growtype_) {
 	case Up:
@@ -259,6 +277,11 @@ void Light::OnCollisionMap(int mapNum) {
 		case 1:
 			growtype_ = NO;
 
+			break;
+
+		case 32:
+			growtype_ = NO;
+			newType_ = Up;
 			break;
 
 		case 91:

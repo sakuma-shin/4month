@@ -44,6 +44,17 @@ public:
 
 	void SetMapData(Map* map) { map_ = map; }
 
+	Vector3 GetinitialPos() { 
+		return initialPos_;
+	}
+
+	void Deth() {
+		live = false;
+	}
+
+	bool IsDeth() { 
+		return live;
+	}
 
 private:
 
@@ -86,5 +97,7 @@ private:
 	bool isHorizonalHit = false;
 	bool isplysmHit = false;
 	bool isWallHit = false;
+
+	bool live = true;
 
 };
