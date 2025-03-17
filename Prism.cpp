@@ -33,13 +33,41 @@ void Prism::Initialize(int key, WorldTransform* worldTransform, int x, int z, Ma
 void Prism::Update(Player* player) {
 	player_ = player;
 
-	if (map_->CheckCollision(Vector3(worldTransform_->translation_.x, worldTransform_->translation_.y, worldTransform_->translation_.z + 2.0f)) == 0 ||
-	    map_->CheckCollision(Vector3(worldTransform_->translation_.x - 2.0f, worldTransform_->translation_.y, worldTransform_->translation_.z)) == 0 ||
-	    map_->CheckCollision(Vector3(worldTransform_->translation_.x, worldTransform_->translation_.y, worldTransform_->translation_.z - 2.0f)) == 0 ||
-	    map_->CheckCollision(Vector3(worldTransform_->translation_.x + 2.0f, worldTransform_->translation_.y, worldTransform_->translation_.z)) == 0) {
+	if (map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z + 2.0f)) == key_ ||
+	    map_->CheckCollision(Vector3(player_->GetPosition().x - 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == key_ ||
+	    map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z - 2.0f)) == key_ ||
+	    map_->CheckCollision(Vector3(player_->GetPosition().x + 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == key_) {
 		if (input_->TriggerKey(DIK_K)) {
 			if (isSet_) {
 				Broken();
+			}
+		}
+	}
+
+	if (input_->TriggerKey(DIK_W)) {
+		prismDirection_ = Light::GrowType::Up;
+	} else if (input_->TriggerKey(DIK_S)) {
+		prismDirection_ = Light::GrowType::Down;
+	} else if (input_->TriggerKey(DIK_A)) {
+		prismDirection_ = Light::GrowType::Left;
+	} else if (input_->TriggerKey(DIK_D)) {
+		prismDirection_ = Light::GrowType::Right;
+	}
+
+	if (isSet_) {
+		if (input_->TriggerKey(DIK_L)) {
+			if (prismDirection_ == Light::GrowType::Up) {
+				if (map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z + 2.0f)) == 0) {
+				}
+			} else if (prismDirection_ == Light::GrowType::Down) {
+				if (map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z - 2.0f)) == 0) {
+				}
+			} else if (prismDirection_ == Light::GrowType::Left) {
+				if (map_->CheckCollision(Vector3(player_->GetPosition().x - 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == 0) {
+				}
+			} else if (prismDirection_ == Light::GrowType::Right) {
+				if (map_->CheckCollision(Vector3(player_->GetPosition().x + 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == 0) {
+				}
 			}
 		}
 	}
