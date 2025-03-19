@@ -18,6 +18,8 @@ public:
 
 	int UnFirstnumber(int number);
 
+	bool IsOpen()const { return openflag; }
+
 private:
 	KamataEngine::Model* doormodel_;
 	bool openflag = false;

@@ -76,7 +76,7 @@ private:
 
 	std::vector<mirror*> mirror_;
   
-		std::vector<Prism*> prism_;
+	std::vector<Prism*> prism_;
   
 	int doorcount = 0;
 	int targetcount = 0;

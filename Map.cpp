@@ -95,10 +95,21 @@ void Map::Update(Player* player) {
 	prismcount = 0;
 	for (door* door : door_) {
 		door->Update(target_);
+
+		if (door->IsOpen()) {
+
+			int doorX = 4; 
+			int doorZ = 4;  
+
+			map[doorX][doorZ] = 0;
+
+		}
+
 	}
 	for (Target* target : target_) { //
 		target->Update();
 	}
+
 
 	for (mirror* mirror : mirror_) { //
 		mirror->Update(player);

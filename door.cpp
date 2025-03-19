@@ -9,16 +9,7 @@ void door::Initialize(int key, std::vector<Target*> target) {
 	target_ = target;
 
 }
-//
-//void door::Update(std::vector<Target*> target) {
-//	target_ = target;
-//
-//	std::string windowName = "door_" + std::to_string(reinterpret_cast<uintptr_t>(this));
-//	ImGui::Begin(windowName.c_str());
-//	ImGui::Checkbox("opendoor", &openflag);
-//	ImGui::End();
-//	openflag = keyopen();
-//}
+
 
 void door::Update(std::vector<Target*> target) {
 	target_ = target;
@@ -26,19 +17,14 @@ void door::Update(std::vector<Target*> target) {
 	std::string windowName = "door_" + std::to_string(reinterpret_cast<uintptr_t>(this));
 	ImGui::Begin(windowName.c_str());
 
-	// チェックボックスでの状態変更を反映
-	//bool prevOpenFlag = openflag;
 	if (ImGui::Checkbox("opendoor", &openflag)) {
-		// チェックボックスの状態が変更された場合
-		// ここで必要な処理を行う（例: ドアを開ける処理）
+		
 	}
 
-	// keyopen()の結果でドアを開けるかどうかを決定
 	if (keyopen()) {
-		openflag = true;  // keyopen()がtrueならドアを開ける
+		openflag = true;
 	}
 
-	// 必要に応じて、openflagを保持するための追加処理を追加
 	ImGui::End();
 }
 
