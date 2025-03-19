@@ -32,6 +32,26 @@ public:
 		return move;
 	}
 
+	/// <summary>
+	/// 0ならカウントを減らし、1なら増やす(それ以外の数字でも可)
+	/// </summary>
+	/// <param name="i">
+	/// 0で減少、1で増加
+	/// </param>
+	void SetCount(int i) {
+		if (i == 0) {
+			if (prismCount_ > 0) {
+				prismCount_--;
+			}
+		} else if (i == 1) {
+			prismCount_++;
+		} else {
+			prismCount_++;
+		}
+	}
+
+	int GetCount() { return prismCount_; }
+
 private:
 
 	// ワールド変換データ
@@ -49,5 +69,7 @@ private:
 	Map* map_ = nullptr;
 
 	KamataEngine::Vector3 move = {0, 0, 0};
+
+	int prismCount_ = 0;
 
 };

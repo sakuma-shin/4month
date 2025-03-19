@@ -1,27 +1,18 @@
 #pragma once
 #include "KamataEngine.h"
-#include "Target.h"
 #include "Light.h"
+#include "Map.h"
+#include "Target.h"
 
 using namespace KamataEngine;
 
 class Prism {
 public:
-	void Initialize(int key, WorldTransform* worldTransform);
+	void Initialize(int key, WorldTransform* worldTransform, int x, int z, Map* map);
 
-	void Update();
+	void Update(Player* player);
 
-	void Draw( Camera* camera);
-
-	/// <summary>
-	/// 光との当たり判定の結果を返す
-	/// </summary>
-	int CheckLight2Direction();
-
-	/// <summary>
-	/// 光の反射の際の処理
-	/// </summary>
-	void ReflectLight();
+	void Draw(Camera* camera);
 
 	/// <summary>
 	/// 光の分解の際の処理
@@ -34,14 +25,28 @@ public:
 
 	Light::GrowType SetGrowType() { return prismDirection_; }
 
+	bool IsSet() { return isSet_; }
+
+	int GetPos(int num) { return pos_[num]; }
+
+	int ReturnKey() { return key_; }
+
 private:
 	Model* model_ = nullptr;
 
 	bool isSet_ = true;
 
-	int key_;
+	int key_ = 0;
 
-	WorldTransform* worldTransform_;
+	int pos_[2] = {};
 
-	Light::GrowType prismDirection_;
+	Map* map_ = nullptr;
+
+	Player* player_ = nullptr;
+
+	Input* input_ = nullptr;
+
+	WorldTransform* worldTransform_ = nullptr;
+
+	Light::GrowType prismDirection_ = Light::GrowType::NO;
 };

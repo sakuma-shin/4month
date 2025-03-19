@@ -18,6 +18,8 @@
 
 class mirror;
 
+class Prism;
+
 class Map {
 public:
 	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber);
@@ -26,6 +28,7 @@ public:
 	void readCSV();
 
 	int CheckCollision(KamataEngine::Vector3 pos);
+	void Reorldtransform();
 
 	std::vector<KamataEngine::Vector3> GetTilePositionsInRange(int min, int max);
 	std::vector<Light::GrowType> GetMirrorTypesInRange();
