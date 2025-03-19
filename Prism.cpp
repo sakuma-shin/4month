@@ -60,29 +60,43 @@ void Prism::Update(Player* player) {
 				if (map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z + 2.0f)) == 0) {
 					key_ = 91;
 					model_ = Model::CreateFromOBJ("prism", true); // 対応するモデルを読み込み直す
+					worldTransform_->translation_ =Vector3 {float((int)player->GetPosition().x) / 2 * 2, 0, (float)((int)player->GetPosition().z+2) / 2 * 2};
+					pos_[0] = ((int)player->GetPosition().x) / 2;
+					pos_[1] = ((int)player->GetPosition().z + 2) / 2;
 					Set();
 				}
 			} else if (prismDirection_ == Light::GrowType::Down) {
 				if (map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z - 2.0f)) == 0) {
 					key_ = 92;
 					model_ = Model::CreateFromOBJ("prism", true);
+					worldTransform_->translation_ = Vector3{float((int)player->GetPosition().x) / 2 * 2, 0, (float)((int)player->GetPosition().z - 2) / 2 * 2};
+					pos_[0] = ((int)player->GetPosition().x) / 2;
+					pos_[1] = ((int)player->GetPosition().z - 2) / 2;
 					Set();
 				}
 			} else if (prismDirection_ == Light::GrowType::Left) {
 				if (map_->CheckCollision(Vector3(player_->GetPosition().x - 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == 0) {
 					key_ = 93;
 					model_ = Model::CreateFromOBJ("prism", true);
+					worldTransform_->translation_ = Vector3{float((int)player->GetPosition().x-2) / 2 * 2, 0, (float)((int)player->GetPosition().z) / 2 * 2};
+					pos_[0] = ((int)player->GetPosition().x-2) / 2;
+					pos_[1] = ((int)player->GetPosition().z) / 2;
 					Set();
 				}
 			} else if (prismDirection_ == Light::GrowType::Right) {
 				if (map_->CheckCollision(Vector3(player_->GetPosition().x + 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == 0) {
 					key_ = 94;
 					model_ = Model::CreateFromOBJ("prism", true);
+					worldTransform_->translation_ = Vector3{float((int)player->GetPosition().x+2) / 2 * 2, 0, (float)((int)player->GetPosition().z) / 2 * 2};
+					pos_[0] = ((int)player->GetPosition().x+2) / 2;
+					pos_[1] = ((int)player->GetPosition().z ) / 2;
 					Set();
 				}
 			}
 		}
 	}
+	worldTransform_->TransferMatrix();
+	worldTransform_->UpdateMatrix();
 
 	int count = player_->GetCount();
 
@@ -90,6 +104,7 @@ void Prism::Update(Player* player) {
 	ImGui::Begin(windowName.c_str());
 	ImGui::InputInt("key", &key_);
 	ImGui::InputInt("count", &count);
+	ImGui::DragFloat3("worldtransform", &worldTransform_->translation_.x);
 	if (ImGui::Button("broken", {50, 50})) {
 		Broken();
 	}

@@ -31,6 +31,10 @@ public:
 
 	int ReturnKey() { return key_; }
 
+	WorldTransform* GetworldTransform() { 
+		return worldTransform_;
+	}
+
 private:
 	Model* model_ = nullptr;
 
