@@ -48,11 +48,9 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform, Player* playe
 
 void CameraAngle::Update() {
 
-    // カメラの移動速度
     const float kCameraSpeed = 0.02f;
-    const float kCameraDistance = 25.0f;  //カメラとターゲットの距離
+    const float kCameraDistance = 25.0f;
 
-    // 左右矢印キーで回転
     if (input_->PushKey(DIK_LEFT)) {
         rotation_.y -= kCameraSpeed;  //左
     }
@@ -60,30 +58,25 @@ void CameraAngle::Update() {
         rotation_.y += kCameraSpeed;  //右
     }
 
-    // 上下矢印キーで回転（プレイヤーと同じ目線から真上まで制限）
     if (input_->PushKey(DIK_UP)) {
         rotation_.x -= kCameraSpeed;  //上
-        if (rotation_.x < -XM_PIDIV4) rotation_.x = -XM_PIDIV4;  // 上限を真上（-90度）に制限
+        if (rotation_.x < -XM_PIDIV4) rotation_.x = -XM_PIDIV4;
     }
     if (input_->PushKey(DIK_DOWN)) {
         rotation_.x += kCameraSpeed;  //下
-        if (rotation_.x > 0) rotation_.x = 0;  // 下限をプレイヤーと同じ目線（0度）に制限
+        if (rotation_.x > 0) rotation_.x = 0;
     }
 
-    // カメラの位置更新（修正後）
     translation_.x = cameraTarget_.x + kCameraDistance * sinf(rotation_.y);
     translation_.y = cameraTarget_.y + kCameraDistance * sinf(rotation_.x);
     translation_.z = cameraTarget_.z - kCameraDistance * cosf(rotation_.y);
 
-    //カメラの向きをプレイヤーに向ける
     cameraTarget_ = player_->GetPosition();
 
-    //変換行列を更新
     worldTransform_.translation_ = translation_;
     worldTransform_.rotation_ = rotation_;
     worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
-    //カメラビュー行列を更新
     camera_.matView = MakeLookAtMatrix(translation_, cameraTarget_, cameraUp_);
     worldTransform_.UpdateMatrix();
 
