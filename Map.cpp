@@ -475,7 +475,7 @@ void Map::Reorldtransform() {
 		
 		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door* newdoor = new door;
-			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_);
+			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_, i % MaxX,i / MaxX);
 			door_.push_back(newdoor);
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
