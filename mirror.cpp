@@ -29,25 +29,61 @@ void mirror::Update(Player* player) {
 
 		if (input_->PushKey(DIK_B) && isInsideRhombus(this->worldtransform_->translation_, Vector3(player->GetPosition().x, player->GetPosition().y, player->GetPosition().z))) {
 			// textureHandle_ = TextureManager::Load("mirorron/mirorr.png");
-			if (input_->PushKey(DIK_W) && map_->CheckCollision(Vector3(worldtransform_->translation_.x, worldtransform_->translation_.y, worldtransform_->translation_.z+2.0f))==0) {
+			if (input_->PushKey(DIK_W) &&
+				map_->CheckCollision(Vector3(worldtransform_->translation_.x, worldtransform_->translation_.y, worldtransform_->translation_.z+2.0f))==0&& (
+				map_->CheckCollision({player_->GetPosition().x + 0.3f, player_->GetPosition().y, player_->GetPosition().z + 1.8f + 2}) == 0 &&
+			    map_->CheckCollision({player_->GetPosition().x + 1.8f, player_->GetPosition().y, player_->GetPosition().z + 1.8f + 2}) == 0 ||
+			    map_->CheckCollision({player_->GetPosition().x + 0.3f, player_->GetPosition().y, player_->GetPosition().z + 1.8f + 2}) == 31 &&
+			    map_->CheckCollision({player_->GetPosition().x + 1.8f, player_->GetPosition().y, player_->GetPosition().z + 1.8f + 2}) == 31 ||
+			    map_->CheckCollision({player_->GetPosition().x + 0.3f, player_->GetPosition().y, player_->GetPosition().z + 1.8f + 2}) == 32 &&
+			    map_->CheckCollision({player_->GetPosition().x + 1.8f, player_->GetPosition().y, player_->GetPosition().z + 1.8f + 2}) == 32 )
+				
+				) {
 				worldtransform_->translation_.z += 2;
 				worldtransform_->TransferMatrix();
 				worldtransform_->UpdateMatrix();
 				
 				time = 30;
-			} else if (input_->PushKey(DIK_A) && map_->CheckCollision(Vector3(worldtransform_->translation_.x - 2.0f, worldtransform_->translation_.y, worldtransform_->translation_.z)) == 0) {
+			} else if (
+			    input_->PushKey(DIK_A) && 
+				map_->CheckCollision(Vector3(worldtransform_->translation_.x - 2.0f, worldtransform_->translation_.y, worldtransform_->translation_.z)) == 0&&(
+			    map_->CheckCollision({player_->GetPosition().x - 2 + 0.3f, player_->GetPosition().y, player_->GetPosition().z + 0.3f}) == 0&&
+			    map_->CheckCollision({player_->GetPosition().x - 2 + 0.3f, player_->GetPosition().y, player_->GetPosition().z + 1.8f}) == 0||
+			    map_->CheckCollision({player_->GetPosition().x - 2 + 0.3f, player_->GetPosition().y, player_->GetPosition().z + 0.3f}) == 31 &&
+			    map_->CheckCollision({player_->GetPosition().x - 2 + 0.3f, player_->GetPosition().y, player_->GetPosition().z + 1.8f}) == 31 ||
+			    map_->CheckCollision({player_->GetPosition().x - 2 + 0.3f, player_->GetPosition().y, player_->GetPosition().z + 0.3f}) == 32 &&
+			    map_->CheckCollision({player_->GetPosition().x - 2 + 0.3f, player_->GetPosition().y, player_->GetPosition().z + 1.8f}) == 32 )
+				) {
 				worldtransform_->translation_.x -= 2;
 				worldtransform_->TransferMatrix();
 				worldtransform_->UpdateMatrix();
 				
 				time = 30;
-			} else if (input_->PushKey(DIK_S) && map_->CheckCollision(Vector3(worldtransform_->translation_.x, worldtransform_->translation_.y, worldtransform_->translation_.z - 2.0f)) == 0) {
+			} else if (
+			    input_->PushKey(DIK_S) && 
+				map_->CheckCollision(Vector3(worldtransform_->translation_.x, worldtransform_->translation_.y, worldtransform_->translation_.z - 2.0f)) == 0&&(
+			    map_->CheckCollision({player_->GetPosition().x + 1.8f, player_->GetPosition().y, player_->GetPosition().z + 0.3f - 2}) == 0 &&
+			    map_->CheckCollision({player_->GetPosition().x + 1.8f, player_->GetPosition().y, player_->GetPosition().z + 1.8f - 2}) == 0 ||
+			    map_->CheckCollision({player_->GetPosition().x + 1.8f, player_->GetPosition().y, player_->GetPosition().z + 0.3f - 2}) == 31 &&
+			    map_->CheckCollision({player_->GetPosition().x + 1.8f, player_->GetPosition().y, player_->GetPosition().z + 1.8f - 2}) == 31 ||
+			    map_->CheckCollision({player_->GetPosition().x + 1.8f, player_->GetPosition().y, player_->GetPosition().z + 0.3f - 2}) == 32 &&
+			    map_->CheckCollision({player_->GetPosition().x + 1.8f, player_->GetPosition().y, player_->GetPosition().z + 1.8f - 2}) == 32)
+				) {
 				worldtransform_->translation_.z -= 2;
 				worldtransform_->TransferMatrix();
 				worldtransform_->UpdateMatrix();
 				
 				time = 30;
-			} else if (input_->PushKey(DIK_D) && map_->CheckCollision(Vector3(worldtransform_->translation_.x + 2.0f, worldtransform_->translation_.y, worldtransform_->translation_.z)) == 0) {
+			} else if (
+			    input_->PushKey(DIK_D) && 
+				map_->CheckCollision(Vector3(worldtransform_->translation_.x + 2.0f, worldtransform_->translation_.y, worldtransform_->translation_.z)) == 0&&(
+			    map_->CheckCollision({player_->GetPosition().x + 2 + 0.3f, player_->GetPosition().y, player_->GetPosition().z + 0.3f}) == 0 &&
+			    map_->CheckCollision({player_->GetPosition().x + 2 + 1.8f, player_->GetPosition().y, player_->GetPosition().z + 0.3f}) == 0 ||
+			    map_->CheckCollision({player_->GetPosition().x + 2 + 0.3f, player_->GetPosition().y, player_->GetPosition().z + 0.3f}) == 31 &&
+			    map_->CheckCollision({player_->GetPosition().x + 2 + 1.8f, player_->GetPosition().y, player_->GetPosition().z + 0.3f}) == 31 ||
+			    map_->CheckCollision({player_->GetPosition().x + 2 + 0.3f, player_->GetPosition().y, player_->GetPosition().z + 0.3f}) == 32 &&
+			    map_->CheckCollision({player_->GetPosition().x + 2 + 1.8f, player_->GetPosition().y, player_->GetPosition().z + 0.3f}) == 32)
+				) {
 				worldtransform_->translation_.x += 2;
 				worldtransform_->TransferMatrix();
 				worldtransform_->UpdateMatrix();
@@ -61,6 +97,10 @@ void mirror::Update(Player* player) {
 }
 
 void mirror::Draw(int i, KamataEngine::Camera* camera) {
+	if (Pos[0] == 6 && Pos[1] == 2) {
+		Pos[0]=6;
+	}
+
 	if (i == 1) {
 		mirrormodel2_->Draw(*worldtransform_, *camera, textureHandle_);
 	}

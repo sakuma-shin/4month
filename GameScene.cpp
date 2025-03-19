@@ -101,7 +101,18 @@ void GameScene::Update() {
 			}
 
 		}
+		if (map_->CheckCollision(light->GetinitialPos()) == 0 || map_->CheckCollision(light->GetinitialPos()) == 8) {
+			light->Deth();
+		}
 	}
+	lights_.remove_if([](Light* light) { 
+		if (!light->IsDeth()) {
+			delete light;
+			return true;
+		}
+		return false;
+
+	});
   
 	map_->Update(player_);
 	player_->Update(map_);

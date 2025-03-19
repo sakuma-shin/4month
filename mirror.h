@@ -22,6 +22,8 @@ public:
 	int GetPos(int i) { 
 		return Pos[i];
 	}
+	int Gettime() { return time;
+	}
 	void PosChange(int i) { 
 		if (i == 1) {
 			Pos[0]++;//D
@@ -36,6 +38,9 @@ public:
 			Pos[1]--;//S
 		}
 		
+	}
+
+	KamataEngine::WorldTransform* Getworld() { return worldtransform_;
 	}
 
 
