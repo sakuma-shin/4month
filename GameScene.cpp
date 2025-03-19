@@ -56,7 +56,7 @@ void GameScene::Initialize() {
 	//colorGlass_ = new ColorGlass();
 	//colorGlass_->Initialize(worldTra)
 
-	lightTextureHandle_ = TextureManager::Load("uvChecker.png");
+	lightTextureHandle_ = TextureManager::Load("white1x1.png");
 
 	mapModel_ = Model::Create();
 

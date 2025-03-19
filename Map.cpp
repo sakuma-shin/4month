@@ -72,6 +72,11 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX, this);
 			mirror_.push_back(newmirror);
 		}
+		if (map[i % MaxX][i / MaxX] >= 50 && map[i % MaxX][i / MaxX] <= 54) {
+			ColorGlass* newcolorGlass = new ColorGlass;
+			newcolorGlass->Initialize(worldTransform_[i], this);
+			colorGlass_.push_back(newcolorGlass);
+		}
 	}
 
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
@@ -160,7 +165,7 @@ void Map::Draw() {
 		} else if (Digit(map[i % MaxX][i / MaxX]) == 9) {
 			prism_[prismcount]->Draw(camera_);
 			prismcount++;
-		} else if (Digit(map[i % MaxX][i / MaxX]) == 52) {
+		} else if (Digit(map[i % MaxX][i / MaxX]) == 5) {
 			colorGlass_[colorGlassCount]->Draw(camera_);
 			colorGlassCount++;
 		} else if (map[i % MaxX][i / MaxX] == 0) {
