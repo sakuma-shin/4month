@@ -64,7 +64,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
 		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door* newdoor = new door;
-			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_);
+			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_, i % MaxX, i / MaxX);
 			door_.push_back(newdoor);
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
@@ -141,6 +141,25 @@ void Map::Update(Player* player) {
 void Map::Draw() {
 	int i = 0;
 	for (WorldTransform* worldTransformBlock : worldTransform_) {
+
+		int x = i % MaxX;
+		int z = i / MaxX;  // y座標の代わりにz座標を使う
+
+		// ドアが開いている場合、描画しない
+		bool isDoorOpen = false;
+		for (door* d : door_) {
+			if (d->IsOpen() && d->GetX() == x && d->GetZ() == z) {
+				isDoorOpen = true;
+				break;
+			}
+		}
+
+		if (isDoorOpen) {
+			// ドアが開いている場合、描画をスキップ
+			i++;
+			continue;
+		}
+
 		if (map[i % MaxX][i / MaxX] == 8) {
 			model_->Draw(*worldTransformBlock, *camera_);
 		} else if (map[i % MaxX][i / MaxX] == 2) {
