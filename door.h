@@ -8,7 +8,7 @@
 
 class door {
 public:
-	void Initialize(int key, std::vector<Target*> target);
+	void Initialize(int key, std::vector<Target*> target,int x,int z);
 	void Update(std::vector<Target*> target);
 	void Draw(KamataEngine::WorldTransform* worldtransform, KamataEngine::Camera* camera);
 	bool keyopen();
@@ -19,10 +19,14 @@ public:
 	int UnFirstnumber(int number);
 
 	bool IsOpen()const { return openflag; }
+	int getpos(int i) {
+		return pos[i];
+	}
 
 private:
 	KamataEngine::Model* doormodel_;
 	bool openflag = false;
 	int key_;
 	std::vector<Target*> target_;
+	int pos[2];
 };

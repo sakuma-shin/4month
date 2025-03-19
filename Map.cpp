@@ -64,7 +64,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
 		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door* newdoor = new door;
-			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_);
+			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_, i % MaxX,i / MaxX);
 			door_.push_back(newdoor);
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
@@ -98,10 +98,17 @@ void Map::Update(Player* player) {
 
 		if (door->IsOpen()) {
 
-			int doorX = 4; 
-			int doorZ = 4;  
+			int doorX = door->getpos(0); 
+			int doorZ = door->getpos(1);
 
 			map[doorX][doorZ] = 0;
+
+		} else {
+
+			int doorX = door->getpos(0);
+			int doorZ = door->getpos(1);
+
+			map[doorX][doorZ] = 71;
 
 		}
 
@@ -389,6 +396,22 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 		case 94:
 			// プリズム右
 			return 94;
+			break;
+
+		case 621:
+			return 621;
+			break;
+
+		case 653:
+			return 653;
+			break;
+
+		case 662:
+			return 662;
+			break;
+
+		case 723:
+			return 723;
 			break;
 		}
 	}
