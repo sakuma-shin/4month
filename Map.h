@@ -15,8 +15,10 @@
 #include "mirror.h"
 #include "Player.h"
 #include "Prism.h"
+#include "ColorGlass.h"
 
 class mirror;
+class ColorGlass;
 
 class Prism;
 
@@ -28,7 +30,7 @@ public:
 	void readCSV();
 
 	int CheckCollision(KamataEngine::Vector3 pos);
-	
+	void Reorldtransform();
 
 	std::vector<KamataEngine::Vector3> GetTilePositionsInRange(int min, int max);
 	std::vector<Light::GrowType> GetMirrorTypesInRange();
@@ -70,6 +72,8 @@ private:
 	KamataEngine::Model* prismmodel_;
 
 	KamataEngine::Model* doormodel_;
+
+	KamataEngine::Model* colorGlassModel_;
 	
 	std::vector<door*> door_;
 
@@ -79,11 +83,15 @@ private:
   
 	std::vector<Prism*> prism_;
   
+	std::vector<ColorGlass*> colorGlass_;
+
 	int doorcount = 0;
 	int targetcount = 0;
 
 	int mirrorcount = 0;
 
 	int prismcount = 0;
+
+	int colorGlassCount = 0;
 
 };

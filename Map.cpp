@@ -14,7 +14,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	camera_ = camera;
 
 	Size = {2, 2, 2};
-	walltextureHandle_ = TextureManager::Load("white1x1.png");
+	walltextureHandle_ = TextureManager::Load("color/black.png");
 
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 
@@ -72,6 +72,11 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX, this);
 			mirror_.push_back(newmirror);
 		}
+		if (map[i % MaxX][i / MaxX] >= 50 && map[i % MaxX][i / MaxX] <= 54) {
+			ColorGlass* newcolorGlass = new ColorGlass;
+			newcolorGlass->Initialize(worldTransform_[i], this);
+			colorGlass_.push_back(newcolorGlass);
+		}
 	}
 
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
@@ -93,33 +98,57 @@ void Map::Update(Player* player) {
 	mirrorcount = 0;
 	targetcount = 0;
 	prismcount = 0;
+	colorGlassCount = 0;
+
 	for (door* door : door_) {
 		door->Update(target_);
 	}
 	for (Target* target : target_) { //
 		target->Update();
 	}
-
-	for (mirror* mirror : mirror_) { //
-		mirror->Update(player);
-		if (int(mirror->Getpos().x / 2.0f) != mirror->GetPos(0) || int(mirror->Getpos().z / 2.0f) != mirror->GetPos(1)) {
-			int i = 0;
-			if (int(mirror->Getpos().x / 2.0f) - mirror->GetPos(0) == 1) {
+	int i=0;
+	for (mirror* mirrorL : mirror_) { //
+		mirrorL->Update(player);
+		if (int(mirrorL->Getpos().x / 2.0f) != mirrorL->GetPos(0) || int(mirrorL->Getpos().z / 2.0f) != mirrorL->GetPos(1)) {
+			
+			if (int(mirrorL->Getpos().x / 2.0f)-mirrorL->GetPos(0) == 1) {
 				i = 1;
-			} else if (int(mirror->Getpos().x / 2.0f) - mirror->GetPos(0) == -1) {
+			}
+			else if (int(mirrorL->Getpos().x / 2.0f)-mirrorL->GetPos(0) == -1) {
 				i = 2;
-			} else if (int(mirror->Getpos().z / 2.0f) - mirror->GetPos(1) == 1) {
+			}
+			else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1)==1) {
 				i = 3;
-			} else if (int(mirror->Getpos().z / 2.0f) - mirror->GetPos(1) == -1) {
+			} 
+			else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1)==-1) {
 				i = 4;
 			}
+			
+			WorldTransform* dai;
+			dai = mirrorL->Getworld();
 
 			int x;
-			x = map[mirror->GetPos(0)][mirror->GetPos(1)];
-			map[mirror->GetPos(0)][mirror->GetPos(1)] = map[int(mirror->Getpos().x / 2.0f)][int(mirror->Getpos().z / 2.0f)];
-			map[int(mirror->Getpos().x / 2.0f)][int(mirror->Getpos().z / 2.0f)] = x;
-			mirror->PosChange(i);
+			x=map[mirrorL->GetPos(0)][mirrorL->GetPos(1)];
+			map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = map[int(mirrorL->Getpos().x / 2.0f)][int(mirrorL->Getpos().z / 2.0f)];
+			map[int(mirrorL->Getpos().x / 2.0f)][int(mirrorL->Getpos().z / 2.0f)] = x;
+			mirrorL->PosChange(i);
+
+
+			std::vector<mirror*> mirrors_;
+			for (uint32_t k = 0; k < MaxX * MaxY; ++k) {
+				if (map[k % MaxX][k / MaxX] >= 30 && map[k % MaxX][k / MaxX] <= 34) {
+					mirror* newmirror = new mirror;
+					newmirror->Initialize(worldTransform_[k], k % MaxX, k / MaxX, this);
+					mirrors_.push_back(newmirror);
+				}
+			}
+			mirror_ = mirrors_;
+
+			
 		}
+	}
+	if (i != 0) {
+		Reorldtransform();
 	}
 
 	for (Prism* prism : prism_) {
@@ -130,6 +159,15 @@ void Map::Update(Player* player) {
 			map[prism->GetPos(0)][prism->GetPos(1)] = prism->ReturnKey();
 		}
 	}
+
+	for (ColorGlass* colorGlass : colorGlass_) {
+
+		KamataEngine::Vector3 position = colorGlass->GetPosition();
+
+		colorGlass->Update();
+
+	}
+
 }
 
 void Map::Draw() {
@@ -154,6 +192,9 @@ void Map::Draw() {
 		} else if (Digit(map[i % MaxX][i / MaxX]) == 9) {
 			prism_[prismcount]->Draw(camera_);
 			prismcount++;
+		} else if (Digit(map[i % MaxX][i / MaxX]) == 5) {
+			colorGlass_[colorGlassCount]->Draw(camera_);
+			colorGlassCount++;
 		} else if (map[i % MaxX][i / MaxX] == 0) {
 			model_->Draw(*worldTransformBlock, *camera_, walltextureHandle_);
 		} else {
@@ -279,6 +320,11 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 			return 34;
 			break;
 
+		case 52:
+			//紫ガラス
+			return 52;
+			break;
+
 		case 91:
 			// プリズム上
 			return 91;
@@ -298,11 +344,60 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 			// プリズム右
 			return 94;
 			break;
+
+		case 42:
+			// 垂直鏡
+			return 42;
+			break;
 		}
 	}
 
 	// 範囲内かつ衝突しない場合は「衝突なし」
 	return 0;
+}
+
+void Map::Reorldtransform() {
+	std::vector<WorldTransform*> world_;
+	world_.resize(MaxX * MaxY);
+	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
+		world_[i] = new WorldTransform;
+		world_[i]->Initialize();
+		world_[i]->translation_.x = (i % MaxX) * Size.x;
+		if (map[i % MaxX][i / MaxX] != 0 && map[i % MaxX][i / MaxX] != 1) {
+			world_[i]->translation_.y = 0;
+		} else {
+			world_[i]->translation_.y = 2;
+		}
+
+		if (Digit(map[i % MaxX][i / MaxX]) == 6) {
+			Target* newtarget = new Target;
+			newtarget->Initialize(map[i % MaxX][i / MaxX], world_[i]);
+			target_.push_back(newtarget);
+		}
+		world_[i]->translation_.z = int(i / MaxX) * Size.z;
+	}
+	mirror_.clear();
+	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
+		
+		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
+			door* newdoor = new door;
+			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_);
+			door_.push_back(newdoor);
+		}
+		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
+			mirror* newmirror = new mirror;
+			newmirror->Initialize(world_[i], i % MaxX, i / MaxX, this);
+			mirror_.push_back(newmirror);
+		}
+	}
+
+	for (WorldTransform* worldTransformBlock : world_) {
+		worldTransformBlock->TransferMatrix();
+		worldTransformBlock->UpdateMatrix();
+	}
+
+	worldTransform_ = world_;
+
 }
 
 std::vector<KamataEngine::Vector3> Map::GetTilePositionsInRange(int min, int max) {
