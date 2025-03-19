@@ -108,7 +108,11 @@ void Map::Update(Player* player) {
 			int doorX = door->getpos(0);
 			int doorZ = door->getpos(1);
 
-			map[doorX][doorZ] = 71;
+			if (doorX == 4 && doorZ == 4) {
+				map[doorX][doorZ] = 71;  // ドア1を元に戻す
+			} else if (doorX == 4 && doorZ == 11) {
+				map[doorX][doorZ] = 723; // ドア2を元に戻す
+			}
 
 		}
 
