@@ -3,7 +3,7 @@
 
 using namespace KamataEngine;
 
-void mirror::Initialize(KamataEngine::WorldTransform* worldtransform, int x, int z,Map* map) {
+void mirror::Initialize(KamataEngine::WorldTransform* worldtransform, int x, int z,Map* map,int number) {
 	worldtransform_ = worldtransform;
 	mirrormodel_ = Model::CreateFromOBJ("mirorr", true);
 	mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
@@ -15,10 +15,13 @@ void mirror::Initialize(KamataEngine::WorldTransform* worldtransform, int x, int
 
 	Pos[0] = x;
 	Pos[1] = z;
+
+	number_ = number;
 }
 
 void mirror::Update(Player* player) { 
 	player_ = player;
+	
 	if (isInsideRhombus(this->worldtransform_->translation_, Vector3(player->GetPosition().x, player->GetPosition().y, player->GetPosition().z))) {
 		textureHandle_ = TextureManager::Load("mirorron/mirorr.png");
 	}

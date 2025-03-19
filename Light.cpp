@@ -93,6 +93,9 @@ void Light::Update() {
 		growtype_ = prevGrowType_;
 		isRefrected = false;
 	}
+	if (map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_)) == 52) {
+		
+	}
 
 	if (worldTransform_.scale_.x >= 1.0f&&growtype_==Down||growtype_==Up) {
 		if (map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {

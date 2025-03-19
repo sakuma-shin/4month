@@ -16,15 +16,20 @@
 #include "Player.h"
 #include "Prism.h"
 #include "ColorGlass.h"
+#include "GameScene.h"
+
+
 
 class mirror;
 class ColorGlass;
 
 class Prism;
 
+class GameScene;
+
 class Map {
 public:
-	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber);
+	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber,GameScene* game);
 	void Update(Player* player);
 	void Draw();
 	void readCSV();
@@ -93,5 +98,7 @@ private:
 	int prismcount = 0;
 
 	int colorGlassCount = 0;
+
+	GameScene* gameScene_;
 
 };
