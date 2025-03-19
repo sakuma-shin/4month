@@ -9,16 +9,17 @@
 
 using namespace KamataEngine;
 
-void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos) {
+void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos,Vector3 scale_) {
 	/*sprite_ = sprite;*/
 	initialPos_ = initialPos;
 
 	worldTransform_.Initialize();
-	worldTransform_.scale_ = {0.5f, 0.5f, 0.5f};
+	worldTransform_.scale_ = scale_;
 	worldTransform_.translation_ = initialPos_;
 	// sprite_ = Sprite::Create(textureHandle, {}); // 各LightごとにSpriteを作成
 	model_ = model;
 	textureHandle_ = textureHandle;
+	newtextureHandle_ = textureHandle;
 	// sprite_->SetSize({width_, height_});
 
 	// width_ = 20.0f;
@@ -77,6 +78,10 @@ void Light::Update() {
 			Update();
 		}
 	}*/
+
+	if (growtype_ == Up) {
+		growtype_ = Up;
+	}
 
 	if (!map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {
 		if (growtype_ == NO) {
@@ -141,7 +146,7 @@ void Light::Grow() {
 	float kSpeed = 1.0f;
 	switch (growtype_) {
 	case Up:
-
+		
 		velocity_ = {-kSpeed, 0.0f, 0.0f};
 		// sprite_->SetRotation(0.0f);
 
@@ -224,7 +229,42 @@ Vector3 Light::GetEndPosition() {
 
 	//// 初期位置にオフセットを加える
 	// return {initialPos_.x + rotatedX - velocity_.x, initialPos_.y + rotatedY - velocity_.y, initialPos_.z};
-	return {worldTransform_.translation_.x + worldTransform_.scale_.x+0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z+0.5f};
+	if (prevGrowType_ == Down) {
+		if (newType_ == Left) {
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+		}
+		if (newType_ == Right) {
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z - worldTransform_.scale_.z - 0.5f};
+		}
+		if (newType_ == Down) {
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 1.0f, 0.0f, worldTransform_.translation_.z};
+		}
+	} 
+	else if (prevGrowType_ == Left) {
+		if (newType_ == Left) {
+			return {worldTransform_.translation_.x, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 1.0f};
+		}
+		if (newType_ == Up) {
+			return {worldTransform_.translation_.x, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+		}
+		if (newType_ == Down) {
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+		}
+	
+	} else if (prevGrowType_ == Up) {
+		if (newType_ == Left) {
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x - 1.0f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z +0.5f};
+		}
+		if (newType_ == Right) {
+			return {worldTransform_.translation_.x-0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+		}
+		if (newType_ == Down) {
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+		}
+	}
+	return {worldTransform_.translation_.x, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 1.0f};
+	
+
 }
 
 
@@ -239,6 +279,10 @@ void Light::OnCollisionMap(int mapNum) {
 		case 11:
 			growtype_ = NO;
 
+			break;
+		case 32:
+			growtype_ = NO;
+			newType_ = Left;
 			break;
 
 		case 93:
@@ -278,10 +322,20 @@ void Light::OnCollisionMap(int mapNum) {
 			growtype_ = NO;
 
 			break;
+		case 31:
+			growtype_ = NO;
+			newType_ = Down;
+			break;
 
 		case 32:
 			growtype_ = NO;
 			newType_ = Up;
+			break;
+
+		case 52:
+			newType_ = Left;
+			growtype_ = NO;
+			newtextureHandle_ = TextureManager::Load("color/purple.png");
 			break;
 
 		case 91:

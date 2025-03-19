@@ -14,7 +14,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	camera_ = camera;
 
 	Size = {2, 2, 2};
-	walltextureHandle_ = TextureManager::Load("white1x1.png");
+	walltextureHandle_ = TextureManager::Load("color/black.png");
 
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 

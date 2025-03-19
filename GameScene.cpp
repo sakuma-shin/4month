@@ -76,7 +76,7 @@ void GameScene::Initialize() {
 
 	for (int i = 0; i < initialPositions.size(); i++) {
 		Light* newLight = new Light();
-		newLight->Initialize(lightTextureHandle_, lightModel_, initialTypes[i], initialPositions[i]);
+		newLight->Initialize(lightTextureHandle_, lightModel_, initialTypes[i], initialPositions[i], {0.5f,0.5f,0.5f});
 		newLight->SetMapData(map_);
 		/*lightSprite_->SetSize(newLight->GetSize());*/
 		lights_.push_back(newLight);
@@ -93,11 +93,11 @@ void GameScene::Update() {
 			light->SetRefrected();
 			Vector3 newInitialPos = light->GetEndPosition(); // 反射したライトの現在位置を取得
 			if (light->GetNewType() != Light::NO) {
-				LightCreate(light->GetNewType(), newInitialPos);
+				LightCreate(light->GetNewType(), newInitialPos,light->GetnewTextureHandle());
 			}
 
 			if (light->GetNewType2() != Light::NO) {
-				LightCreate(light->GetNewType2(), newInitialPos);
+				LightCreate(light->GetNewType2(), newInitialPos, light->GetnewTextureHandle());
 			}
 
 		}
@@ -197,9 +197,22 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
-void GameScene::LightCreate(Light::GrowType type,Vector3 pos) {
+void GameScene::LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTextureHandle) {
 	Light* newLight = new Light();
-	newLight->Initialize(lightTextureHandle_, lightModel_, type,pos);
+	Vector3 scal = {0, 0, 0};
+	if (type == Light::GrowType::Up) {
+		scal = {-0.5f, 0.5f, 0.5f};
+	}
+	if (type == Light::GrowType::Down) {
+		scal = {0.5f, 0.5f, 0.5f};
+	}
+	if (type == Light::GrowType::Right) {
+		scal = {-0.5f, 0.5f, 0.5f};
+	}
+	if (type == Light::GrowType::Left) {
+		scal = {0.5f, 0.5f, 0.5f};
+	}
+	newLight->Initialize(lightTextureHandle, lightModel_, type,pos,scal);
 	newLight->SetMapData(map_);
 	/*lightSprite_->SetSize(newLight->GetSize());*/
 	lights_.push_back(newLight);
