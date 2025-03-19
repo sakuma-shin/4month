@@ -255,9 +255,9 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 			return 2;
 			break;
 
-		case 7:
+		case 71:
 			//ドア
-			return 7;
+			return 71;
 			break;
 
 		case 8:
@@ -434,16 +434,28 @@ std::vector<Light::GrowType> Map::GetMirrorTypesInRange() {
 	return types;
 }
 
+//KamataEngine::Vector3 Map::GetStartPosition() {
+//	for (int y = 0; y < MaxY; ++y) {
+//		for (int x = 0; x < MaxX; ++x) {
+//			// map の値が1の場合（プレイヤー開始位置）
+//			if (map[y][x] == 1) {
+//				// プレイヤー開始位置の座標を返す
+//				return KamataEngine::Vector3(static_cast<float>(x), 2.0f, static_cast<float>(y));
+//			}
+//		}
+//	}
+//	// 開始位置が見つからなかった場合のデフォルト位置
+//	return KamataEngine::Vector3(0.0f, 2.0f, 0.0f);
+//}
+
 KamataEngine::Vector3 Map::GetStartPosition() {
 	for (int y = 0; y < MaxY; ++y) {
 		for (int x = 0; x < MaxX; ++x) {
-			// map の値が1の場合（プレイヤー開始位置）
-			if (map[x][y] == 1) {
-				// プレイヤー開始位置の座標を返す
+			if (map[y][x] == 1) {
 				return KamataEngine::Vector3(static_cast<float>(x), 2.0f, static_cast<float>(y));
 			}
 		}
 	}
-	// 開始位置が見つからなかった場合のデフォルト位置
 	return KamataEngine::Vector3(0.0f, 2.0f, 0.0f);
 }
+

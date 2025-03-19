@@ -30,8 +30,8 @@ void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle, Kama
 	worldTransform_.Initialize();
 
 	// プレイヤーの初期位置を設定
-	worldTransform_.translation_ = { 0.0f, 0.0f, 0.0f };
-	//worldTransform_.translation_ = map_->GetStartPosition();
+	worldTransform_.translation_ = { 7.5f, 0.0f, 2.0f };
+//	worldTransform_.translation_ = map_->GetStartPosition();
 
 }
 
