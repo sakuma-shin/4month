@@ -255,11 +255,6 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 			return 2;
 			break;
 
-		case 71:
-			//ドア
-			return 71;
-			break;
-
 		case 8:
 			// 壁
 			return 8;
@@ -358,6 +353,11 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 		case 67:
 			//黄センサー
 			return 67;
+			break;
+
+		case 71:
+			//ドア
+			return 71;
 			break;
 
 		case 91:
