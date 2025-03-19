@@ -22,7 +22,7 @@ class Prism;
 
 class Map {
 public:
-	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber);
+	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber, Light* light);
 	void Update(Player* player);
 	void Draw();
 	void readCSV();
@@ -32,6 +32,8 @@ public:
 
 	std::vector<KamataEngine::Vector3> GetTilePositionsInRange(int min, int max);
 	std::vector<Light::GrowType> GetMirrorTypesInRange();
+
+	bool CheckCollisionRay(const Vector3& start, const Vector3& end, Vector3& hitPos);
 
 private:
 
@@ -78,6 +80,8 @@ private:
 	std::vector<mirror*> mirror_;
   
 	std::vector<Prism*> prism_;
+
+	Light* light_ = nullptr;
   
 	int doorcount = 0;
 	int targetcount = 0;

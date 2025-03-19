@@ -7,12 +7,13 @@
 #include "Player.h"
 #include <input/Input.h>
 #include "Map.h"
+#include"Light.h"
 
 class Map;
 
 class mirror {
 public:
-	void Initialize(KamataEngine::WorldTransform* worldtransform,int x,int z,Map*map);
+	void Initialize(KamataEngine::WorldTransform* worldtransform, int x, int z, Map* map, Light* light);
 	void Update(Player* player);
 	void Draw(int i,KamataEngine::Camera* camera);
 	bool isInsideRhombus(KamataEngine::Vector3 mirror, KamataEngine::Vector3 player);
@@ -63,5 +64,7 @@ public:
 	int time = 0;
 
 	Map* map_;
+
+	Light* light_;
 
 };

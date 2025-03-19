@@ -445,3 +445,7 @@ KamataEngine::Vector3 Cross(const KamataEngine::Vector3& v1, const KamataEngine:
 	};
 
 }
+
+float Distance(const Vector3& a, const Vector3& b) { return sqrtf(powf(b.x - a.x, 2) + powf(b.y - a.y, 2) + powf(b.z - a.z, 2)); }
+
+Vector3 Subtract(const Vector3& a, const Vector3& b) { return {a.x - b.x, a.y - b.y, a.z - b.z}; }

@@ -3,7 +3,7 @@
 
 using namespace KamataEngine;
 
-void mirror::Initialize(KamataEngine::WorldTransform* worldtransform, int x, int z,Map* map) {
+void mirror::Initialize(KamataEngine::WorldTransform* worldtransform, int x, int z, Map* map, Light* light) {
 	worldtransform_ = worldtransform;
 	mirrormodel_ = Model::CreateFromOBJ("mirorr", true);
 	mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
@@ -12,6 +12,7 @@ void mirror::Initialize(KamataEngine::WorldTransform* worldtransform, int x, int
 	input_ = Input::GetInstance();
 
 	map_ = map;
+	light_ = light;
 
 	Pos[0] = x;
 	Pos[1] = z;

@@ -1,14 +1,16 @@
 #include "Map.h"
+#include "MathUtility.h"
 
 using namespace KamataEngine;
 
-void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber) {
+void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber, Light* light) {
 	// NULLチェック
 	assert(model);
 
 	// 引数の内容をメンバ変数に記録
 	// this->model_ = model;
 
+	light_ = light;
 	model_ = Model::CreateFromOBJ("wall", true);
 	textureHandle_ = textureHandle;
 	camera_ = camera;
@@ -69,7 +71,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
 			mirror* newmirror = new mirror;
-			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX, this);
+			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX, this, light_);
 			mirror_.push_back(newmirror);
 		}
 	}
@@ -131,7 +133,7 @@ void Map::Update(Player* player) {
 			for (uint32_t k = 0; k < MaxX * MaxY; ++k) {
 				if (map[k % MaxX][k / MaxX] >= 30 && map[k % MaxX][k / MaxX] <= 34) {
 					mirror* newmirror = new mirror;
-					newmirror->Initialize(worldTransform_[k], k % MaxX, k / MaxX, this);
+					newmirror->Initialize(worldTransform_[k], k % MaxX, k / MaxX, this, light_);
 					mirrors_.push_back(newmirror);
 				}
 			}
@@ -422,4 +424,20 @@ std::vector<Light::GrowType> Map::GetMirrorTypesInRange() {
 		}
 	}
 	return types;
+}
+
+bool Map::CheckCollisionRay(const Vector3& start, const Vector3& end, Vector3& hitPos) {
+	const float stepSize = 0.1f;                      // レイのステップサイズ（小さいほど精度が上がる）
+	Vector3 rayDir = Normalize(Subtract(end, start)); // 方向ベクトルを正規化
+	Vector3 currentPos = start;
+
+	while (Distance(currentPos, end) > stepSize) {
+		if (CheckCollision(currentPos)) { // ここでマップの衝突判定を行う
+			hitPos = currentPos;
+			return true;
+		}
+		currentPos = Add(currentPos, rayDir*stepSize); // 少しずつ前進
+	}
+
+	return false; // 何も当たらなかった場合
 }

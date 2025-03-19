@@ -91,3 +91,7 @@ KamataEngine::Matrix4x4 MakeScaleMatrix(const KamataEngine::Vector3& scale);
 KamataEngine::Matrix4x4 MakeLookAtMatrix(const KamataEngine::Vector3& eye, const KamataEngine::Vector3& target, const KamataEngine::Vector3& up);
 
 KamataEngine::Vector3 Cross(const KamataEngine::Vector3& v1, const KamataEngine::Vector3& v2);
+
+float Distance(const KamataEngine::Vector3& a, const KamataEngine::Vector3& b);
+
+KamataEngine::Vector3 Subtract(const KamataEngine::Vector3& a, const KamataEngine::Vector3& b);

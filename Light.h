@@ -1,16 +1,15 @@
 #pragma once
 #include "KamataEngine.h"
 
-
 using namespace KamataEngine;
 class Map;
 class GameScene;
 class Light {
 public:
-	enum GrowType { Up, Down, Right, Left,UpRight,DownRight,UpLeft,DownLeft, NO };
+	enum GrowType { Up, Down, Right, Left, UpRight, DownRight, UpLeft, DownLeft, NO };
 
-	enum HitType {RightUp,RightDown,Horizonal,Vertical,Wall,plysm};
-	void Initialize(uint32_t textureHandle, Model* model, GrowType type,Vector3 initialPos);
+	enum HitType { RightUp, RightDown, Horizonal, Vertical, Wall, plysm };
+	void Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos);
 
 	void Update();
 
@@ -18,7 +17,7 @@ public:
 
 	void Grow();
 
-	//Vector2 GetSize() const { return {width_,height_}; }
+	// Vector2 GetSize() const { return {width_,height_}; }
 	~Light();
 
 	/*uint32_t IsReflection() const { return isReflection_; }*/
@@ -33,35 +32,29 @@ public:
 
 	/*bool SetIsrefrection(bool ref) { isReflection_ = ref; }*/
 
+	// Vector2 GetNewVelocity() const { return newVelocity_; }
 
-	//Vector2 GetNewVelocity() const { return newVelocity_; }
+	void SetRefrected() { isRefrected = true; }
 
-	void SetRefrected() { isRefrected=true; }
-
-	bool CanReflect() const { return growtype_==NO && !isRefrected;}
+	bool CanReflect() const { return growtype_ == NO && !isRefrected; }
 
 	void OnCollisionMap(int mapNum);
 
 	void SetMapData(Map* map) { map_ = map; }
 
-	Vector3 GetinitialPos() { 
-		return initialPos_;
-	}
+	Vector3 GetinitialPos() { return initialPos_; }
 
-	void Deth() {
-		live = false;
-	}
+	void Deth() { live = false; }
 
-	bool IsDeth() { 
-		return live;
-	}
+	bool IsDeth() { return live; }
+
+	void LightInital() { worldTransform_.scale_ = {0.5f, 0.5f, 0.5f}; }
 
 private:
+	// float width_=0.0f;
+	// float height_=0.0f;
 
-	//float width_=0.0f;
-	//float height_=0.0f;
-
-	//Sprite* sprite_=nullptr;
+	// Sprite* sprite_=nullptr;
 
 	Model* model_ = nullptr;
 
@@ -89,7 +82,6 @@ private:
 
 	Map* map_;
 
-	
 	bool isMapHit = false;
 	bool isRightUpHit = false;
 	bool isRightDownHit = false;
@@ -99,5 +91,4 @@ private:
 	bool isWallHit = false;
 
 	bool live = true;
-
 };

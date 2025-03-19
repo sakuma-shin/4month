@@ -59,7 +59,7 @@ void GameScene::Initialize() {
 
 	map_ = new Map;
 
-	map_->Initialize(mapModel_, textureHandle_, &camera_,stagenumber);
+	map_->Initialize(mapModel_, textureHandle_, &camera_, stagenumber, light_);
 
 //ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
