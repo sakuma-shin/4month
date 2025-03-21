@@ -66,7 +66,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
 		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door* newdoor = new door;
-			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_, i % MaxX, i / MaxX);
+			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_, i % MaxX, i / MaxX, map[i % MaxX][i / MaxX]);
 			door_.push_back(newdoor);
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
@@ -102,14 +102,9 @@ void Map::Update(Player* player) {
 	prismcount = 0;
 
 	colorGlassCount = 0;
-
-	
-
-	/*for (door* door : door_) {
-		door->Update(target_);
-	}*/
-
+	//int doorC = 0;
 	for (door* door : door_) {
+		
 		door->Update(target_);
 
 		if (door->IsOpen()) {
@@ -130,6 +125,10 @@ void Map::Update(Player* player) {
 				map[doorX][doorZ] = 723; // ドア2を元に戻す
 			}
 
+		if (door->Getopenflag() && map[door->Getpos(0)][door->Getpos(1)]!=0) {
+			map[door->Getpos(0)][door->Getpos(1)] = 0;
+		} else if (!door->Getopenflag()) {
+			map[door->Getpos(0)][door->Getpos(1)] = door->Getnumber();
 		}
 
 	}
@@ -217,8 +216,13 @@ void Map::Draw() {
 			target_[targetcount]->Draw(camera_);
 			targetcount++;
 		} else if (Digit(map[i % MaxX][i / MaxX]) == 7) {
-			door_[doorcount]->Draw(worldTransformBlock, camera_);
-			doorcount++;
+			for (door* door : door_) {
+				if (map[i % MaxX][i / MaxX] == door->Getnumber()) {
+					door->Draw(worldTransformBlock, camera_);
+				}
+				
+			}
+			//doorcount++;
 		} else if (map[i % MaxX][i / MaxX] == 31) {
 			mirror_[mirrorcount]->Draw(1, camera_);
 			mirrorcount++;
