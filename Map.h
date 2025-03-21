@@ -15,6 +15,7 @@
 #include "mirror.h"
 #include "Player.h"
 #include "Prism.h"
+#include"MathUtility.h"
 
 class mirror;
 
@@ -29,6 +30,8 @@ public:
 
 	int CheckCollision(KamataEngine::Vector3 pos);
 	void Reorldtransform();
+
+	bool CheckCollisionRay(Vector3 initialPos, Vector3 endPos);
 
 	std::vector<KamataEngine::Vector3> GetTilePositionsInRange(int min, int max);
 	std::vector<Light::GrowType> GetMirrorTypesInRange();
@@ -85,5 +88,7 @@ private:
 	int mirrorcount = 0;
 
 	int prismcount = 0;
+
+	int rayCount = 0;
 
 };
