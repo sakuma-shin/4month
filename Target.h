@@ -17,6 +17,10 @@ class Target {
 
 		int Getcoad() { return coad;
 		}
+
+		void isHit() {
+			Hit = true;
+		}
 	
 	private:
 	    KamataEngine::Model* targetmodel_;
