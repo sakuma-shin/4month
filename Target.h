@@ -12,14 +12,22 @@ class Target {
 		void Update();
 		void Draw(KamataEngine::Camera* camera);
 
-		bool GetHit() { return Hit;
+		bool GetHit() { 
+			return Hit;
 		}
 
-		int Getcoad() { return coad;
+		int Getcoad() { 
+			return coad;
 		}
+	    int Getcolor() { return color; }
 
 		void isHit() {
 			Hit = true;
+		}
+	    void noHit() { Hit = false; }
+
+		int Getnumber() { 
+			return number_;
 		}
 	
 	private:
@@ -28,4 +36,5 @@ class Target {
 	    int color;
 		bool Hit;
 	    KamataEngine::WorldTransform* worldTransform_;
+	    int number_;
 };

@@ -9,7 +9,7 @@
 
 using namespace KamataEngine;
 
-void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos,Vector3 scale_) {
+void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos, Vector3 scale_, std::vector<Target*> target,int color) {
 	/*sprite_ = sprite;*/
 	initialPos_ = initialPos;
 
@@ -35,6 +35,10 @@ void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type, Vect
 	isHorizonalHit = false;
 	isplysmHit = false;
 	isWallHit = true;
+
+	target_ = target;
+
+	color_ = color;
 }
 
 void Light::Update() {
@@ -93,9 +97,19 @@ void Light::Update() {
 		growtype_ = prevGrowType_;
 		isRefrected = false;
 	}
-	if (map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_)) == 52) {
+	
+	for (Target* target : target_) { //
+		if (target->Getnumber() == map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {
 		
+			if (target->Getcolor() == color_) {
+				target->isHit();
+			}
+		} else {
+			target->noHit();
+		}
 	}
+		
+	
 
 	if (worldTransform_.scale_.x >= 1.0f&&growtype_==Down||growtype_==Up) {
 		if (map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {
@@ -338,6 +352,7 @@ void Light::OnCollisionMap(int mapNum) {
 		case 52:
 			newType_ = Left;
 			growtype_ = NO;
+			color_ = 2;
 			newtextureHandle_ = TextureManager::Load("color/purple.png");
 			break;
 
@@ -431,4 +446,15 @@ void Light::OnCollisionMap(int mapNum) {
 	//worldTransform_.translation_.x = std::clamp(worldTransform_.translation_.x, initial2MapCenter.x, initial2MapCenter.x);
 	/*worldTransform_.translation_.y = std::clamp(worldTransform_.translation_.y, initial2MapCenter.y, initial2MapCenter.y);*/
 	//worldTransform_.translation_.z = std::clamp(worldTransform_.translation_.z, initial2MapCenter.z, initial2MapCenter.z);
+}
+
+int Light::Digit(int number) {
+	if (number / 10 < 1) {
+		return number;
+	}
+	int k = 0;
+	for (; number / 10 >= 1; k++) {
+		number = number / 10;
+	}
+	return number;
 }
