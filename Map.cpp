@@ -323,12 +323,16 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 	if (mapX < 0 || mapX >= MaxX || mapZ < 0 || mapZ >= MaxY) {
 		return 1; // マップ外は壁扱い
 	}
+	if (map[mapX][mapZ] == 2) {
+		return 0;
+	}
 
 	// マップの範囲内かチェック
 	if (mapX >= 0 && mapX < MaxX && mapZ >= 0 && mapZ < MaxY) {
 
 		// その位置のマップ値が 8 なら壁
-		switch (map[mapX][mapZ]) {
+		return map[mapX][mapZ];
+		//switch (map[mapX][mapZ]) {
 
 			// マップ番号と同じ数字を返す
 
@@ -342,25 +346,25 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 			return 8;
 			break;
 
-		case 31:
-			// 右下鏡
-			return 31;
-			break;
+		//case 31:
+		//	// 右下鏡
+		//	return 31;
+		//	break;
 
-		case 32:
-			// 右上鏡
-			return 32;
-			break;
+		//case 32:
+		//	// 右上鏡
+		//	return 32;
+		//	break;
 
-		case 33:
-			// 水平鏡
-			return 33;
-			break;
+		//case 33:
+		//	// 水平鏡
+		//	return 33;
+		//	break;
 
-		case 34:
-			// 垂直鏡
-			return 34;
-			break;
+		//case 34:
+		//	// 垂直鏡
+		//	return 34;
+		//	break;
 
 		case 41:
 			//上向きライト
@@ -447,20 +451,20 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 			return 91;
 			break;
 
-		case 92:
-			// プリズム下
-			return 92;
-			break;
+		//case 93:
+		//	// プリズム左
+		//	return 93;
+		//	break;
 
-		case 93:
-			// プリズム左
-			return 93;
-			break;
+		//case 94:
+		//	// プリズム右
+		//	return 94;
+		//	break;
 
-		case 94:
-			// プリズム右
-			return 94;
-			break;
+		//case 42:
+		//	// 垂直鏡
+		//	return 42;
+		//	break;
 
 		case 621:
 			return 621;

@@ -9,6 +9,7 @@ void Target::Initialize(int number, KamataEngine::WorldTransform* worldTransform
 	color = (number % 100) / 10;
 	worldTransform_ = worldTransform;
 	Hit = false;
+	number_ = number;
 }
 
 void Target::Update() {

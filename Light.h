@@ -1,5 +1,6 @@
 #pragma once
 #include "KamataEngine.h"
+#include "Target.h"
 
 using namespace KamataEngine;
 class Map;
@@ -8,8 +9,8 @@ class Light {
 public:
 	enum GrowType { Up, Down, Right, Left, UpRight, DownRight, UpLeft, DownLeft, NO };
 
-	enum HitType { RightUp, RightDown, Horizonal, Vertical, Wall, plysm };
-	void Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos, Vector3 scale_);
+	enum HitType {RightUp,RightDown,Horizonal,Vertical,Wall,plysm};
+	void Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos, Vector3 scale_, std::vector<Target*> target,int color);
 
 	void Update();
 
@@ -48,6 +49,11 @@ public:
 
 	bool IsDeath() { return live; }
 	uint32_t GetnewTextureHandle() { return newtextureHandle_; }
+
+	int Digit(int number);
+
+	int Getcolor() { return color_;
+	}
 
 private:
 	// float width_=0.0f;
@@ -91,4 +97,9 @@ private:
 
 	bool live = true;
 	uint32_t newtextureHandle_ = 0;
+
+	std::vector<Target*> target_;
+
+	int color_;
+
 };

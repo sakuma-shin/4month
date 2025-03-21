@@ -12,6 +12,10 @@ public:
 	void Update(std::vector<Target*> target);
 	void Draw(KamataEngine::WorldTransform* worldtransform, KamataEngine::Camera* camera);
 	bool keyopen();
+
+	bool Getopenflag() { 
+		return openflag;
+	}
 	int Digit(int number);
 
 	int Digitnamber(int number);
