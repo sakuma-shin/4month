@@ -14,12 +14,17 @@ public:
 
 	bool GetHit() { return Hit; }
 
-	int Getcoad() { return coad; }
+		int Getcoad() { return coad;
+		}
 
-private:
-	KamataEngine::Model* targetmodel_;
-	int coad;
-	int color;
-	bool Hit;
-	KamataEngine::WorldTransform* worldTransform_;
+		void isHit() {
+			Hit = true;
+		}
+	
+	private:
+	    KamataEngine::Model* targetmodel_;
+		int coad;
+	    int color;
+		bool Hit;
+	    KamataEngine::WorldTransform* worldTransform_;
 };
