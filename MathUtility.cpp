@@ -246,6 +246,9 @@ Vector3& operator-=(Vector3& lhv, const Vector3& rhv) {
 
 const Vector3 operator-(Vector3& v1, Vector3& v2) { return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z}; }
 
+const Vector3 operator-(const Vector3& v1, const Vector3& v2) { return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z}; }
+
+
 const KamataEngine::Matrix4x4 operator*=(KamataEngine::Matrix4x4& m1, const KamataEngine::Matrix4x4& m2) { return Multiply(m1, m2); }
 
 const Vector3 operator+(Vector3& v1, Vector3& v2) { return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z}; }

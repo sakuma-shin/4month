@@ -86,6 +86,7 @@ void GameScene::Initialize() {
 void GameScene::Update() { 
 	lightDethflag = false;
 	for (Light* light : lights_) {
+		light->SetMapData(map_);
 		light->Update();
 
 		//// 反射した場合、新しいLightを作成
@@ -105,8 +106,10 @@ void GameScene::Update() {
 			light->Deth();
 			lightDethflag = true;
 		}
-		
-	}
+
+
+			}
+
 	lights_.remove_if([](Light* light) { 
 		if (!light->IsDeth()) {
 			delete light;

@@ -17,8 +17,7 @@
 #include "Prism.h"
 #include "ColorGlass.h"
 #include "GameScene.h"
-
-
+#include"MathUtility.h"
 
 class mirror;
 class ColorGlass;
@@ -36,6 +35,8 @@ public:
 
 	int CheckCollision(KamataEngine::Vector3 pos);
 	void Reorldtransform();
+
+	bool CheckCollisionRay(Vector3 initialPos, Vector3 endPos);
 
 	std::vector<KamataEngine::Vector3> GetTilePositionsInRange(int min, int max);
 	std::vector<Light::GrowType> GetMirrorTypesInRange();
@@ -97,8 +98,11 @@ private:
 
 	int prismcount = 0;
 
+
 	int colorGlassCount = 0;
 
 	GameScene* gameScene_;
+
+	int rayCount = 0;
 
 };

@@ -100,6 +100,7 @@ void Map::Update(Player* player) {
 	mirrorcount = 0;
 	targetcount = 0;
 	prismcount = 0;
+
 	colorGlassCount = 0;
 
 	for (door* door : door_) {
@@ -108,33 +109,30 @@ void Map::Update(Player* player) {
 	for (Target* target : target_) { //
 		target->Update();
 	}
-	int i=0;
+	int i = 0;
 	for (mirror* mirrorL : mirror_) { //
+		
 		mirrorL->Update(player);
 		if (int(mirrorL->Getpos().x / 2.0f) != mirrorL->GetPos(0) || int(mirrorL->Getpos().z / 2.0f) != mirrorL->GetPos(1)) {
-			
-			if (int(mirrorL->Getpos().x / 2.0f)-mirrorL->GetPos(0) == 1) {
+
+			if (int(mirrorL->Getpos().x / 2.0f) - mirrorL->GetPos(0) == 1) {
 				i = 1;
-			}
-			else if (int(mirrorL->Getpos().x / 2.0f)-mirrorL->GetPos(0) == -1) {
+			} else if (int(mirrorL->Getpos().x / 2.0f) - mirrorL->GetPos(0) == -1) {
 				i = 2;
-			}
-			else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1)==1) {
+			} else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1) == 1) {
 				i = 3;
-			} 
-			else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1)==-1) {
+			} else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1) == -1) {
 				i = 4;
 			}
-			
+
 			WorldTransform* dai;
 			dai = mirrorL->Getworld();
 
 			int x;
-			x=map[mirrorL->GetPos(0)][mirrorL->GetPos(1)];
+			x = map[mirrorL->GetPos(0)][mirrorL->GetPos(1)];
 			map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = map[int(mirrorL->Getpos().x / 2.0f)][int(mirrorL->Getpos().z / 2.0f)];
 			map[int(mirrorL->Getpos().x / 2.0f)][int(mirrorL->Getpos().z / 2.0f)] = x;
 			mirrorL->PosChange(i);
-
 
 			std::vector<mirror*> mirrors_;
 			for (uint32_t k = 0; k < MaxX * MaxY; ++k) {
@@ -145,8 +143,6 @@ void Map::Update(Player* player) {
 				}
 			}
 			mirror_ = mirrors_;
-
-			
 		}
 		if (gameScene_->GetlihtFlag()) {
 			map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = 0;
@@ -393,7 +389,7 @@ void Map::Reorldtransform() {
 	}
 	mirror_.clear();
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
-		
+
 		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door* newdoor = new door;
 			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_);
@@ -412,7 +408,25 @@ void Map::Reorldtransform() {
 	}
 
 	worldTransform_ = world_;
+}
 
+bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
+	rayCount = 0;
+	int initialPosX = static_cast<int>(initialPos.x) / static_cast<int>(Size.x);
+	int initialPosZ = static_cast<int>(initialPos.z) / static_cast<int>(Size.z);
+	int endPosX = static_cast<int>(endPos.x) / static_cast<int>(Size.x);
+	int endPosZ = static_cast<int>(endPos.z) / static_cast<int>(Size.z);
+	for (int z = initialPosZ; z <= endPosZ; ++z) {
+		for (int x = initialPosX; x <= endPosX; ++x) {
+			if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
+				if (map[x][z] >= 31 && map[x][z] <= 34) {
+					return true;
+				}
+			}
+			rayCount++;
+		}
+	}
+	return false;
 }
 
 std::vector<KamataEngine::Vector3> Map::GetTilePositionsInRange(int min, int max) {
