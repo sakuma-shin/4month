@@ -3,10 +3,13 @@
 
 using namespace KamataEngine;
 
-void door::Initialize(int key, std::vector<Target*> target) { 
+void door::Initialize(int key, std::vector<Target*> target, int x, int z, int number) { 
 	doormodel_ = Model::CreateFromOBJ("door", true); 
 	key_ = key;
 	target_ = target;
+	pos[0] = x;
+	pos[1] = z;
+	number_ = number;
 }
 
 void door::Update(std::vector<Target*> target) {
