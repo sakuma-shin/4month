@@ -93,7 +93,8 @@ void Map::Update(Player* player) {
 	mirrorcount = 0;
 	targetcount = 0;
 	prismcount = 0;
-	rayCount = 0;
+	
+
 	for (door* door : door_) {
 		door->Update(target_);
 	}
@@ -102,6 +103,7 @@ void Map::Update(Player* player) {
 	}
 	int i = 0;
 	for (mirror* mirrorL : mirror_) { //
+		
 		mirrorL->Update(player);
 		if (int(mirrorL->Getpos().x / 2.0f) != mirrorL->GetPos(0) || int(mirrorL->Getpos().z / 2.0f) != mirrorL->GetPos(1)) {
 
@@ -371,13 +373,14 @@ void Map::Reorldtransform() {
 }
 
 bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
+	rayCount = 0;
 	int initialPosX = static_cast<int>(initialPos.x) / static_cast<int>(Size.x);
 	int initialPosZ = static_cast<int>(initialPos.z) / static_cast<int>(Size.z);
 	int endPosX = static_cast<int>(endPos.x) / static_cast<int>(Size.x);
 	int endPosZ = static_cast<int>(endPos.z) / static_cast<int>(Size.z);
 	for (int z = initialPosZ; z <= endPosZ; ++z) {
 		for (int x = initialPosX; x <= endPosX; ++x) {
-			if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosZ - endPosZ)) {
+			if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
 				if (map[x][z] >= 31 && map[x][z] <= 34) {
 					return true;
 				}
