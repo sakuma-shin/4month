@@ -10,6 +10,7 @@
 #include "Map.h"
 
 #include "Color.h"
+//#include "ColorGlass.h"
 
 using namespace KamataEngine;
 
@@ -27,9 +28,12 @@ public:
 
 	void Draw();
 
-	void LightCreate(Light::GrowType type, Vector3 pos);
+	void LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTextureHandle);
 
 	bool IsFinished() { return isFinished_; }
+
+	bool GetlihtFlag() { return lightDethflag;
+	}
 
 private:
 	DirectXCommon* dxCommon_ = nullptr;
@@ -54,6 +58,9 @@ private:
 	//カラー
 	Color* color_ = nullptr;
 
+	//色ガラス
+	//ColorGlass* colorGlass_;
+
 	bool isFinished_ = false;
 
 	//ライト
@@ -75,5 +82,7 @@ private:
 	uint32_t greenTextureHandle_ = 0u;
 
 	uint32_t purpleTextureHandle_ = 0u;
+
+	bool lightDethflag = false;
 
 };

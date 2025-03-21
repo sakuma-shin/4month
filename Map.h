@@ -15,15 +15,20 @@
 #include "mirror.h"
 #include "Player.h"
 #include "Prism.h"
+#include "ColorGlass.h"
+#include "GameScene.h"
 #include"MathUtility.h"
 
 class mirror;
+class ColorGlass;
 
 class Prism;
 
+class GameScene;
+
 class Map {
 public:
-	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber);
+	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber,GameScene* game);
 	void Update(Player* player);
 	void Draw();
 	void readCSV();
@@ -73,6 +78,8 @@ private:
 	KamataEngine::Model* prismmodel_;
 
 	KamataEngine::Model* doormodel_;
+
+	KamataEngine::Model* colorGlassModel_;
 	
 	std::vector<door*> door_;
 
@@ -82,12 +89,19 @@ private:
   
 	std::vector<Prism*> prism_;
   
+	std::vector<ColorGlass*> colorGlass_;
+
 	int doorcount = 0;
 	int targetcount = 0;
 
 	int mirrorcount = 0;
 
 	int prismcount = 0;
+
+
+	int colorGlassCount = 0;
+
+	GameScene* gameScene_;
 
 	int rayCount = 0;
 

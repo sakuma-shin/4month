@@ -10,7 +10,7 @@ public:
 	enum GrowType { Up, Down, Right, Left,UpRight,DownRight,UpLeft,DownLeft, NO };
 
 	enum HitType {RightUp,RightDown,Horizonal,Vertical,Wall,plysm};
-	void Initialize(uint32_t textureHandle, Model* model, GrowType type,Vector3 initialPos);
+	void Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos, Vector3 scale_);
 
 	void Update();
 
@@ -54,6 +54,9 @@ public:
 
 	bool IsDeth() { 
 		return live;
+	}
+	uint32_t GetnewTextureHandle() { 
+		return newtextureHandle_;
 	}
 
 private:
@@ -99,5 +102,6 @@ private:
 	bool isWallHit = false;
 
 	bool live = true;
+	uint32_t newtextureHandle_ = 0;
 
 };

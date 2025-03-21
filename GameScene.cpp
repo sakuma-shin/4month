@@ -53,13 +53,16 @@ void GameScene::Initialize() {
 	color_ = new Color();
 	color_->Initialize(colorModel_, purpleTextureHandle_, redTextureHandle_, blueTextureHandle_, greenTextureHandle_);
 
-	lightTextureHandle_ = TextureManager::Load("uvChecker.png");
+	//colorGlass_ = new ColorGlass();
+	//colorGlass_->Initialize(worldTra)
+
+	lightTextureHandle_ = TextureManager::Load("white1x1.png");
 
 	mapModel_ = Model::Create();
 
 	map_ = new Map;
 
-	map_->Initialize(mapModel_, textureHandle_, &camera_,stagenumber);
+	map_->Initialize(mapModel_, textureHandle_, &camera_,stagenumber,this);
 
 //ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
@@ -73,7 +76,7 @@ void GameScene::Initialize() {
 
 	for (int i = 0; i < initialPositions.size(); i++) {
 		Light* newLight = new Light();
-		newLight->Initialize(lightTextureHandle_, lightModel_, initialTypes[i], initialPositions[i]);
+		newLight->Initialize(lightTextureHandle_, lightModel_, initialTypes[i], initialPositions[i], {0.5f,0.5f,0.5f});
 		newLight->SetMapData(map_);
 		/*lightSprite_->SetSize(newLight->GetSize());*/
 		lights_.push_back(newLight);
@@ -81,7 +84,7 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() { 
-
+	lightDethflag = false;
 	for (Light* light : lights_) {
 		light->SetMapData(map_);
 		light->Update();
@@ -91,21 +94,22 @@ void GameScene::Update() {
 			light->SetRefrected();
 			Vector3 newInitialPos = light->GetEndPosition(); // 反射したライトの現在位置を取得
 			if (light->GetNewType() != Light::NO) {
-				LightCreate(light->GetNewType(), newInitialPos);
+				LightCreate(light->GetNewType(), newInitialPos,light->GetnewTextureHandle());
 			}
 
 			if (light->GetNewType2() != Light::NO) {
-				LightCreate(light->GetNewType2(), newInitialPos);
+				LightCreate(light->GetNewType2(), newInitialPos, light->GetnewTextureHandle());
 			}
 
 		}
 		if (map_->CheckCollision(light->GetinitialPos()) == 0 || map_->CheckCollision(light->GetinitialPos()) == 8) {
 			light->Deth();
+			lightDethflag = true;
 		}
 
-		
 
 			}
+
 	lights_.remove_if([](Light* light) { 
 		if (!light->IsDeth()) {
 			delete light;
@@ -172,7 +176,7 @@ void GameScene::Draw() {
 	}
 	player_->Draw(&camera_);
 	color_->Draw(&camera_);
-
+	//colorGlass_->Draw(&camera_);
 	///
 	/// </summary>
 
@@ -198,9 +202,22 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
-void GameScene::LightCreate(Light::GrowType type,Vector3 pos) {
+void GameScene::LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTextureHandle) {
 	Light* newLight = new Light();
-	newLight->Initialize(lightTextureHandle_, lightModel_, type,pos);
+	Vector3 scal = {0, 0, 0};
+	if (type == Light::GrowType::Up) {
+		scal = {-0.5f, 0.5f, 0.5f};
+	}
+	if (type == Light::GrowType::Down) {
+		scal = {0.5f, 0.5f, 0.5f};
+	}
+	if (type == Light::GrowType::Right) {
+		scal = {-0.5f, 0.5f, 0.5f};
+	}
+	if (type == Light::GrowType::Left) {
+		scal = {0.5f, 0.5f, 0.5f};
+	}
+	newLight->Initialize(lightTextureHandle, lightModel_, type,pos,scal);
 	newLight->SetMapData(map_);
 	/*lightSprite_->SetSize(newLight->GetSize());*/
 	lights_.push_back(newLight);

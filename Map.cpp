@@ -2,19 +2,21 @@
 
 using namespace KamataEngine;
 
-void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber) {
+void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber,GameScene* game) {
 	// NULLチェック
 	assert(model);
 
 	// 引数の内容をメンバ変数に記録
 	// this->model_ = model;
 
+	gameScene_ = game;
+
 	model_ = Model::CreateFromOBJ("wall", true);
 	textureHandle_ = textureHandle;
 	camera_ = camera;
 
 	Size = {2, 2, 2};
-	walltextureHandle_ = TextureManager::Load("white1x1.png");
+	walltextureHandle_ = TextureManager::Load("color/black.png");
 
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 
@@ -69,8 +71,13 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
 			mirror* newmirror = new mirror;
-			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX, this);
+			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX, this, map[i % MaxX][ i/ MaxX]);
 			mirror_.push_back(newmirror);
+		}
+		if (map[i % MaxX][i / MaxX] >= 50 && map[i % MaxX][i / MaxX] <= 54) {
+			ColorGlass* newcolorGlass = new ColorGlass;
+			newcolorGlass->Initialize(worldTransform_[i], this, i % MaxX, i / MaxX, map[i % MaxX][i / MaxX]);
+			colorGlass_.push_back(newcolorGlass);
 		}
 	}
 
@@ -93,7 +100,8 @@ void Map::Update(Player* player) {
 	mirrorcount = 0;
 	targetcount = 0;
 	prismcount = 0;
-	
+
+	colorGlassCount = 0;
 
 	for (door* door : door_) {
 		door->Update(target_);
@@ -130,11 +138,19 @@ void Map::Update(Player* player) {
 			for (uint32_t k = 0; k < MaxX * MaxY; ++k) {
 				if (map[k % MaxX][k / MaxX] >= 30 && map[k % MaxX][k / MaxX] <= 34) {
 					mirror* newmirror = new mirror;
-					newmirror->Initialize(worldTransform_[k], k % MaxX, k / MaxX, this);
+					newmirror->Initialize(worldTransform_[k], k % MaxX, k / MaxX, this, map[k % MaxX][k / MaxX]);
 					mirrors_.push_back(newmirror);
 				}
 			}
 			mirror_ = mirrors_;
+		}
+		if (gameScene_->GetlihtFlag()) {
+			map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = 0;
+		} else {
+			if (map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] == 0) {
+				map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = mirrorL->Getnumber();
+			}
+			
 		}
 	}
 	if (i != 0) {
@@ -149,6 +165,20 @@ void Map::Update(Player* player) {
 			map[prism->GetPos(0)][prism->GetPos(1)] = prism->ReturnKey();
 		}
 	}
+
+	for (ColorGlass* colorGlass : colorGlass_) {
+		if (gameScene_->GetlihtFlag()) {
+			map[colorGlass->Getpos(0)][colorGlass->Getpos(1)] = 0;
+		} else {
+			if (map[colorGlass->Getpos(0)][colorGlass->Getpos(1)] == 0) {
+				map[colorGlass->Getpos(0)][colorGlass->Getpos(1)] = colorGlass->Getnumber();
+			}
+			KamataEngine::Vector3 position = colorGlass->GetPosition();
+		}
+		colorGlass->Update();
+
+	}
+
 }
 
 void Map::Draw() {
@@ -173,6 +203,9 @@ void Map::Draw() {
 		} else if (Digit(map[i % MaxX][i / MaxX]) == 9) {
 			prism_[prismcount]->Draw(camera_);
 			prismcount++;
+		} else if (Digit(map[i % MaxX][i / MaxX]) == 5) {
+			colorGlass_[colorGlassCount]->Draw(camera_);
+			colorGlassCount++;
 		} else if (map[i % MaxX][i / MaxX] == 0) {
 			model_->Draw(*worldTransformBlock, *camera_, walltextureHandle_);
 		} else {
@@ -298,6 +331,11 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 			return 34;
 			break;
 
+		case 52:
+			//紫ガラス
+			return 52;
+			break;
+
 		case 91:
 			// プリズム上
 			return 91;
@@ -359,7 +397,7 @@ void Map::Reorldtransform() {
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
 			mirror* newmirror = new mirror;
-			newmirror->Initialize(world_[i], i % MaxX, i / MaxX, this);
+			newmirror->Initialize(world_[i], i % MaxX, i / MaxX, this, map[i % MaxX][i / MaxX]);
 			mirror_.push_back(newmirror);
 		}
 	}
