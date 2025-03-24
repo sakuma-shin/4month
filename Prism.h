@@ -51,8 +51,8 @@ private:
 
 	int pos_[2] = {};
 
-	int distX = 0;
-	int distZ = 0;
+	int directX = 0;
+	int directZ = 0;
 
 	Map* map_ = nullptr;
 

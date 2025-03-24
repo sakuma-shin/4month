@@ -11,25 +11,23 @@ void Prism::Initialize(int key, WorldTransform* worldTransform, int x, int z, Ma
 
 	input_ = Input::GetInstance();
 
+	model_ = Model::CreateFromOBJ("prism", true);
+
 	// keyに応じて対応したモデルを読み、自身の向きを決定する
 	if (key_ == 91) {
-		model_ = Model::CreateFromOBJ("prism", true);
 		worldTransform_->rotation_ = Vector3{0.0f, 4.7f, 0.0f};
 		prismDirection_ = Light::GrowType::Up;
 	} else if (key_ == 92) {
-		model_ = Model::CreateFromOBJ("prism", true);
 		worldTransform_->rotation_ = Vector3{0.0f, 1.6f, 0.0f};
 		prismDirection_ = Light::GrowType::Down;
 	} else if (key_ == 93) {
-		model_ = Model::CreateFromOBJ("prism", true);
 		worldTransform_->rotation_ = Vector3{0.0f, 3.1f, 0.0f};
 		prismDirection_ = Light::GrowType::Left;
 	} else if (key_ == 94) {
-		model_ = Model::CreateFromOBJ("prism", true);
 		worldTransform_->rotation_ = Vector3{0.0f, 0.0f, 0.0f};
 		prismDirection_ = Light::GrowType::Right;
 	} else { // 仮に数字が該当しなかったら向きは右とする
-		model_ = Model::CreateFromOBJ("prism", true);
+		worldTransform_->rotation_ = Vector3{0.0f, 0.0f, 0.0f};
 		prismDirection_ = Light::GrowType::NO;
 	}
 }
@@ -56,16 +54,16 @@ void Prism::Update(Player* player) {
 
 	if (input_->TriggerKey(DIK_W)) {
 		prismDirection_ = Light::GrowType::Right;
-		distZ = 1;
+		directZ = 1;
 	} else if (input_->TriggerKey(DIK_S)) {
 		prismDirection_ = Light::GrowType::Left;
-		distZ = -1;
+		directZ = -1;
 	} else if (input_->TriggerKey(DIK_A)) {
 		prismDirection_ = Light::GrowType::Up;
-		distX = -1;
+		directX = -1;
 	} else if (input_->TriggerKey(DIK_D)) {
 		prismDirection_ = Light::GrowType::Down;
-		distX = 1;
+		directX = 1;
 	}
 
 	if (!isSet_) {
@@ -73,37 +71,37 @@ void Prism::Update(Player* player) {
 			if (prismDirection_ == Light::GrowType::Up) {
 				if (map_->CheckCollision(Vector3(player_->GetPosition().x - 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == 0) {
 					key_ = 91;
-					worldTransform_->translation_ = Vector3{float(PosAdjust((int)player->GetPosition().x, distX) - 2) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, distZ)) / 2 * 2};
+					worldTransform_->translation_ = Vector3{float(PosAdjust((int)player->GetPosition().x, directX) - 2) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ)) / 2 * 2};
 					worldTransform_->rotation_ = Vector3{0.0f, 4.7f, 0.0f};
-					pos_[0] = (PosAdjust((int)player->GetPosition().x, distX) - 2) / 2;
-					pos_[1] = (PosAdjust((int)player->GetPosition().z, distZ)) / 2;
+					pos_[0] = (PosAdjust((int)player->GetPosition().x, directX) - 2) / 2;
+					pos_[1] = (PosAdjust((int)player->GetPosition().z, directZ)) / 2;
 					Set();
 				}
 			} else if (prismDirection_ == Light::GrowType::Down) {
 				if (map_->CheckCollision(Vector3(player_->GetPosition().x + 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == 0) {
 					key_ = 92;
-					worldTransform_->translation_ = Vector3{float(PosAdjust((int)player->GetPosition().x, distX) + 2) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, distZ)) / 2 * 2};
+					worldTransform_->translation_ = Vector3{float(PosAdjust((int)player->GetPosition().x, directX) + 2) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ)) / 2 * 2};
 					worldTransform_->rotation_ = Vector3{0.0f, 1.6f, 0.0f};
-					pos_[0] = (PosAdjust((int)player->GetPosition().x, distX) + 2) / 2;
-					pos_[1] = (PosAdjust((int)player->GetPosition().z, distZ)) / 2;
+					pos_[0] = (PosAdjust((int)player->GetPosition().x, directX) + 2) / 2;
+					pos_[1] = (PosAdjust((int)player->GetPosition().z, directZ)) / 2;
 					Set();
 				}
 			} else if (prismDirection_ == Light::GrowType::Left) {
 				if (map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z - 2.0f)) == 0) {
 					key_ = 93;
-					worldTransform_->translation_ = Vector3{float(PosAdjust((int)player->GetPosition().x, distX)) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, distZ) - 2) / 2 * 2};
+					worldTransform_->translation_ = Vector3{float(PosAdjust((int)player->GetPosition().x, directX)) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ) - 2) / 2 * 2};
 					worldTransform_->rotation_ = Vector3{0.0f, 3.1f, 0.0f};
-					pos_[0] = (PosAdjust((int)player->GetPosition().x, distX)) / 2;
-					pos_[1] = (PosAdjust((int)player->GetPosition().z, distZ) - 2) / 2;
+					pos_[0] = (PosAdjust((int)player->GetPosition().x, directX)) / 2;
+					pos_[1] = (PosAdjust((int)player->GetPosition().z, directZ) - 2) / 2;
 					Set();
 				}
 			} else if (prismDirection_ == Light::GrowType::Right) {
 				if (map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z + 2.0f)) == 0) {
 					key_ = 94;
-					worldTransform_->translation_ = Vector3{float(PosAdjust((int)player->GetPosition().x, distX)) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, distZ) + 2) / 2 * 2};
+					worldTransform_->translation_ = Vector3{float(PosAdjust((int)player->GetPosition().x, directX)) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ) + 2) / 2 * 2};
 					worldTransform_->rotation_ = Vector3{0.0f, 0.0f, 0.0f};
-					pos_[0] = (PosAdjust((int)player->GetPosition().x, distX)) / 2;
-					pos_[1] = (PosAdjust((int)player->GetPosition().z, distZ) + 2) / 2;
+					pos_[0] = (PosAdjust((int)player->GetPosition().x, directX)) / 2;
+					pos_[1] = (PosAdjust((int)player->GetPosition().z, directZ) + 2) / 2;
 					Set();
 				}
 			}
@@ -123,8 +121,8 @@ void Prism::Update(Player* player) {
 	ImGui::DragFloat3("worldtransform", &worldTransform_->translation_.x);
 	ImGui::DragFloat3("rotate", &worldTransform_->rotation_.x, 0.1f);
 	ImGui::InputInt3("player.pos", &p.x);
-	ImGui::InputInt("dx", &distX);
-	ImGui::InputInt("dz", &distZ);
+	ImGui::InputInt("dx", &directX);
+	ImGui::InputInt("dz", &directZ);
 	if (ImGui::Button("broken", {50, 50})) {
 		Broken();
 	}
@@ -136,8 +134,6 @@ void Prism::Update(Player* player) {
 
 void Prism::Draw(Camera* camera) {
 	if (isSet_) {
-		model_->Draw(*worldTransform_, *camera);
-	} else {
 		model_->Draw(*worldTransform_, *camera);
 	}
 }
