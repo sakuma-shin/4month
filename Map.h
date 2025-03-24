@@ -38,6 +38,8 @@ public:
 
 	bool CheckCollisionRay(Vector3 initialPos, Vector3 endPos);
 
+	void CheckGoalCollision(KamataEngine::Vector3 pos);
+
 	std::vector<KamataEngine::Vector3> GetTilePositionsInRange(int min, int max);
 	std::vector<Light::GrowType> GetMirrorTypesInRange();
 
