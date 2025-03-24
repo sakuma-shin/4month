@@ -263,7 +263,7 @@ void Map::readCSV() {
 				std::cerr << "Conversion error: " << cell << " is not an integer." << std::endl;
 			}
 		}
-
+		
 		// 読み込んだ整数データを出力
 		for (const auto& value : row) {
 			std::cout << value << " ";
