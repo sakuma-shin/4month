@@ -150,7 +150,7 @@ void Map::Update(Player* player) {
 			if (map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] == 0) {
 				map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = mirrorL->Getnumber();
 			}
-			
+
 		}
 	}
 	if (i != 0) {
@@ -176,9 +176,7 @@ void Map::Update(Player* player) {
 			KamataEngine::Vector3 position = colorGlass->GetPosition();
 		}
 		colorGlass->Update();
-
 	}
-
 }
 
 void Map::Draw() {
@@ -332,7 +330,7 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 			break;
 
 		case 52:
-			//紫ガラス
+			// 紫ガラス
 			return 52;
 			break;
 
@@ -408,6 +406,7 @@ void Map::Reorldtransform() {
 	}
 
 	worldTransform_ = world_;
+
 }
 
 bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {

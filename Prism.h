@@ -31,6 +31,21 @@ public:
 
 	int ReturnKey() { return key_; }
 
+	WorldTransform* GetworldTransform() { 
+		return worldTransform_;
+	}
+
+	int PosAdjust(int i,int direct) {
+		if (i % 2 != 0) {
+			if (direct < 0) {
+				return i - direct;
+			} else if (direct > 0) {
+				return i + direct;
+			}
+		}
+		return i;
+	}
+
 private:
 	Model* model_ = nullptr;
 
@@ -39,6 +54,9 @@ private:
 	int key_ = 0;
 
 	int pos_[2] = {};
+
+	int directX = 0;
+	int directZ = 0;
 
 	Map* map_ = nullptr;
 

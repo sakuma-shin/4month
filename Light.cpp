@@ -8,7 +8,7 @@
 
 using namespace KamataEngine;
 
-void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos,Vector3 scale_) {
+void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos, Vector3 scale_) {
 	/*sprite_ = sprite;*/
 	initialPos_ = initialPos;
 
@@ -154,7 +154,7 @@ void Light::Grow() {
 	float kSpeed = 1.0f;
 	switch (growtype_) {
 	case Up:
-		
+
 		velocity_ = {-kSpeed, 0.0f, 0.0f};
 		// sprite_->SetRotation(0.0f);
 
@@ -247,8 +247,7 @@ Vector3 Light::GetEndPosition() {
 		if (newType_ == Down) {
 			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 1.0f, 0.0f, worldTransform_.translation_.z};
 		}
-	} 
-	else if (prevGrowType_ == Left) {
+	} else if (prevGrowType_ == Left) {
 		if (newType_ == Left) {
 			return {worldTransform_.translation_.x, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 1.0f};
 		}
@@ -258,13 +257,13 @@ Vector3 Light::GetEndPosition() {
 		if (newType_ == Down) {
 			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
 		}
-	
+
 	} else if (prevGrowType_ == Up) {
 		if (newType_ == Left) {
-			return {worldTransform_.translation_.x + worldTransform_.scale_.x - 1.0f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z +0.5f};
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x - 1.0f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
 		}
 		if (newType_ == Right) {
-			return {worldTransform_.translation_.x-0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+			return {worldTransform_.translation_.x - 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
 		}
 		if (newType_ == Down) {
 			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
@@ -285,6 +284,12 @@ void Light::OnCollisionMap(int mapNum) {
 			growtype_ = NO;
 
 			break;
+
+		case 31:
+			growtype_ = NO;
+			newType_ = Right;
+			break;
+
 		case 32:
 			growtype_ = NO;
 			newType_ = Left;
@@ -309,6 +314,11 @@ void Light::OnCollisionMap(int mapNum) {
 			newType_ = Left;
 			break;
 
+		case 32:
+			growtype_ = NO;
+			newType_ = Right;
+			break;
+
 		case 93:
 			growtype_ = NO;
 			newType_ = Right;
@@ -327,6 +337,7 @@ void Light::OnCollisionMap(int mapNum) {
 			growtype_ = NO;
 
 			break;
+
 		case 31:
 			growtype_ = NO;
 			newType_ = Down;
@@ -362,6 +373,16 @@ void Light::OnCollisionMap(int mapNum) {
 
 			break;
 
+		case 31:
+			growtype_ = NO;
+			newType_ = Up;
+			break;
+
+		case 32:
+			growtype_ = NO;
+			newType_ = Down;
+			break;
+
 		case 91:
 			growtype_ = NO;
 			newType_ = Up;
@@ -381,6 +402,16 @@ void Light::OnCollisionMap(int mapNum) {
 			growtype_ = NO;
 
 			break;
+
+		case 33:
+			growtype_ = NO;
+			newType_ = UpRight;
+			break;
+
+		case 34:
+			growtype_ = NO;
+			newType_ = DownLeft;
+			break;
 		}
 		break;
 
@@ -389,6 +420,16 @@ void Light::OnCollisionMap(int mapNum) {
 		case 1:
 			growtype_ = NO;
 
+			break;
+
+		case 33:
+			growtype_ = NO;
+			newType_ = DownRight;
+			break;
+
+		case 34:
+			growtype_ = NO;
+			newType_ = UpLeft;
 			break;
 		}
 		break;
@@ -399,6 +440,16 @@ void Light::OnCollisionMap(int mapNum) {
 			growtype_ = NO;
 
 			break;
+
+		case 33:
+			growtype_ = NO;
+			newType_ = DownRight;
+			break;
+
+		case 34:
+			growtype_ = NO;
+			newType_ = UpRight;
+			break;
 		}
 		break;
 
@@ -407,6 +458,16 @@ void Light::OnCollisionMap(int mapNum) {
 		case 1:
 			growtype_ = NO;
 
+			break;
+
+		case 33:
+			growtype_ = NO;
+			newType_ = UpLeft;
+			break;
+
+		case 34:
+			growtype_ = NO;
+			newType_ = DownRight;
 			break;
 		}
 		break;
