@@ -69,7 +69,8 @@ void Prism::Update(Player* player) {
 	if (!isSet_) {
 		if (input_->TriggerKey(DIK_L)) {
 			if (prismDirection_ == Light::GrowType::Up) {
-				if (map_->CheckCollision(Vector3(player_->GetPosition().x - 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == 0) {
+				if (map_->CheckCollision(Vector3(player_->GetPosition().x - 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == 0 &&
+				    map_->CheckCollision(Vector3{float(PosAdjust((int)player->GetPosition().x, directX) - 2) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ)) / 2 * 2}) == 0) {//同時に設置予定箇所も判定
 					key_ = 91;
 					worldTransform_->translation_ = Vector3{float(PosAdjust((int)player->GetPosition().x, directX) - 2) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ)) / 2 * 2};
 					worldTransform_->rotation_ = Vector3{0.0f, 4.7f, 0.0f};
@@ -78,7 +79,8 @@ void Prism::Update(Player* player) {
 					Set();
 				}
 			} else if (prismDirection_ == Light::GrowType::Down) {
-				if (map_->CheckCollision(Vector3(player_->GetPosition().x + 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == 0) {
+				if (map_->CheckCollision(Vector3(player_->GetPosition().x + 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == 0 &&
+				    map_->CheckCollision(Vector3{float(PosAdjust((int)player->GetPosition().x, directX) + 2) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ)) / 2 * 2}) == 0) {
 					key_ = 92;
 					worldTransform_->translation_ = Vector3{float(PosAdjust((int)player->GetPosition().x, directX) + 2) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ)) / 2 * 2};
 					worldTransform_->rotation_ = Vector3{0.0f, 1.6f, 0.0f};
@@ -87,7 +89,8 @@ void Prism::Update(Player* player) {
 					Set();
 				}
 			} else if (prismDirection_ == Light::GrowType::Left) {
-				if (map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z - 2.0f)) == 0) {
+				if (map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z - 2.0f)) == 0 &&
+				    map_->CheckCollision(Vector3{float(PosAdjust((int)player->GetPosition().x, directX)) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ) - 2) / 2 * 2}) == 0) {
 					key_ = 93;
 					worldTransform_->translation_ = Vector3{float(PosAdjust((int)player->GetPosition().x, directX)) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ) - 2) / 2 * 2};
 					worldTransform_->rotation_ = Vector3{0.0f, 3.1f, 0.0f};
@@ -96,7 +99,8 @@ void Prism::Update(Player* player) {
 					Set();
 				}
 			} else if (prismDirection_ == Light::GrowType::Right) {
-				if (map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z + 2.0f)) == 0) {
+				if (map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z + 2.0f)) == 0 &&
+				    map_->CheckCollision(Vector3{float(PosAdjust((int)player->GetPosition().x, directX)) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ) + 2) / 2 * 2}) == 0) {
 					key_ = 94;
 					worldTransform_->translation_ = Vector3{float(PosAdjust((int)player->GetPosition().x, directX)) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ) + 2) / 2 * 2};
 					worldTransform_->rotation_ = Vector3{0.0f, 0.0f, 0.0f};

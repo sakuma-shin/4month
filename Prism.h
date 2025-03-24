@@ -35,9 +35,13 @@ public:
 		return worldTransform_;
 	}
 
-	int PosAdjust(int i,int add) {
+	int PosAdjust(int i,int direct) {
 		if (i % 2 != 0) {
-			return i + add;
+			if (direct < 0) {
+				return i - direct;
+			} else if (direct > 0) {
+				return i + direct;
+			}
 		}
 		return i;
 	}
