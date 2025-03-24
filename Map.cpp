@@ -106,33 +106,29 @@ void Map::Update(Player* player) {
 	for (Target* target : target_) { //
 		target->Update();
 	}
-	int i=0;
+	int i = 0;
 	for (mirror* mirrorL : mirror_) { //
 		mirrorL->Update(player);
 		if (int(mirrorL->Getpos().x / 2.0f) != mirrorL->GetPos(0) || int(mirrorL->Getpos().z / 2.0f) != mirrorL->GetPos(1)) {
-			
-			if (int(mirrorL->Getpos().x / 2.0f)-mirrorL->GetPos(0) == 1) {
+
+			if (int(mirrorL->Getpos().x / 2.0f) - mirrorL->GetPos(0) == 1) {
 				i = 1;
-			}
-			else if (int(mirrorL->Getpos().x / 2.0f)-mirrorL->GetPos(0) == -1) {
+			} else if (int(mirrorL->Getpos().x / 2.0f) - mirrorL->GetPos(0) == -1) {
 				i = 2;
-			}
-			else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1)==1) {
+			} else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1) == 1) {
 				i = 3;
-			} 
-			else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1)==-1) {
+			} else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1) == -1) {
 				i = 4;
 			}
-			
+
 			WorldTransform* dai;
 			dai = mirrorL->Getworld();
 
 			int x;
-			x=map[mirrorL->GetPos(0)][mirrorL->GetPos(1)];
+			x = map[mirrorL->GetPos(0)][mirrorL->GetPos(1)];
 			map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = map[int(mirrorL->Getpos().x / 2.0f)][int(mirrorL->Getpos().z / 2.0f)];
 			map[int(mirrorL->Getpos().x / 2.0f)][int(mirrorL->Getpos().z / 2.0f)] = x;
 			mirrorL->PosChange(i);
-
 
 			std::vector<mirror*> mirrors_;
 			for (uint32_t k = 0; k < MaxX * MaxY; ++k) {
@@ -143,8 +139,6 @@ void Map::Update(Player* player) {
 				}
 			}
 			mirror_ = mirrors_;
-
-			
 		}
 	}
 	if (i != 0) {
@@ -165,9 +159,7 @@ void Map::Update(Player* player) {
 		KamataEngine::Vector3 position = colorGlass->GetPosition();
 
 		colorGlass->Update();
-
 	}
-
 }
 
 void Map::Draw() {
@@ -321,7 +313,7 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 			break;
 
 		case 52:
-			//紫ガラス
+			// 紫ガラス
 			return 52;
 			break;
 
@@ -378,7 +370,7 @@ void Map::Reorldtransform() {
 	}
 	mirror_.clear();
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
-		
+
 		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door* newdoor = new door;
 			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_);
@@ -397,7 +389,6 @@ void Map::Reorldtransform() {
 	}
 
 	worldTransform_ = world_;
-
 }
 
 std::vector<KamataEngine::Vector3> Map::GetTilePositionsInRange(int min, int max) {
