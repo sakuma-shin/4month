@@ -35,6 +35,13 @@ public:
 		return worldTransform_;
 	}
 
+	int PosAdjust(int i,int add) {
+		if (i % 2 != 0) {
+			return i + add;
+		}
+		return i;
+	}
+
 private:
 	Model* model_ = nullptr;
 
@@ -43,6 +50,9 @@ private:
 	int key_ = 0;
 
 	int pos_[2] = {};
+
+	int distX = 0;
+	int distZ = 0;
 
 	Map* map_ = nullptr;
 
