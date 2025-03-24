@@ -550,51 +550,6 @@ bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
 	return false;
 }
 
-//void Map::CheckGoalCollision(KamataEngine::Vector3 pos)
-//{
-//
-//	int mapX = static_cast<int>(pos.x / Size.x);
-//	int mapZ = static_cast<int>(pos.z / Size.z);
-//
-//	if (mapX < 0 || mapX >= MaxX || mapZ < 0 || mapZ >= MaxY) {
-//		return 1; // マップ外は壁扱い
-//	}
-//
-//	// マップの中身を確認
-//	if (map[mapX][mapZ] == 2) {  // ゴールの位置（例: 2がゴールを意味する）
-//		return 2;  // ゴールに到達した
-//	}
-//
-//	return 0;  // ゴールには触れていない
-//
-//}
-
-//void Map::CheckGoalCollision(KamataEngine::Vector3 pos) {
-//	int mapX = static_cast<int>(pos.x / Size.x);
-//	int mapZ = static_cast<int>(pos.z / Size.z);
-//
-//	if (mapX < 0 || mapX >= MaxX || mapZ < 0 || mapZ >= MaxY) {
-//		return;  // マップ外は何も処理しない
-//	}
-//
-//	// マップの中身を確認
-//	switch (map[mapX][mapZ]) {
-//	
-//		case 2:
-//			//ゴール
-//			
-//			gameScene_->IsFinished();
-//			return;
-//			break;
-//
-//	}
-//	//if (map[mapX][mapZ] == 2) {  // ゴールの位置（例: 2がゴールを意味する）
-//	//	// ゴールに到達した場合、GameSceneの処理を呼び出す
-//	//	gameScene_->IsFinished();  // ゲームシーンでクリア処理を行う
-//	//	return;
-//	//}
-//}
-
 void Map::CheckGoalCollision(KamataEngine::Vector3 pos) {
 	int mapX = static_cast<int>(pos.x / Size.x);
 	int mapZ = static_cast<int>(pos.z / Size.z);
