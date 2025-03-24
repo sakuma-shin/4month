@@ -13,8 +13,7 @@ class Map;
 class ColorGlass {
 
 public:
-
-	void Initialize(KamataEngine::WorldTransform* worldtransform, Map* map);
+	void Initialize(KamataEngine::WorldTransform* worldtransform, Map* map, int x, int z, int number);
 
 	void Update();
 
@@ -22,8 +21,10 @@ public:
 
 	KamataEngine::Vector3 GetPosition() const;
 
-private:
+	int Getpos(int i) { return pos[i]; }
+	int Getnumber();
 
+private:
 	KamataEngine::WorldTransform* worldTransform_;
 
 	KamataEngine::Model* colorGlassModel_;
@@ -33,5 +34,7 @@ private:
 	uint32_t textureHandle_ = 0u;
 
 	Map* map_;
+	int pos[2];
 
+	int mapnumber_;
 };

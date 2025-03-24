@@ -62,7 +62,7 @@ void GameScene::Initialize() {
 
 	map_ = new Map;
 
-	map_->Initialize(mapModel_, textureHandle_, &camera_,stagenumber);
+	map_->Initialize(mapModel_, textureHandle_, &camera_,stagenumber,this);
 
 //ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
@@ -84,8 +84,9 @@ void GameScene::Initialize() {
 }
 
 void GameScene::Update() { 
-
+	lightDethflag = false;
 	for (Light* light : lights_) {
+		light->SetMapData(map_);
 		light->Update();
 
 		//// 反射した場合、新しいLightを作成
@@ -103,8 +104,12 @@ void GameScene::Update() {
 		}
 		if (map_->CheckCollision(light->GetinitialPos()) == 0 || map_->CheckCollision(light->GetinitialPos()) == 8) {
 			light->Deth();
+			lightDethflag = true;
 		}
-	}
+
+
+			}
+
 	lights_.remove_if([](Light* light) { 
 		if (!light->IsDeth()) {
 			delete light;

@@ -2,12 +2,14 @@
 
 using namespace KamataEngine;
 
-void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber) {
+void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber,GameScene* game) {
 	// NULLチェック
 	assert(model);
 
 	// 引数の内容をメンバ変数に記録
 	// this->model_ = model;
+
+	gameScene_ = game;
 
 	model_ = Model::CreateFromOBJ("wall", true);
 	textureHandle_ = textureHandle;
@@ -69,12 +71,12 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
 			mirror* newmirror = new mirror;
-			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX, this);
+			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX, this, map[i % MaxX][ i/ MaxX]);
 			mirror_.push_back(newmirror);
 		}
 		if (map[i % MaxX][i / MaxX] >= 50 && map[i % MaxX][i / MaxX] <= 54) {
 			ColorGlass* newcolorGlass = new ColorGlass;
-			newcolorGlass->Initialize(worldTransform_[i], this);
+			newcolorGlass->Initialize(worldTransform_[i], this, i % MaxX, i / MaxX, map[i % MaxX][i / MaxX]);
 			colorGlass_.push_back(newcolorGlass);
 		}
 	}
@@ -98,6 +100,7 @@ void Map::Update(Player* player) {
 	mirrorcount = 0;
 	targetcount = 0;
 	prismcount = 0;
+
 	colorGlassCount = 0;
 
 	for (door* door : door_) {
@@ -108,6 +111,7 @@ void Map::Update(Player* player) {
 	}
 	int i = 0;
 	for (mirror* mirrorL : mirror_) { //
+		
 		mirrorL->Update(player);
 		if (int(mirrorL->Getpos().x / 2.0f) != mirrorL->GetPos(0) || int(mirrorL->Getpos().z / 2.0f) != mirrorL->GetPos(1)) {
 
@@ -134,11 +138,19 @@ void Map::Update(Player* player) {
 			for (uint32_t k = 0; k < MaxX * MaxY; ++k) {
 				if (map[k % MaxX][k / MaxX] >= 30 && map[k % MaxX][k / MaxX] <= 34) {
 					mirror* newmirror = new mirror;
-					newmirror->Initialize(worldTransform_[k], k % MaxX, k / MaxX, this);
+					newmirror->Initialize(worldTransform_[k], k % MaxX, k / MaxX, this, map[k % MaxX][k / MaxX]);
 					mirrors_.push_back(newmirror);
 				}
 			}
 			mirror_ = mirrors_;
+		}
+		if (gameScene_->GetlihtFlag()) {
+			map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = 0;
+		} else {
+			if (map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] == 0) {
+				map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = mirrorL->Getnumber();
+			}
+
 		}
 	}
 	if (i != 0) {
@@ -155,9 +167,14 @@ void Map::Update(Player* player) {
 	}
 
 	for (ColorGlass* colorGlass : colorGlass_) {
-
-		KamataEngine::Vector3 position = colorGlass->GetPosition();
-
+		if (gameScene_->GetlihtFlag()) {
+			map[colorGlass->Getpos(0)][colorGlass->Getpos(1)] = 0;
+		} else {
+			if (map[colorGlass->Getpos(0)][colorGlass->Getpos(1)] == 0) {
+				map[colorGlass->Getpos(0)][colorGlass->Getpos(1)] = colorGlass->Getnumber();
+			}
+			KamataEngine::Vector3 position = colorGlass->GetPosition();
+		}
 		colorGlass->Update();
 	}
 }
@@ -378,7 +395,7 @@ void Map::Reorldtransform() {
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
 			mirror* newmirror = new mirror;
-			newmirror->Initialize(world_[i], i % MaxX, i / MaxX, this);
+			newmirror->Initialize(world_[i], i % MaxX, i / MaxX, this, map[i % MaxX][i / MaxX]);
 			mirror_.push_back(newmirror);
 		}
 	}
@@ -389,6 +406,26 @@ void Map::Reorldtransform() {
 	}
 
 	worldTransform_ = world_;
+
+}
+
+bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
+	rayCount = 0;
+	int initialPosX = static_cast<int>(initialPos.x) / static_cast<int>(Size.x);
+	int initialPosZ = static_cast<int>(initialPos.z) / static_cast<int>(Size.z);
+	int endPosX = static_cast<int>(endPos.x) / static_cast<int>(Size.x);
+	int endPosZ = static_cast<int>(endPos.z) / static_cast<int>(Size.z);
+	for (int z = initialPosZ; z <= endPosZ; ++z) {
+		for (int x = initialPosX; x <= endPosX; ++x) {
+			if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
+				if (map[x][z] >= 31 && map[x][z] <= 34) {
+					return true;
+				}
+			}
+			rayCount++;
+		}
+	}
+	return false;
 }
 
 std::vector<KamataEngine::Vector3> Map::GetTilePositionsInRange(int min, int max) {

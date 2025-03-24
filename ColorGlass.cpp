@@ -2,14 +2,15 @@
 
 using namespace KamataEngine;
 
-void ColorGlass::Initialize(KamataEngine::WorldTransform* worldtransform, Map* map)
-{
+void ColorGlass::Initialize(KamataEngine::WorldTransform* worldtransform, Map* map, int x, int z,int number) {
 
 	worldTransform_ = worldtransform;
 	map_ = map;
 	colorGlassModel_ = Model::CreateFromOBJ("cube", true);
 	textureHandle_ = TextureManager::Load("color/purple.png");
-
+	pos[0] = x;
+	pos[1] = z;
+	mapnumber_ = number;
 }
 
 void ColorGlass::Update()
@@ -25,5 +26,6 @@ void ColorGlass::Draw(KamataEngine::Camera* camera)
 
 KamataEngine::Vector3 ColorGlass::GetPosition() const
 {
-	return worldTransform_->translation_;
-}
+	return worldTransform_->translation_; }
+
+int ColorGlass::Getnumber() { return mapnumber_; }

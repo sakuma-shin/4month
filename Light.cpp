@@ -78,8 +78,15 @@ void Light::Update() {
 	    }
 	}*/
 
-	if (growtype_ == Up) {
-		growtype_ = Up;
+
+	if (growtype_ == NO) {
+		Vector3 endPos = Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_);
+		if (map_->CheckCollisionRay(initialPos_, endPos)) {
+			worldTransform_.scale_ = {0.5f, 0.5f, 0.5f};
+			worldTransform_.translation_ = initialPos_;
+			growtype_ = prevGrowType_;
+			isRefrected = false;
+		}
 	}
 
 	if (!map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {
@@ -90,6 +97,9 @@ void Light::Update() {
 
 		growtype_ = prevGrowType_;
 		isRefrected = false;
+	}
+	if (map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_)) == 52) {
+		
 	}
 
 	if (worldTransform_.scale_.x >= 1.0f && growtype_ == Down || growtype_ == Up) {
@@ -103,6 +113,8 @@ void Light::Update() {
 			OnCollisionMap(map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_)));
 		}
 	}
+
+	
 
 	// 各Lightごとにウィンドウを作成
 	std::string windowName = "Light_" + std::to_string(reinterpret_cast<uintptr_t>(this));

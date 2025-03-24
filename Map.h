@@ -16,21 +16,27 @@
 #include "Player.h"
 #include "Prism.h"
 #include "ColorGlass.h"
+#include "GameScene.h"
+#include"MathUtility.h"
 
 class mirror;
 class ColorGlass;
 
 class Prism;
 
+class GameScene;
+
 class Map {
 public:
-	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber);
+	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber,GameScene* game);
 	void Update(Player* player);
 	void Draw();
 	void readCSV();
 
 	int CheckCollision(KamataEngine::Vector3 pos);
 	void Reorldtransform();
+
+	bool CheckCollisionRay(Vector3 initialPos, Vector3 endPos);
 
 	std::vector<KamataEngine::Vector3> GetTilePositionsInRange(int min, int max);
 	std::vector<Light::GrowType> GetMirrorTypesInRange();
@@ -92,6 +98,11 @@ private:
 
 	int prismcount = 0;
 
+
 	int colorGlassCount = 0;
+
+	GameScene* gameScene_;
+
+	int rayCount = 0;
 
 };
