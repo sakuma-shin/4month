@@ -52,6 +52,7 @@ public:
 	}
 
 private:
+
 	KamataEngine::Model* doormodel_;
 	bool openflag = false;
 	int key_;
