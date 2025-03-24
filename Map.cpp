@@ -103,6 +103,8 @@ void Map::Update(Player* player) {
 
 	colorGlassCount = 0;
 
+	
+
 	/*for (door* door : door_) {
 		door->Update(target_);
 	}*/
@@ -332,65 +334,11 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 		switch (map[mapX][mapZ]) {
 
 			// マップ番号と同じ数字を返す
-		//case 8:
-		//	// 壁
-		//	return 8;
-		//	break;
 
-		//case 31:
-		//	// 右下鏡
-		//	return 31;
+		//case 2:
+		//	//ゴール
+		//	return 2;
 		//	break;
-
-		//case 32:
-		//	// 右上鏡
-		//	return 32;
-		//	break;
-
-		//case 33:
-		//	// 水平鏡
-		//	return 33;
-		//	break;
-
-		//case 34:
-		//	// 垂直鏡
-		//	return 34;
-		//	break;
-
-		//case 52:
-		//	//紫ガラス
-		//	return 52;
-		//	break;
-
-		//case 91:
-		//	// プリズム上
-		//	return 91;
-		//	break;
-
-		//case 92:
-		//	// プリズム下
-		//	return 92;
-		//	break;
-
-		//case 93:
-		//	// プリズム左
-		//	return 93;
-		//	break;
-
-		//case 94:
-		//	// プリズム右
-		//	return 94;
-		//	break;
-
-		//case 42:
-		//	// 垂直鏡
-		//	return 42;
-		//	break;
-		
-		case 2:
-			//ゴール
-			return 2;
-			break;
 
 		case 8:
 			// 壁
@@ -601,6 +549,42 @@ bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
 	}
 	return false;
 }
+
+//void Map::CheckGoalCollision(KamataEngine::Vector3 pos)
+//{
+//
+//	int mapX = static_cast<int>(pos.x / Size.x);
+//	int mapZ = static_cast<int>(pos.z / Size.z);
+//
+//	if (mapX < 0 || mapX >= MaxX || mapZ < 0 || mapZ >= MaxY) {
+//		return 1; // マップ外は壁扱い
+//	}
+//
+//	// マップの中身を確認
+//	if (map[mapX][mapZ] == 2) {  // ゴールの位置（例: 2がゴールを意味する）
+//		return 2;  // ゴールに到達した
+//	}
+//
+//	return 0;  // ゴールには触れていない
+//
+//}
+
+void Map::CheckGoalCollision(KamataEngine::Vector3 pos) {
+	int mapX = static_cast<int>(pos.x / Size.x);
+	int mapZ = static_cast<int>(pos.z / Size.z);
+
+	if (mapX < 0 || mapX >= MaxX || mapZ < 0 || mapZ >= MaxY) {
+		return;  // マップ外は何も処理しない
+	}
+
+	// マップの中身を確認
+	if (map[mapX][mapZ] == 2) {  // ゴールの位置（例: 2がゴールを意味する）
+		// ゴールに到達した場合、GameSceneの処理を呼び出す
+		gameScene_->IsFinished();  // ゲームシーンでクリア処理を行う
+		return;
+	}
+}
+
 
 std::vector<KamataEngine::Vector3> Map::GetTilePositionsInRange(int min, int max) {
 	std::vector<KamataEngine::Vector3> positions;
