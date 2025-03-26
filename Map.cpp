@@ -457,14 +457,55 @@ bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
 	int initialPosZ = static_cast<int>(initialPos.z) / static_cast<int>(Size.z);
 	int endPosX = static_cast<int>(endPos.x) / static_cast<int>(Size.x);
 	int endPosZ = static_cast<int>(endPos.z) / static_cast<int>(Size.z);
-	for (int z = initialPosZ; z <= endPosZ; ++z) {
-		for (int x = initialPosX; x <= endPosX; ++x) {
-			if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
-				if (map[x][z] >= 31 && map[x][z] <= 34) {
-					return true;
+
+	if (initialPosZ <= endPosZ) {
+		if (initialPosX <= endPosX) {
+			for (int z = initialPosZ; z <= endPosZ; ++z) {
+				for (int x = initialPosX; x <= endPosX; ++x) {
+					if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
+						if (map[x][z] >= 31 && map[x][z] <= 34) {
+							return true;
+						}
+					}
+					rayCount++;
 				}
 			}
-			rayCount++;
+		} else if (initialPosX >= endPosX) {
+			for (int z = initialPosZ; z <= endPosZ; ++z) {
+				for (int x = endPosX; x <= initialPosX; ++x) {
+					if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
+						if (map[x][z] >= 31 && map[x][z] <= 34) {
+							return true;
+						}
+					}
+					rayCount++;
+				}
+			}
+		}
+	}
+	else if (initialPosZ >= endPosZ) {
+		if (initialPosX <= endPosX) {
+			for (int z = endPosZ; z <=initialPosZ ; ++z) {
+				for (int x = initialPosX; x <= endPosX; ++x) {
+					if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
+						if (map[x][z] >= 31 && map[x][z] <= 34) {
+							return true;
+						}
+					}
+					rayCount++;
+				}
+			}
+		} else if (initialPosX >= endPosX) {
+			for (int z = endPosZ; z <=initialPosZ ; ++z) {
+				for (int x = endPosX; x <= initialPosX; ++x) {
+					if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
+						if (map[x][z] >= 31 && map[x][z] <= 34) {
+							return true;
+						}
+					}
+					rayCount++;
+				}
+			}
 		}
 	}
 	return false;
