@@ -1,11 +1,13 @@
-#include <KamataEngine.h>
-#include "GameScene.h"
-#include "TitleScene.h"
 #include "ClearScene.h"
+#include "GameScene.h"
+#include "SelectScene.h"
+#include "TitleScene.h"
+#include <KamataEngine.h>
 
 using namespace KamataEngine;
 
 TitleScene* titleScene = nullptr;
+SelectScene* selectScene = nullptr;
 GameScene* gameScene = nullptr;
 ClearScene* clearScene = nullptr;
 
@@ -14,6 +16,7 @@ enum class Scene {
 	kUnknown = 0,
 
 	kTitle,
+	kSelect,
 	kGame,
 	kClear
 
@@ -98,7 +101,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 入力関連の毎フレーム処理
 		input->Update();
 
-		//gameScene->Update();
+		// gameScene->Update();
 		UpdateScene();
 		ChangeScene();
 
@@ -111,7 +114,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		dxCommon->PreDraw();
 
 		// ゲームシーンの描画
-	//	gameScene->Draw();
+		//	gameScene->Draw();
 		DrawScene();
 
 		// 軸表示の描画
@@ -131,6 +134,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	imguiManager->Finalize();
 	// scene解放
 	delete titleScene;
+	delete selectScene;
 	delete gameScene;
 	delete clearScene;
 
@@ -140,8 +144,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	return 0;
 }
 
-void ChangeScene()
-{
+void ChangeScene() {
 
 	switch (scene) {
 
@@ -149,11 +152,28 @@ void ChangeScene()
 
 		if (titleScene->IsFinished()) {
 
-			scene = Scene::kGame;
+			scene = Scene::kSelect;
 
 			delete titleScene;
 
 			titleScene = nullptr;
+
+			selectScene = new SelectScene();
+
+			selectScene->Initialize();
+		}
+
+		break;
+
+	case Scene::kSelect:
+
+		if (selectScene->IsFinished()) {
+
+			scene = Scene::kGame;
+
+			delete selectScene;
+
+			selectScene = nullptr;
 
 			gameScene = new GameScene();
 
@@ -175,13 +195,11 @@ void ChangeScene()
 			clearScene = new ClearScene();
 
 			clearScene->Initialize();
-
 		}
 
 		break;
 
 	case Scene::kClear:
-
 
 		if (clearScene->IsFinished()) {
 
@@ -194,23 +212,25 @@ void ChangeScene()
 			titleScene = new TitleScene();
 
 			titleScene->Initialize();
-
 		}
 
 		break;
-
 	}
-
 }
 
-void UpdateScene()
-{
+void UpdateScene() {
 
 	switch (scene) {
 
 	case Scene::kTitle:
 
 		titleScene->Update();
+
+		break;
+
+	case Scene::kSelect:
+
+		selectScene->Update();
 
 		break;
 
@@ -225,16 +245,20 @@ void UpdateScene()
 		clearScene->Update();
 
 		break;
-
 	}
 }
 
-void DrawScene()
-{
+void DrawScene() {
 
 	switch (scene) {
 
 	case Scene::kTitle:
+
+		titleScene->Draw();
+
+		break;
+
+	case Scene::kSelect:
 
 		titleScene->Draw();
 
@@ -251,7 +275,5 @@ void DrawScene()
 		clearScene->Draw();
 
 		break;
-
 	}
-
 }

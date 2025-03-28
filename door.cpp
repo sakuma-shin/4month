@@ -3,8 +3,8 @@
 
 using namespace KamataEngine;
 
-void door::Initialize(int key, std::vector<Target*> target) { 
-	doormodel_ = Model::CreateFromOBJ("door", true); 
+void door::Initialize(int key, std::vector<Target*> target) {
+	doormodel_ = Model::CreateFromOBJ("door", true);
 	key_ = key;
 	target_ = target;
 }
@@ -16,7 +16,6 @@ void door::Update(std::vector<Target*> target) {
 	ImGui::Checkbox("opendoor", &openflag);
 	ImGui::End();
 	openflag = keyopen();
-	
 }
 
 void door::Draw(KamataEngine::WorldTransform* worldtransform, KamataEngine::Camera* camera) {
@@ -25,9 +24,9 @@ void door::Draw(KamataEngine::WorldTransform* worldtransform, KamataEngine::Came
 	}
 }
 
-bool door::keyopen() { 
-	int k = Digitnamber(key_);//何桁
-	int number = key_;//番号
+bool door::keyopen() {
+	int k = Digitnamber(key_); // 何桁
+	int number = key_;         // 番号
 	int count = 0;
 	for (int i = 0; i < k; i++) {
 		int digit = Digit(number);
@@ -43,10 +42,8 @@ bool door::keyopen() {
 				}
 			}
 		}
-
 	}
 	return false;
-
 }
 
 int door::Digit(int number) {
@@ -62,7 +59,7 @@ int door::Digit(int number) {
 
 int door::Digitnamber(int number) {
 	int k = 1;
-	for (; number / 10 >= 1; ) {
+	for (; number / 10 >= 1;) {
 		number = number / 10;
 		k++;
 	}
@@ -77,4 +74,3 @@ int door::UnFirstnumber(int number) {
 
 	return number - Digit(number) * (k);
 }
-	

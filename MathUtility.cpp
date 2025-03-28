@@ -248,7 +248,6 @@ const Vector3 operator-(Vector3& v1, Vector3& v2) { return {v1.x - v2.x, v1.y - 
 
 const Vector3 operator-(const Vector3& v1, const Vector3& v2) { return {v1.x - v2.x, v1.y - v2.y, v1.z - v2.z}; }
 
-
 const KamataEngine::Matrix4x4 operator*=(KamataEngine::Matrix4x4& m1, const KamataEngine::Matrix4x4& m2) { return Multiply(m1, m2); }
 
 const Vector3 operator+(Vector3& v1, Vector3& v2) { return {v1.x + v2.x, v1.y + v2.y, v1.z + v2.z}; }
@@ -413,11 +412,10 @@ Matrix4x4 MakeScaleMatrix(const Vector3& scale) {
 	return result;
 }
 
-KamataEngine::Matrix4x4 MakeLookAtMatrix(const Vector3& eye, const Vector3& target, const Vector3& up)
-{
-	
-	//Vector3 zAxis = Normalize(target - eye);
-	Vector3 zAxis = Normalize({ target.x - eye.x,target.y - eye.y,target.z - eye.z });
+KamataEngine::Matrix4x4 MakeLookAtMatrix(const Vector3& eye, const Vector3& target, const Vector3& up) {
+
+	// Vector3 zAxis = Normalize(target - eye);
+	Vector3 zAxis = Normalize({target.x - eye.x, target.y - eye.y, target.z - eye.z});
 
 	// X軸：upとZ軸の外積 (右方向)
 	Vector3 xAxis = Normalize(Cross(up, zAxis));
@@ -426,25 +424,9 @@ KamataEngine::Matrix4x4 MakeLookAtMatrix(const Vector3& eye, const Vector3& targ
 	Vector3 yAxis = Cross(xAxis, zAxis);
 
 	// ビュー行列を作成
-	Matrix4x4 viewMatrix = {
-		xAxis.x, yAxis.x, zAxis.x, 0.0f,
-		xAxis.y, yAxis.y, zAxis.y, 0.0f,
-		xAxis.z, yAxis.z, zAxis.z, 0.0f,
-		-Dot(xAxis, eye), -Dot(yAxis, eye), -Dot(zAxis, eye), 1.0f
-	};
+	Matrix4x4 viewMatrix = {xAxis.x, yAxis.x, zAxis.x, 0.0f, xAxis.y, yAxis.y, zAxis.y, 0.0f, xAxis.z, yAxis.z, zAxis.z, 0.0f, -Dot(xAxis, eye), -Dot(yAxis, eye), -Dot(zAxis, eye), 1.0f};
 
 	return viewMatrix;
-
-
 }
 
-KamataEngine::Vector3 Cross(const KamataEngine::Vector3& v1, const KamataEngine::Vector3& v2)
-{
-
-	return {
-		   v1.y * v2.z - v1.z * v2.y,
-		   v1.z * v2.x - v1.x * v2.z,
-		   v1.x * v2.y - v1.y * v2.x
-	};
-
-}
+KamataEngine::Vector3 Cross(const KamataEngine::Vector3& v1, const KamataEngine::Vector3& v2) { return {v1.y * v2.z - v1.z * v2.y, v1.z * v2.x - v1.x * v2.z, v1.x * v2.y - v1.y * v2.x}; }

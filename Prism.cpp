@@ -70,7 +70,8 @@ void Prism::Update(Player* player) {
 		if (input_->TriggerKey(DIK_L)) {
 			if (prismDirection_ == Light::GrowType::Up) {
 				if (map_->CheckCollision(Vector3(player_->GetPosition().x - 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == 0 &&
-				    map_->CheckCollision(Vector3{float(PosAdjust((int)player->GetPosition().x, directX) - 2) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ)) / 2 * 2}) == 0) {//同時に設置予定箇所も判定
+				    map_->CheckCollision(Vector3{float(PosAdjust((int)player->GetPosition().x, directX) - 2) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ)) / 2 * 2}) ==
+				        0) { // 同時に設置予定箇所も判定
 					key_ = 91;
 					worldTransform_->translation_ = Vector3{float(PosAdjust((int)player->GetPosition().x, directX) - 2) / 2 * 2, 0, (float)(PosAdjust((int)player->GetPosition().z, directZ)) / 2 * 2};
 					worldTransform_->rotation_ = Vector3{0.0f, 4.7f, 0.0f};

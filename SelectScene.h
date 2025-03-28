@@ -3,10 +3,9 @@
 #include <KamataEngine.h>
 using namespace KamataEngine;
 
-class TitleScene {
-
+class SelectScene {
 public:
-	~TitleScene();
+	~SelectScene();
 
 	void Initialize();
 

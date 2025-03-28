@@ -1,23 +1,23 @@
 #pragma once
-#include <KamataEngine.h>
 #include "3D/Model.h"
 #include "3D/WorldTransform.h"
 #include "3D/camera.h"
-#include"math/Vector2.h"
-#include <iostream>
-#include <fstream>
-#include <vector>
-#include <sstream>
-#include"Light.h"
-#include "door.h"
-#include<list>
-#include "Target.h"
-#include "mirror.h"
-#include "Player.h"
-#include "Prism.h"
 #include "ColorGlass.h"
 #include "GameScene.h"
-#include"MathUtility.h"
+#include "Light.h"
+#include "MathUtility.h"
+#include "Player.h"
+#include "Prism.h"
+#include "Target.h"
+#include "door.h"
+#include "math/Vector2.h"
+#include "mirror.h"
+#include <KamataEngine.h>
+#include <fstream>
+#include <iostream>
+#include <list>
+#include <sstream>
+#include <vector>
 
 class mirror;
 class ColorGlass;
@@ -28,7 +28,7 @@ class GameScene;
 
 class Map {
 public:
-	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber,GameScene* game);
+	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber, GameScene* game);
 	void Update(Player* player);
 	void Draw();
 	void readCSV();
@@ -42,26 +42,21 @@ public:
 	std::vector<Light::GrowType> GetMirrorTypesInRange();
 
 private:
-
 	int Digit(int number);
 
 	int Digitnamber(int number);
 
 	int UnFirstnumber(int number);
 
-	std::vector<Target*> Gettargetlist() { 
-		return target_;
-	}
+	std::vector<Target*> Gettargetlist() { return target_; }
 
-
-
-	private:
+private:
 	std::string filename;
 	static const int MaxX = 10;
 	static const int MaxY = 15;
 	int map[MaxX][MaxY];
-	//ブロックの大きさ
-	KamataEngine::Vector3 Size = { 2,2,2 };
+	// ブロックの大きさ
+	KamataEngine::Vector3 Size = {2, 2, 2};
 	// ワールド変換データ
 	std::vector<KamataEngine::WorldTransform*> worldTransform_;
 	// モデル
@@ -80,15 +75,15 @@ private:
 	KamataEngine::Model* doormodel_;
 
 	KamataEngine::Model* colorGlassModel_;
-	
+
 	std::vector<door*> door_;
 
 	std::vector<Target*> target_;
 
 	std::vector<mirror*> mirror_;
-  
+
 	std::vector<Prism*> prism_;
-  
+
 	std::vector<ColorGlass*> colorGlass_;
 
 	int doorcount = 0;
@@ -98,11 +93,9 @@ private:
 
 	int prismcount = 0;
 
-
 	int colorGlassCount = 0;
 
 	GameScene* gameScene_;
 
 	int rayCount = 0;
-
 };
