@@ -32,6 +32,8 @@ public:
 
 	bool IsFinished() { return isFinished_; }
 
+	void SetFinished(bool finished) { isFinished_ = finished; }
+
 	bool GetlihtFlag() { return lightDethflag; }
 
 private:

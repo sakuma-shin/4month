@@ -121,10 +121,16 @@ void GameScene::Update() {
 	camera_.matProjection = cameraAngle_->GetCamera().matProjection;
 	camera_.TransferMatrix();
 
+	KamataEngine::Vector3 playerPos = player_->GetPosition();
+
+	// マップのゴール判定を行う
+	map_->CheckGoalCollision(playerPos);
+
 	if (input_->TriggerKey(DIK_SPACE)) {
 
 		isFinished_ = true;
 	}
+
 	if (input_->TriggerKey(DIK_P) && stagenumber <= 5) {
 		stagenumber++;
 		Initialize();

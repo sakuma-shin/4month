@@ -5,6 +5,7 @@
 #include <KamataEngine.h>
 #include <input/Input.h>
 
+
 class Map;
 
 class Player {
