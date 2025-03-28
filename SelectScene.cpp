@@ -1,20 +1,18 @@
-#include "ClearScene.h"
+#include "SelectScene.h"
 
-ClearScene::~ClearScene() {}
+SelectScene::~SelectScene() {}
 
-void ClearScene::Initialize() {
-
+void SelectScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 }
 
-void ClearScene::Update() {
-
+void SelectScene::Update() {
 	if (input_->TriggerKey(DIK_SPACE)) {
 
 		isFinished_ = true;
 	}
 }
 
-void ClearScene::Draw() {}
+void SelectScene::Draw() {}

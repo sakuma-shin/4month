@@ -1,12 +1,11 @@
 #pragma once
-#include <KamataEngine.h>
 #include "base/DirectXCommon.h"
+#include <KamataEngine.h>
 using namespace KamataEngine;
 
 class ClearScene {
 
 public:
-
 	~ClearScene();
 
 	void Initialize();
@@ -18,12 +17,9 @@ public:
 	bool IsFinished() { return isFinished_; }
 
 private:
-
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
 	bool isFinished_ = false;
-
-
 };

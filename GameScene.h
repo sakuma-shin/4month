@@ -1,16 +1,16 @@
 #pragma once
 #include "KamataEngine.h"
 
-#include "Player.h"
 #include "CameraAngle.h"
+#include "Player.h"
 
 #include "Light.h"
-#include<list>
+#include <list>
 
 #include "Map.h"
 
 #include "Color.h"
-//#include "ColorGlass.h"
+// #include "ColorGlass.h"
 
 using namespace KamataEngine;
 
@@ -34,38 +34,37 @@ public:
 
 	void SetFinished(bool finished) { isFinished_ = finished; }
 
-	bool GetlihtFlag() { return lightDethflag;
-	}
+	bool GetlihtFlag() { return lightDethflag; }
 
 private:
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
-	//モデル
+	// モデル
 	Model* playerModel_ = nullptr;
 
-	//テクスチャハンドル
+	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 
-	//プレイヤー
+	// プレイヤー
 	Player* player_ = nullptr;
 
 	// カメラ
 	Camera camera_;
 
-	//カメラアングル
+	// カメラアングル
 	CameraAngle* cameraAngle_ = nullptr;
 
-	//カラー
+	// カラー
 	Color* color_ = nullptr;
 
-	//色ガラス
-	//ColorGlass* colorGlass_;
+	// 色ガラス
+	// ColorGlass* colorGlass_;
 
 	bool isFinished_ = false;
 
-	//ライト
+	// ライト
 	std::list<Light*> lights_;
 	/*Sprite* lightSprite_ = nullptr;*/
 	uint32_t lightTextureHandle_ = 0u;
@@ -77,7 +76,7 @@ private:
 
 	int stagenumber = 1;
 
-	//カラー類
+	// カラー類
 	Model* colorModel_ = nullptr;
 	uint32_t redTextureHandle_ = 0u;
 	uint32_t blueTextureHandle_ = 0u;
@@ -86,5 +85,4 @@ private:
 	uint32_t purpleTextureHandle_ = 0u;
 
 	bool lightDethflag = false;
-
 };

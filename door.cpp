@@ -5,6 +5,7 @@
 using namespace KamataEngine;
 
 void door::Initialize(int key, std::vector<Target*> target, int x, int z) {
+
 	doormodel_ = Model::CreateFromOBJ("door", true);
 	key_ = key;
 	target_ = target;
@@ -28,6 +29,7 @@ void door::Update(std::vector<Target*> target) {
 	}
 
 	ImGui::End();
+	openflag = keyopen();
 }
 
 
@@ -55,10 +57,8 @@ bool door::keyopen() {
 				}
 			}
 		}
-
 	}
 	return false;
-
 }
 
 int door::Digit(int number) {
@@ -74,7 +74,7 @@ int door::Digit(int number) {
 
 int door::Digitnamber(int number) {
 	int k = 1;
-	for (; number / 10 >= 1; ) {
+	for (; number / 10 >= 1;) {
 		number = number / 10;
 		k++;
 	}
@@ -89,4 +89,3 @@ int door::UnFirstnumber(int number) {
 
 	return number - Digit(number) * (k);
 }
-

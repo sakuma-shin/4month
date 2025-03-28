@@ -1,10 +1,10 @@
 #pragma once
-#include <KamataEngine.h>
 #include "3D/Model.h"
 #include "3D/WorldTransform.h"
 #include "3D/camera.h"
-#include"math/Vector2.h"
 #include "Target.h"
+#include "math/Vector2.h"
+#include <KamataEngine.h>
 
 class door {
 public:

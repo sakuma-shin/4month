@@ -31,11 +31,9 @@ public:
 
 	int ReturnKey() { return key_; }
 
-	WorldTransform* GetworldTransform() { 
-		return worldTransform_;
-	}
+	WorldTransform* GetworldTransform() { return worldTransform_; }
 
-	int PosAdjust(int i,int direct) {
+	int PosAdjust(int i, int direct) {
 		if (i % 2 != 0) {
 			if (direct < 0) {
 				return i - direct;

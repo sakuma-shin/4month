@@ -1,8 +1,8 @@
 #pragma once
-#include <KamataEngine.h>
 #include "3D/Model.h"
 #include "3D/WorldTransform.h"
 #include "3D/camera.h"
+#include <KamataEngine.h>
 #include <input/Input.h>
 
 
@@ -11,10 +11,9 @@ class Map;
 class Player {
 
 public:
-
 	~Player();
 
-	void Initialize(KamataEngine::Model* model,uint32_t textureHandle,KamataEngine::Camera* camera);
+	void Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera);
 
 	void Update(Map* map);
 
@@ -29,9 +28,7 @@ public:
 
 	void SetMap(Map* map) { map_ = map; }
 
-	KamataEngine::Vector3 Getmove() { 
-		return move;
-	}
+	KamataEngine::Vector3 Getmove() { return move; }
 
 	/// <summary>
 	/// 0ならカウントを減らし、1なら増やす(それ以外の数字でも可)
@@ -54,17 +51,16 @@ public:
 	int GetCount() { return prismCount_; }
 
 private:
-
 	// ワールド変換データ
 	KamataEngine::WorldTransform worldTransform_;
 	// モデル
-	KamataEngine::Model* model_ = nullptr;	
+	KamataEngine::Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 
 	KamataEngine::Camera* camera_ = nullptr;
 
-	//入力
+	// 入力
 	KamataEngine::Input* input_ = nullptr;
 
 	Map* map_ = nullptr;
@@ -72,5 +68,4 @@ private:
 	KamataEngine::Vector3 move = {0, 0, 0};
 
 	int prismCount_ = 0;
-
 };

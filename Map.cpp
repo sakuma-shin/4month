@@ -2,7 +2,7 @@
 
 using namespace KamataEngine;
 
-void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber,GameScene* game) {
+void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber, GameScene* game) {
 	// NULLチェック
 	assert(model);
 
@@ -71,7 +71,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
 			mirror* newmirror = new mirror;
-			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX, this, map[i % MaxX][ i/ MaxX]);
+			newmirror->Initialize(worldTransform_[i], i % MaxX, i / MaxX, this, map[i % MaxX][i / MaxX]);
 			mirror_.push_back(newmirror);
 		}
 		if (map[i % MaxX][i / MaxX] >= 50 && map[i % MaxX][i / MaxX] <= 54) {
@@ -139,7 +139,7 @@ void Map::Update(Player* player) {
 	}
 	int i = 0;
 	for (mirror* mirrorL : mirror_) { //
-		
+
 		mirrorL->Update(player);
 		if (int(mirrorL->Getpos().x / 2.0f) != mirrorL->GetPos(0) || int(mirrorL->Getpos().z / 2.0f) != mirrorL->GetPos(1)) {
 
@@ -178,7 +178,6 @@ void Map::Update(Player* player) {
 			if (map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] == 0) {
 				map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = mirrorL->Getnumber();
 			}
-
 		}
 	}
 	if (i != 0) {
@@ -527,7 +526,6 @@ void Map::Reorldtransform() {
 	}
 
 	worldTransform_ = world_;
-
 }
 
 bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {

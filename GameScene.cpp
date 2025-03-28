@@ -3,7 +3,6 @@
 using namespace KamataEngine;
 GameScene::GameScene() {}
 
-
 GameScene::~GameScene() {
 
 	delete playerModel_;
@@ -11,12 +10,11 @@ GameScene::~GameScene() {
 	delete cameraAngle_;
 	delete map_;
 	delete color_;
-	
+
 	/*delete lightSprite_;*/
 	for (Light* light : lights_) {
 		delete light;
 	}
-
 }
 
 void GameScene::Initialize() {
@@ -24,21 +22,20 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	//3Dモデルの生成
+	// 3Dモデルの生成
 	playerModel_ = Model::Create();
 
-	//プレイヤー関連
+	// プレイヤー関連
 	player_ = new Player();
-	player_->Initialize(playerModel_,textureHandle_,&camera_);
+	player_->Initialize(playerModel_, textureHandle_, &camera_);
 	player_->SetMap(map_);
 
 	camera_.Initialize();
 
-
 	KamataEngine::WorldTransform initialTransform;
-	initialTransform.translation_ = { 0.0f, 0.0f, 0.0f };
-	initialTransform.rotation_ = { 0.0f, 0.0f, 0.0f };
-	initialTransform.scale_ = { 1.0f, 1.0f, 1.0f };
+	initialTransform.translation_ = {0.0f, 0.0f, 0.0f};
+	initialTransform.rotation_ = {0.0f, 0.0f, 0.0f};
+	initialTransform.scale_ = {1.0f, 1.0f, 1.0f};
 
 	cameraAngle_ = new CameraAngle();
 	cameraAngle_->Initialize(initialTransform, player_);
@@ -53,8 +50,8 @@ void GameScene::Initialize() {
 	color_ = new Color();
 	color_->Initialize(colorModel_, purpleTextureHandle_, redTextureHandle_, blueTextureHandle_, greenTextureHandle_);
 
-	//colorGlass_ = new ColorGlass();
-	//colorGlass_->Initialize(worldTra)
+	// colorGlass_ = new ColorGlass();
+	// colorGlass_->Initialize(worldTra)
 
 	lightTextureHandle_ = TextureManager::Load("white1x1.png");
 
@@ -62,28 +59,28 @@ void GameScene::Initialize() {
 
 	map_ = new Map;
 
-	map_->Initialize(mapModel_, textureHandle_, &camera_,stagenumber,this);
+	map_->Initialize(mapModel_, textureHandle_, &camera_, stagenumber, this);
 
-//ライトの初期化
+	// ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
 
 	lightModel_ = Model::CreateFromOBJ("cube", true);
 
 	Vector2 lightVelocity = {20.0f, 0.0f};
-	
+
 	std::vector<Vector3> initialPositions = map_->GetTilePositionsInRange(41, 44);
 	std::vector<Light::GrowType> initialTypes = map_->GetMirrorTypesInRange();
 
 	for (int i = 0; i < initialPositions.size(); i++) {
 		Light* newLight = new Light();
-		newLight->Initialize(lightTextureHandle_, lightModel_, initialTypes[i], initialPositions[i], {0.5f,0.5f,0.5f});
+		newLight->Initialize(lightTextureHandle_, lightModel_, initialTypes[i], initialPositions[i], {0.5f, 0.5f, 0.5f});
 		newLight->SetMapData(map_);
 		/*lightSprite_->SetSize(newLight->GetSize());*/
 		lights_.push_back(newLight);
 	}
 }
 
-void GameScene::Update() { 
+void GameScene::Update() {
 	lightDethflag = false;
 	for (Light* light : lights_) {
 		light->SetMapData(map_);
@@ -94,31 +91,27 @@ void GameScene::Update() {
 			light->SetRefrected();
 			Vector3 newInitialPos = light->GetEndPosition(); // 反射したライトの現在位置を取得
 			if (light->GetNewType() != Light::NO) {
-				LightCreate(light->GetNewType(), newInitialPos,light->GetnewTextureHandle());
+				LightCreate(light->GetNewType(), newInitialPos, light->GetnewTextureHandle());
 			}
 
 			if (light->GetNewType2() != Light::NO) {
 				LightCreate(light->GetNewType2(), newInitialPos, light->GetnewTextureHandle());
 			}
-
 		}
 		if (map_->CheckCollision(light->GetinitialPos()) == 0 || map_->CheckCollision(light->GetinitialPos()) == 8) {
-			light->Deth();
+			light->Death();
 			lightDethflag = true;
 		}
+	}
 
-
-			}
-
-	lights_.remove_if([](Light* light) { 
-		if (!light->IsDeth()) {
+	lights_.remove_if([](Light* light) {
+		if (!light->IsDeath()) {
 			delete light;
 			return true;
 		}
 		return false;
-
 	});
-  
+
 	map_->Update(player_);
 	player_->Update(map_);
 	cameraAngle_->Update();
@@ -136,7 +129,6 @@ void GameScene::Update() {
 	if (input_->TriggerKey(DIK_SPACE)) {
 
 		isFinished_ = true;
-
 	}
 
 	if (input_->TriggerKey(DIK_P) && stagenumber <= 5) {
@@ -147,7 +139,6 @@ void GameScene::Update() {
 		stagenumber--;
 		Initialize();
 	}
-
 }
 
 void GameScene::Draw() {
@@ -182,7 +173,7 @@ void GameScene::Draw() {
 	}
 	player_->Draw(&camera_);
 	color_->Draw(&camera_);
-	//colorGlass_->Draw(&camera_);
+	// colorGlass_->Draw(&camera_);
 	///
 	/// </summary>
 
@@ -196,10 +187,10 @@ void GameScene::Draw() {
 
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
-	/// 
-	/// 
-	
-	/// 
+	///
+	///
+
+	///
 	/// </summary>
 
 	// スプライト描画後処理
@@ -223,7 +214,7 @@ void GameScene::LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTex
 	if (type == Light::GrowType::Left) {
 		scal = {0.5f, 0.5f, 0.5f};
 	}
-	newLight->Initialize(lightTextureHandle, lightModel_, type,pos,scal);
+	newLight->Initialize(lightTextureHandle, lightModel_, type, pos, scal);
 	newLight->SetMapData(map_);
 	/*lightSprite_->SetSize(newLight->GetSize());*/
 	lights_.push_back(newLight);

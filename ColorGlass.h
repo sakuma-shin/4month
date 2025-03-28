@@ -1,12 +1,12 @@
 #pragma once
-#include "KamataEngine.h"
 #include "3D/Model.h"
 #include "3D/WorldTransform.h"
 #include "3D/camera.h"
-#include"math/Vector2.h"
-#include "Player.h"
-#include <input/Input.h>
+#include "KamataEngine.h"
 #include "Map.h"
+#include "Player.h"
+#include "math/Vector2.h"
+#include <input/Input.h>
 
 class Map;
 

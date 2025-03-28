@@ -119,6 +119,7 @@
     <ClCompile Include="mirror.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Prism.cpp" />
+    <ClCompile Include="SelectScene.cpp" />
     <ClCompile Include="Target.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="WorldTransformEX.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="mirror.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Prism.h" />
+    <ClInclude Include="SelectScene.h" />
     <ClInclude Include="Target.h" />
     <ClInclude Include="TitleScene.h" />
   </ItemGroup>
