@@ -193,37 +193,19 @@ void ChangeScene() {
 
 		break;
 
+	case Scene::kExplanation:
 
-	/*case Scene::kSelect:
+		if (explanation->IsFinished()) {
 
-		if (selectScene->IsFinished()) {
+			scene = Scene::kSelect;
 
-			scene = Scene::kGame;
+			delete explanation;
+			explanation = nullptr;
 
-			delete selectScene;
-
-			selectScene = nullptr;
-
-			gameScene = new GameScene();
-
-			gameScene->Initialize();
-		}
-
-		if (selectScene->IsExplanation()) {
-
-			scene = Scene::kExplanation;
-
-			delete selectScene;
-
-			selectScene = nullptr;
-
-			explanation = new Explanation();
-
-			explanation->Initialize();
+			selectScene = new SelectScene();
+			selectScene->Initialize();
 
 		}
-
-		break;*/
 
 	case Scene::kGame:
 
