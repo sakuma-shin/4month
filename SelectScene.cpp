@@ -9,10 +9,18 @@ void SelectScene::Initialize() {
 }
 
 void SelectScene::Update() {
+
 	if (input_->TriggerKey(DIK_SPACE)) {
 
 		isFinished_ = true;
 	}
+
+	if (input_->TriggerKey(DIK_RETURN)) {
+
+		isExplanation_ = true;
+
+	}
+
 }
 
 void SelectScene::Draw() {}

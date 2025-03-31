@@ -14,6 +14,7 @@ public:
 	void Draw();
 
 	bool IsFinished() { return isFinished_; }
+	bool IsExplanation() { return isExplanation_; }
 
 private:
 	DirectXCommon* dxCommon_ = nullptr;
@@ -21,4 +22,6 @@ private:
 	Audio* audio_ = nullptr;
 
 	bool isFinished_ = false;
+	bool isExplanation_ = false;
+
 };

@@ -2,6 +2,7 @@
 #include "GameScene.h"
 #include "SelectScene.h"
 #include "TitleScene.h"
+#include "Explanation.h"
 #include <KamataEngine.h>
 
 using namespace KamataEngine;
@@ -10,6 +11,7 @@ TitleScene* titleScene = nullptr;
 SelectScene* selectScene = nullptr;
 GameScene* gameScene = nullptr;
 ClearScene* clearScene = nullptr;
+Explanation* explanation = nullptr;
 
 enum class Scene {
 
@@ -17,6 +19,7 @@ enum class Scene {
 
 	kTitle,
 	kSelect,
+	kExplanation,
 	kGame,
 	kClear
 
@@ -135,6 +138,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// scene解放
 	delete titleScene;
 	delete selectScene;
+	delete explanation;
 	delete gameScene;
 	delete clearScene;
 
@@ -168,6 +172,31 @@ void ChangeScene() {
 	case Scene::kSelect:
 
 		if (selectScene->IsFinished()) {
+			scene = Scene::kGame;
+
+			delete selectScene;
+			selectScene = nullptr;
+
+			gameScene = new GameScene();
+			gameScene->Initialize();
+
+		} else if (selectScene->IsExplanation()) {
+			scene = Scene::kExplanation;
+
+			delete selectScene;
+			selectScene = nullptr;
+
+			explanation = new Explanation();
+			explanation->Initialize();
+
+		}
+
+		break;
+
+
+	/*case Scene::kSelect:
+
+		if (selectScene->IsFinished()) {
 
 			scene = Scene::kGame;
 
@@ -180,7 +209,21 @@ void ChangeScene() {
 			gameScene->Initialize();
 		}
 
-		break;
+		if (selectScene->IsExplanation()) {
+
+			scene = Scene::kExplanation;
+
+			delete selectScene;
+
+			selectScene = nullptr;
+
+			explanation = new Explanation();
+
+			explanation->Initialize();
+
+		}
+
+		break;*/
 
 	case Scene::kGame:
 
@@ -234,6 +277,12 @@ void UpdateScene() {
 
 		break;
 
+	case Scene::kExplanation:
+
+		explanation->Update();
+
+		break;
+
 	case Scene::kGame:
 
 		gameScene->Update();
@@ -261,6 +310,12 @@ void DrawScene() {
 	case Scene::kSelect:
 
 		titleScene->Draw();
+
+		break;
+
+	case Scene::kExplanation:
+
+		explanation->Draw();
 
 		break;
 
