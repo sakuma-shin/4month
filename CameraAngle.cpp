@@ -50,7 +50,7 @@ void CameraAngle::Update() {
 
     // カメラの移動速度
     const float kCameraSpeed = 0.02f;
-    const float kCameraDistance = 40.0f;  //カメラとターゲットの距離
+    const float kCameraDistance = 25.0f;  //カメラとターゲットの距離
 
     // 左右矢印キーで回転
     if (input_->PushKey(DIK_LEFT)) {

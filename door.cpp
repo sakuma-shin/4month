@@ -1,23 +1,35 @@
+
 #include "door.h"
 #include "Map.h"
 
 using namespace KamataEngine;
 
-void door::Initialize(int key, std::vector<Target*> target) { 
-	doormodel_ = Model::CreateFromOBJ("door", true); 
+void door::Initialize(int key, std::vector<Target*> target, int x, int z) {
+	doormodel_ = Model::CreateFromOBJ("door", true);
 	key_ = key;
 	target_ = target;
+	pos[0] = x;
+	pos[1] = z;
 }
+
 
 void door::Update(std::vector<Target*> target) {
 	target_ = target;
+
 	std::string windowName = "door_" + std::to_string(reinterpret_cast<uintptr_t>(this));
 	ImGui::Begin(windowName.c_str());
-	ImGui::Checkbox("opendoor", &openflag);
+
+	if (ImGui::Checkbox("opendoor", &openflag)) {
+
+	}
+
+	if (keyopen()) {
+		openflag = true;
+	}
+
 	ImGui::End();
-	openflag = keyopen();
-	
 }
+
 
 void door::Draw(KamataEngine::WorldTransform* worldtransform, KamataEngine::Camera* camera) {
 	if (!openflag) {
@@ -25,7 +37,7 @@ void door::Draw(KamataEngine::WorldTransform* worldtransform, KamataEngine::Came
 	}
 }
 
-bool door::keyopen() { 
+bool door::keyopen() {
 	int k = Digitnamber(key_);//何桁
 	int number = key_;//番号
 	int count = 0;
@@ -77,4 +89,4 @@ int door::UnFirstnumber(int number) {
 
 	return number - Digit(number) * (k);
 }
-	
+

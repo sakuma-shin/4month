@@ -66,7 +66,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	for (uint32_t i = 0; i < MaxX * MaxY; ++i) {
 		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door* newdoor = new door;
-			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_);
+			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_, i % MaxX, i / MaxX);
 			door_.push_back(newdoor);
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
@@ -103,9 +103,37 @@ void Map::Update(Player* player) {
 
 	colorGlassCount = 0;
 
+	
+
+	/*for (door* door : door_) {
+		door->Update(target_);
+	}*/
+
 	for (door* door : door_) {
 		door->Update(target_);
+
+		if (door->IsOpen()) {
+
+			int doorX = door->getpos(0);
+			int doorZ = door->getpos(1);
+
+			map[doorX][doorZ] = 0;
+
+		} else {
+
+			int doorX = door->getpos(0);
+			int doorZ = door->getpos(1);
+
+			if (doorX == 4 && doorZ == 4) {
+				map[doorX][doorZ] = 71;  // ドア1を元に戻す
+			} else if (doorX == 4 && doorZ == 11) {
+				map[doorX][doorZ] = 723; // ドア2を元に戻す
+			}
+
+		}
+
 	}
+
 	for (Target* target : target_) { //
 		target->Update();
 	}
@@ -150,7 +178,7 @@ void Map::Update(Player* player) {
 			if (map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] == 0) {
 				map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = mirrorL->Getnumber();
 			}
-			
+
 		}
 	}
 	if (i != 0) {
@@ -176,9 +204,7 @@ void Map::Update(Player* player) {
 			KamataEngine::Vector3 position = colorGlass->GetPosition();
 		}
 		colorGlass->Update();
-
 	}
-
 }
 
 void Map::Draw() {
@@ -306,6 +332,12 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 		switch (map[mapX][mapZ]) {
 
 			// マップ番号と同じ数字を返す
+
+		//case 2:
+		//	//ゴール
+		//	return 2;
+		//	break;
+
 		case 8:
 			// 壁
 			return 8;
@@ -331,9 +363,84 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 			return 34;
 			break;
 
+		case 41:
+			//上向きライト
+			return 41;
+			break;
+
+		case 42:
+			//下向きライト
+			return 42;
+			break;
+
+		case 43:
+			//左向きライト
+			return 43;
+			break;
+
+		case 44:
+			//右向きライト
+			return 44;
+			break;
+
+		case 51:
+			//色なしガラス
+			return 51;
+			break;
+
 		case 52:
-			//紫ガラス
+			// 紫ガラス
 			return 52;
+			break;
+
+		case 53:
+			//緑ガラス
+			return 53;
+			break;
+
+		case 54:
+			//橙ガラス
+			return 54;
+			break;
+
+		case 61:
+			//色無しセンサー
+			return 61;
+			break;
+
+		case 62:
+			//紫センサー
+			return 62;
+			break;
+
+		case 63:
+			//緑センサー
+			return 63;
+			break;
+
+		case 64:
+			//橙センサー
+			return 64;
+			break;
+
+		case 65:
+			//赤センサー
+			return 65;
+			break;
+
+		case 66:
+			//青センサー
+			return 66;
+			break;
+
+		case 67:
+			//黄センサー
+			return 67;
+			break;
+
+		case 71:
+			//ドア
+			return 71;
 			break;
 
 		case 91:
@@ -356,10 +463,22 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 			return 94;
 			break;
 
-		case 42:
-			// 垂直鏡
-			return 42;
+		case 621:
+			return 621;
 			break;
+
+		case 653:
+			return 653;
+			break;
+
+		case 662:
+			return 662;
+			break;
+
+		case 723:
+			return 723;
+			break;
+		
 		}
 	}
 
@@ -392,7 +511,7 @@ void Map::Reorldtransform() {
 
 		if (Digit(map[i % MaxX][i / MaxX]) == 7) {
 			door* newdoor = new door;
-			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_);
+			newdoor->Initialize(UnFirstnumber(map[i % MaxX][i / MaxX]), target_, i % MaxX, i / MaxX);
 			door_.push_back(newdoor);
 		}
 		if (map[i % MaxX][i / MaxX] >= 30 && map[i % MaxX][i / MaxX] <= 34) {
@@ -408,6 +527,7 @@ void Map::Reorldtransform() {
 	}
 
 	worldTransform_ = world_;
+
 }
 
 bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
@@ -416,10 +536,19 @@ bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
 	int initialPosZ = static_cast<int>(initialPos.z) / static_cast<int>(Size.z);
 	int endPosX = static_cast<int>(endPos.x) / static_cast<int>(Size.x);
 	int endPosZ = static_cast<int>(endPos.z) / static_cast<int>(Size.z);
+
+	if (endPosZ < initialPosZ) {
+		std::swap(initialPosZ, endPosZ);
+	}
+
+	if (endPosX < initialPosX) {
+		std::swap(endPosX, initialPosX);
+	}
+
 	for (int z = initialPosZ; z <= endPosZ; ++z) {
 		for (int x = initialPosX; x <= endPosX; ++x) {
 			if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
-				if (map[x][z] >= 31 && map[x][z] <= 34) {
+				if (map[x][z] >= 31 && map[x][z] <= 34 || map[x][z] >= 91 && map[x][z] <= 94) {
 					return true;
 				}
 			}
@@ -428,6 +557,24 @@ bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
 	}
 	return false;
 }
+
+void Map::CheckGoalCollision(KamataEngine::Vector3 pos) {
+	int mapX = static_cast<int>(pos.x / Size.x);
+	int mapZ = static_cast<int>(pos.z / Size.z);
+
+	if (mapX < 0 || mapX >= MaxX || mapZ < 0 || mapZ >= MaxY) {
+		return;  // マップ外は何も処理しない
+	}
+
+	// マップの中身を確認
+	switch (map[mapX][mapZ]) {
+	case 2:
+		// ゴールに到達
+		gameScene_->SetFinished(true);  // GameSceneでのフラグを設定
+		return;
+	}
+}
+
 
 std::vector<KamataEngine::Vector3> Map::GetTilePositionsInRange(int min, int max) {
 	std::vector<KamataEngine::Vector3> positions;
