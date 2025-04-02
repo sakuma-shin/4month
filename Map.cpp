@@ -536,6 +536,7 @@ bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
 	int initialPosZ = static_cast<int>(initialPos.z) / static_cast<int>(Size.z);
 	int endPosX = static_cast<int>(endPos.x) / static_cast<int>(Size.x);
 	int endPosZ = static_cast<int>(endPos.z) / static_cast<int>(Size.z);
+
 	if (endPosZ < initialPosZ) {
 		std::swap(initialPosZ, endPosZ);
 	}
@@ -543,10 +544,11 @@ bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
 	if (endPosX < initialPosX) {
 		std::swap(endPosX, initialPosX);
 	}
+
 	for (int z = initialPosZ; z <= endPosZ; ++z) {
 		for (int x = initialPosX; x <= endPosX; ++x) {
 			if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
-				if (map[x][z] >= 31 && map[x][z] <= 34) {
+				if (map[x][z] >= 31 && map[x][z] <= 34 || map[x][z] >= 91 && map[x][z] <= 94) {
 					return true;
 				}
 			}
