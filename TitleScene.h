@@ -1,6 +1,7 @@
 #pragma once
 #include "base/DirectXCommon.h"
 #include <KamataEngine.h>
+#include "Fade.h"
 using namespace KamataEngine;
 
 class TitleScene {
@@ -21,5 +22,15 @@ private:
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
+	Fade* fade_ = nullptr;
+
 	bool isFinished_ = false;
+
+	FadePhase phase_ = FadePhase::kFadeIn;
+
+	float counter = 0.0f;
+
+	uint32_t textureHandle_ = 0;
+	KamataEngine::Sprite* sprite_ = nullptr;
+
 };
