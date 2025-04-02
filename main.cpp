@@ -207,6 +207,8 @@ void ChangeScene() {
 
 		}
 
+		break;
+
 	case Scene::kGame:
 
 		if (gameScene->IsFinished()) {
