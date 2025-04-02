@@ -140,36 +140,39 @@ void Map::Update(Player* player) {
 	for (mirror* mirrorL : mirror_) { //
 
 		mirrorL->Update(player);
-		if (int(mirrorL->Getpos().x / 2.0f) != mirrorL->GetPos(0) || int(mirrorL->Getpos().z / 2.0f) != mirrorL->GetPos(1)) {
+		if (!gameScene_->GetlihtFlag()) {
 
-			if (int(mirrorL->Getpos().x / 2.0f) - mirrorL->GetPos(0) == 1) {
-				i = 1;
-			} else if (int(mirrorL->Getpos().x / 2.0f) - mirrorL->GetPos(0) == -1) {
-				i = 2;
-			} else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1) == 1) {
-				i = 3;
-			} else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1) == -1) {
-				i = 4;
-			}
+			if (int(mirrorL->Getpos().x / 2.0f) != mirrorL->GetPos(0) || int(mirrorL->Getpos().z / 2.0f) != mirrorL->GetPos(1)) {
 
-			WorldTransform* dai;
-			dai = mirrorL->Getworld();
-
-			int x;
-			x = map[mirrorL->GetPos(0)][mirrorL->GetPos(1)];
-			map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = map[int(mirrorL->Getpos().x / 2.0f)][int(mirrorL->Getpos().z / 2.0f)];
-			map[int(mirrorL->Getpos().x / 2.0f)][int(mirrorL->Getpos().z / 2.0f)] = x;
-			mirrorL->PosChange(i);
-
-			std::vector<mirror*> mirrors_;
-			for (uint32_t k = 0; k < MaxX * MaxY; ++k) {
-				if (map[k % MaxX][k / MaxX] >= 30 && map[k % MaxX][k / MaxX] <= 34) {
-					mirror* newmirror = new mirror;
-					newmirror->Initialize(worldTransform_[k], k % MaxX, k / MaxX, this, map[k % MaxX][k / MaxX]);
-					mirrors_.push_back(newmirror);
+				if (int(mirrorL->Getpos().x / 2.0f) - mirrorL->GetPos(0) == 1) {
+					i = 1;
+				} else if (int(mirrorL->Getpos().x / 2.0f) - mirrorL->GetPos(0) == -1) {
+					i = 2;
+				} else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1) == 1) {
+					i = 3;
+				} else if (int(mirrorL->Getpos().z / 2.0f) - mirrorL->GetPos(1) == -1) {
+					i = 4;
 				}
+
+				WorldTransform* dai;
+				dai = mirrorL->Getworld();
+
+				int x;
+				x = map[mirrorL->GetPos(0)][mirrorL->GetPos(1)];
+				map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = map[int(mirrorL->Getpos().x / 2.0f)][int(mirrorL->Getpos().z / 2.0f)];
+				map[int(mirrorL->Getpos().x / 2.0f)][int(mirrorL->Getpos().z / 2.0f)] = x;
+				mirrorL->PosChange(i);
+
+				std::vector<mirror*> mirrors_;
+				for (uint32_t k = 0; k < MaxX * MaxY; ++k) {
+					if (map[k % MaxX][k / MaxX] >= 30 && map[k % MaxX][k / MaxX] <= 34) {
+						mirror* newmirror = new mirror;
+						newmirror->Initialize(worldTransform_[k], k % MaxX, k / MaxX, this, map[k % MaxX][k / MaxX]);
+						mirrors_.push_back(newmirror);
+					}
+				}
+				mirror_ = mirrors_;
 			}
-			mirror_ = mirrors_;
 		}
 		if (gameScene_->GetlihtFlag()) {
 			map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = 0;
