@@ -1,14 +1,16 @@
+#define _USE_MATH_DEFINES
+
 #include "Light.h"
 #include "GameScene.h"
 #include "Map.h"
 #include "MathUtility.h"
+#include "math.h"
 #include <algorithm>
 #include <cassert>
 #include <string>
-
 using namespace KamataEngine;
 
-void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos, Vector3 scale_) {
+void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type, Vector3 initialPos, Vector3 scale_, std::vector<Target*> target, int color) {
 	/*sprite_ = sprite;*/
 	initialPos_ = initialPos;
 
@@ -34,6 +36,10 @@ void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type, Vect
 	isHorizonalHit = false;
 	isplysmHit = false;
 	isWallHit = true;
+
+	target_ = target;
+
+	color_ = color;
 }
 
 void Light::Update() {
@@ -97,7 +103,16 @@ void Light::Update() {
 		growtype_ = prevGrowType_;
 		isRefrected = false;
 	}
-	if (map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_)) == 52) {
+
+	for (Target* target : target_) { //
+		if (target->Getnumber() == map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {
+
+			if (target->Getcolor() == color_) {
+				target->isHit();
+			}
+		} else {
+			target->noHit();
+		}
 	}
 
 	if (worldTransform_.scale_.x >= 1.0f && growtype_ == Down || growtype_ == Up) {
@@ -184,25 +199,29 @@ void Light::Grow() {
 
 	case DownRight:
 		// sprite_->SetRotation(0.5f);
-		velocity_ = {kSpeed, 0.0f, 0.0f};
+		worldTransform_.rotation_ = {0.0f, -(1.0f / 4.0f) * float(M_PI), 0.0f};
+		velocity_ = {kSpeed, 0.0f, kSpeed};
 
 		break;
 
 	case UpRight:
 		// sprite_->SetRotation(-0.5f);
-		velocity_ = {kSpeed, 0.0f};
+		worldTransform_.rotation_ = {0.0f, -(7.0f / 4.0f) * float(M_PI), 0.0f};
+		velocity_ = {-kSpeed, 0.0f, kSpeed};
 
 		break;
 
 	case UpLeft:
 		// sprite_->SetRotation(0.5f);
-		velocity_ = {-kSpeed, 0.0f};
+		worldTransform_.rotation_ = {0.0f, -(5.0f / 4.0f) * float(M_PI), 0.0f};
+		velocity_ = {-kSpeed, 0.0f, -kSpeed};
 
 		break;
 
 	case DownLeft:
 		// sprite_->SetRotation(-0.5f);
-		velocity_ = {-kSpeed, 0.0f};
+		worldTransform_.rotation_ = {0.0f, -(3.0f / 4.0f) * float(M_PI), 0.0f};
+		velocity_ = {kSpeed, 0.0f, -kSpeed};
 
 		break;
 	case NO:
@@ -210,12 +229,43 @@ void Light::Grow() {
 
 		break;
 	}
-	worldTransform_.scale_.x += velocity_.x / 2;
-	worldTransform_.scale_.y += velocity_.y / 2;
-	worldTransform_.scale_.z += velocity_.z / 2;
-	worldTransform_.translation_.x += velocity_.x / 2;
-	worldTransform_.translation_.y += velocity_.y / 2;
-	worldTransform_.translation_.z += velocity_.z / 2;
+
+	if (growtype_ == DownRight) {
+		worldTransform_.scale_.x += (velocity_.x * sqrtf(2)) / 2;
+		worldTransform_.scale_.y = velocity_.y;
+		worldTransform_.scale_.z = velocity_.z / sqrtf(2);
+		worldTransform_.translation_.x += velocity_.x / 2;
+		worldTransform_.translation_.y += velocity_.y / 2;
+		worldTransform_.translation_.z += velocity_.z / 2;
+	} else if (growtype_ == DownLeft) {
+		worldTransform_.scale_.x += (velocity_.x * sqrtf(2)) / 2;
+		worldTransform_.scale_.y = velocity_.y;
+		worldTransform_.scale_.z = velocity_.z / sqrtf(2);
+		worldTransform_.translation_.x += velocity_.x / 2;
+		worldTransform_.translation_.y += velocity_.y / 2;
+		worldTransform_.translation_.z += velocity_.z / 2;
+	} else if (growtype_ == UpRight) {
+		worldTransform_.scale_.x += (velocity_.x * sqrtf(2)) / 2;
+		worldTransform_.scale_.y = velocity_.y;
+		worldTransform_.scale_.z = velocity_.z / sqrtf(2);
+		worldTransform_.translation_.x += velocity_.x / 2;
+		worldTransform_.translation_.y += velocity_.y / 2;
+		worldTransform_.translation_.z += velocity_.z / 2;
+	} else if (growtype_ == UpLeft) {
+		worldTransform_.scale_.x += (velocity_.x * sqrtf(2)) / 2;
+		worldTransform_.scale_.y = velocity_.y;
+		worldTransform_.scale_.z = velocity_.z / sqrtf(2);
+		worldTransform_.translation_.x += velocity_.x / 2;
+		worldTransform_.translation_.y += velocity_.y / 2;
+		worldTransform_.translation_.z += velocity_.z / 2;
+	} else {
+		worldTransform_.scale_.x += velocity_.x / 2;
+		worldTransform_.scale_.y += velocity_.y / 2;
+		worldTransform_.scale_.z += velocity_.z / 2;
+		worldTransform_.translation_.x += velocity_.x / 2;
+		worldTransform_.translation_.y += velocity_.y / 2;
+		worldTransform_.translation_.z += velocity_.z / 2;
+	}
 }
 
 Light::~Light() {}
@@ -242,6 +292,18 @@ Vector3 Light::GetEndPosition() {
 		}
 		if (newType_ == Down) {
 			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 1.0f, 0.0f, worldTransform_.translation_.z};
+		}
+		if (newType_ == DownRight) {
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z - worldTransform_.scale_.z - 0.5f};
+		}
+		if (newType_ == DownLeft) {
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z - worldTransform_.scale_.z - 0.5f};
+		}
+		if (newType_ == UpRight) {
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z - worldTransform_.scale_.z - 0.5f};
+		}
+		if (newType_ == UpLeft) {
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z - worldTransform_.scale_.z - 0.5f};
 		}
 	} else if (prevGrowType_ == Left) {
 		if (newType_ == Left) {
@@ -322,7 +384,8 @@ void Light::OnCollisionMap(int mapNum) {
 
 		case 94:
 			growtype_ = NO;
-			newType_ = Left;
+			newType_ = DownRight;
+			newType2_ = DownLeft;
 			break;
 		}
 		break;
@@ -347,6 +410,7 @@ void Light::OnCollisionMap(int mapNum) {
 		case 52:
 			newType_ = Left;
 			growtype_ = NO;
+			color_ = 2;
 			newtextureHandle_ = TextureManager::Load("color/purple.png");
 			break;
 
@@ -490,4 +554,15 @@ void Light::OnCollisionMap(int mapNum) {
 	// worldTransform_.translation_.x = std::clamp(worldTransform_.translation_.x, initial2MapCenter.x, initial2MapCenter.x);
 	/*worldTransform_.translation_.y = std::clamp(worldTransform_.translation_.y, initial2MapCenter.y, initial2MapCenter.y);*/
 	// worldTransform_.translation_.z = std::clamp(worldTransform_.translation_.z, initial2MapCenter.z, initial2MapCenter.z);
+}
+
+int Light::Digit(int number) {
+	if (number / 10 < 1) {
+		return number;
+	}
+	int k = 0;
+	for (; number / 10 >= 1; k++) {
+		number = number / 10;
+	}
+	return number;
 }

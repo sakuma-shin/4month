@@ -28,7 +28,7 @@ public:
 
 	void Draw();
 
-	void LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTextureHandle);
+	void LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTextureHandle,int color);
 
 	bool IsFinished() { return isFinished_; }
 
