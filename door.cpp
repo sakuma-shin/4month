@@ -4,15 +4,14 @@
 
 using namespace KamataEngine;
 
-void door::Initialize(int key, std::vector<Target*> target, int x, int z, int number) { 
-	doormodel_ = Model::CreateFromOBJ("door", true); 
+void door::Initialize(int key, std::vector<Target*> target, int x, int z, int number) {
+	doormodel_ = Model::CreateFromOBJ("door", true);
 	key_ = key;
 	target_ = target;
 	pos[0] = x;
 	pos[1] = z;
 	number_ = number;
 }
-
 
 void door::Update(std::vector<Target*> target) {
 	target_ = target;
@@ -21,7 +20,6 @@ void door::Update(std::vector<Target*> target) {
 	ImGui::Begin(windowName.c_str());
 
 	if (ImGui::Checkbox("opendoor", &openflag)) {
-
 	}
 
 	if (keyopen()) {
@@ -32,7 +30,6 @@ void door::Update(std::vector<Target*> target) {
 	openflag = keyopen();
 }
 
-
 void door::Draw(KamataEngine::WorldTransform* worldtransform, KamataEngine::Camera* camera) {
 	if (!openflag) {
 		doormodel_->Draw(*worldtransform, *camera);
@@ -40,14 +37,14 @@ void door::Draw(KamataEngine::WorldTransform* worldtransform, KamataEngine::Came
 }
 
 bool door::keyopen() {
-	int k = Digitnamber(key_);//何桁
-	int number = key_;//番号
+	int k = Digitnamber(key_); // 何桁
+	int number = key_;         // 番号
 	int count = 0;
 	for (int i = 0; i < k; i++) {
 		int digit = Digit(number);
 		for (Target* target : target_) {
 			if (target->GetHit()) {
-				if (digit == target->Getcoad()) {
+				if (digit == target->GetCoad()) {
 					count++;
 					if (k == count) {
 						return true;

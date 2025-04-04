@@ -41,49 +41,51 @@ void CameraAngle::Initialize(const WorldTransform& worldTransform, Player* playe
 
 void CameraAngle::Update() {
 
-    // カメラの移動速度
-    const float kCameraSpeed = 0.02f;
-    const float kCameraDistance = 25.0f;  //カメラとターゲットの距離
+	// カメラの移動速度
+	const float kCameraSpeed = 0.02f;
+	const float kCameraDistance = 25.0f; // カメラとターゲットの距離
 
-    // 左右矢印キーで回転
-    if (input_->PushKey(DIK_LEFT)) {
-        rotation_.y -= kCameraSpeed;  //左
-    }
-    if (input_->PushKey(DIK_RIGHT)) {
-        rotation_.y += kCameraSpeed;  //右
-    }
+	// 左右矢印キーで回転
+	if (input_->PushKey(DIK_LEFT)) {
+		rotation_.y -= kCameraSpeed; // 左
+	}
+	if (input_->PushKey(DIK_RIGHT)) {
+		rotation_.y += kCameraSpeed; // 右
+	}
 
-    // 上下矢印キーで回転（プレイヤーと同じ目線から真上まで制限）
-    if (input_->PushKey(DIK_UP)) {
-        rotation_.x -= kCameraSpeed;  //上
-        if (rotation_.x < -XM_PIDIV4) rotation_.x = -XM_PIDIV4;  // 上限を真上（-90度）に制限
-    }
-    if (input_->PushKey(DIK_DOWN)) {
-        rotation_.x += kCameraSpeed;  //下
-        if (rotation_.x > 0) rotation_.x = 0;  // 下限をプレイヤーと同じ目線（0度）に制限
-    }
+	// 上下矢印キーで回転（プレイヤーと同じ目線から真上まで制限）
+	if (input_->PushKey(DIK_UP)) {
+		rotation_.x -= kCameraSpeed; // 上
+		if (rotation_.x < -XM_PIDIV4)
+			rotation_.x = -XM_PIDIV4; // 上限を真上（-90度）に制限
+	}
+	if (input_->PushKey(DIK_DOWN)) {
+		rotation_.x += kCameraSpeed; // 下
+		if (rotation_.x > 0)
+			rotation_.x = 0; // 下限をプレイヤーと同じ目線（0度）に制限
+	}
 
-    // カメラの位置更新（修正後）
-    translation_.x = cameraTarget_.x + kCameraDistance * sinf(rotation_.y);
-    translation_.y = cameraTarget_.y + kCameraDistance * sinf(rotation_.x);
-    translation_.z = cameraTarget_.z - kCameraDistance * cosf(rotation_.y);
+	// カメラの位置更新（修正後）
+	translation_.x = cameraTarget_.x + kCameraDistance * sinf(rotation_.y);
+	translation_.y = cameraTarget_.y + kCameraDistance * sinf(rotation_.x);
+	translation_.z = cameraTarget_.z - kCameraDistance * cosf(rotation_.y);
 
-    //カメラの向きをプレイヤーに向ける
-    cameraTarget_ = player_->GetPosition();
+	// カメラの向きをプレイヤーに向ける
+	cameraTarget_ = player_->GetPosition();
 
-    //変換行列を更新
-    worldTransform_.translation_ = translation_;
-    worldTransform_.rotation_ = rotation_;
-    worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
+	// 変換行列を更新
+	worldTransform_.translation_ = translation_;
+	worldTransform_.rotation_ = rotation_;
+	worldTransform_.matWorld_ = MakeAffineMatrix(worldTransform_.scale_, worldTransform_.rotation_, worldTransform_.translation_);
 
-    //カメラビュー行列を更新
-    camera_.matView = MakeLookAtMatrix(translation_, cameraTarget_, cameraUp_);
-    worldTransform_.UpdateMatrix();
+	// カメラビュー行列を更新
+	camera_.matView = MakeLookAtMatrix(translation_, cameraTarget_, cameraUp_);
+	worldTransform_.UpdateMatrix();
 
-    ImGui::Begin("Camera");
-    ImGui::DragFloat3("Translation", &translation_.x, 0.01f);
-    ImGui::DragFloat3("Rotation", &rotation_.x, 0.01f);
-    ImGui::End();
+	ImGui::Begin("Camera");
+	ImGui::DragFloat3("Translation", &translation_.x, 0.01f);
+	ImGui::DragFloat3("Rotation", &rotation_.x, 0.01f);
+	ImGui::End();
 }
 
 // void CameraAngle::Update() {

@@ -28,13 +28,13 @@ public:
 
 	void Draw();
 
-	void LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTextureHandle,int color);
+	void LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTextureHandle, int color);
 
 	bool IsFinished() { return isFinished_; }
 
 	void SetFinished(bool finished) { isFinished_ = finished; }
 
-	bool GetlihtFlag() { return lightDethflag; }
+	bool GetLightFlag() { return lightDethflag; }
 
 private:
 	DirectXCommon* dxCommon_ = nullptr;
