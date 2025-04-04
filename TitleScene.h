@@ -30,7 +30,4 @@ private:
 
 	float counter = 0.0f;
 
-	uint32_t textureHandle_ = 0;
-	KamataEngine::Sprite* sprite_ = nullptr;
-
 };

@@ -6,7 +6,6 @@
 TitleScene::~TitleScene() {
 
 	delete fade_;
-	delete sprite_;
 
 }
 
@@ -16,9 +15,6 @@ void TitleScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	textureHandle_ = KamataEngine::TextureManager::Load("white1x1.png");
-	sprite_ = KamataEngine::Sprite::Create(textureHandle_, { 0,0 });
-
 	fade_ = new Fade();
 	fade_->Initialize();
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
@@ -27,50 +23,29 @@ void TitleScene::Initialize() {
 
 void TitleScene::Update() {
 
-	/*if (input_->TriggerKey(DIK_SPACE)) {
-
-		isFinished_ = true;
-	}*/
-
 	switch (phase_) {
 
 	case FadePhase::kFadeIn:
-
 		if (fade_->isFinished()) {
-
 			phase_ = FadePhase::kMain;
-
 		}
-
 		break;
 
 	case FadePhase::kMain:
-
-		if (KamataEngine::Input::GetInstance()->TriggerKey(DIK_SPACE)) {
-
+		if (input_->TriggerKey(DIK_SPACE)) {
 			phase_ = FadePhase::kfadeOut;
 			fade_->Start(Fade::Status::FadeOut, 1.0f);
-
 		}
-
 		break;
 
 	case FadePhase::kfadeOut:
-
 		if (fade_->isFinished()) {
-
-			phase_ = FadePhase::kFadeIn;
-
 			isFinished_ = true;
-
 		}
-
 		break;
-
 	}
 
 	fade_->Update();
-
 }
 
 void TitleScene::Draw() {
@@ -78,7 +53,6 @@ void TitleScene::Draw() {
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
 	KamataEngine::Sprite::PreDraw(commandList);
-	sprite_->Draw();
 	fade_->Draw(commandList);
 
 	KamataEngine::Sprite::PostDraw();

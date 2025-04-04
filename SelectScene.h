@@ -1,6 +1,7 @@
 #pragma once
 #include "base/DirectXCommon.h"
 #include <KamataEngine.h>
+#include "Fade.h"
 using namespace KamataEngine;
 
 class SelectScene {
@@ -23,5 +24,9 @@ private:
 
 	bool isFinished_ = false;
 	bool isExplanation_ = false;
+
+	Fade* fade_ = nullptr;
+
+	FadePhase phase_ = FadePhase::kFadeIn;
 
 };
