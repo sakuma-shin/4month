@@ -22,4 +22,7 @@ private:
 	Audio* audio_ = nullptr;
 
 	bool isFinished_ = false;
+
+	uint32_t textureHandle_ = 0u;
+	Sprite* sprite_ = nullptr;
 };

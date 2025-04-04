@@ -33,7 +33,8 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	// doormodel_ = Model::CreateFromOBJ("door", true);
 
 	if (stagenumber == 1) {
-		filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
+		//filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
+		filename = "Resources/proto/proto1.csv"; // 完全版の際には元に戻す
 	} else if (stagenumber == 2) {
 		filename = "Resources/map/debugMap1.csv"; // 読み込むCSVファイル名
 	} else if (stagenumber == 3) {

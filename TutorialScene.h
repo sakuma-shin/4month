@@ -3,9 +3,9 @@
 #include <KamataEngine.h>
 using namespace KamataEngine;
 
-class SelectScene {
+class TutorialScene {
 public:
-	~SelectScene();
+	~TutorialScene();
 
 	void Initialize();
 
@@ -15,15 +15,12 @@ public:
 
 	bool IsFinished() { return isFinished_; }
 
-	bool IsTutorial() { return isTutorial_; }
-
 private:
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 
 	bool isFinished_ = false;
-	bool isTutorial_ = false;
 
 	uint32_t textureHandle_ = 0u;
 	Sprite* sprite_ = nullptr;
