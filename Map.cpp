@@ -140,7 +140,7 @@ void Map::Update(Player* player) {
 	for (mirror* mirrorL : mirror_) { //
 
 		mirrorL->Update(player);
-		if (!gameScene_->GetlihtFlag()) {
+		if (!gameScene_->GetLightFlag()) {
 
 			if (int(mirrorL->Getpos().x / 2.0f) != mirrorL->GetPos(0) || int(mirrorL->Getpos().z / 2.0f) != mirrorL->GetPos(1)) {
 
@@ -174,7 +174,7 @@ void Map::Update(Player* player) {
 				mirror_ = mirrors_;
 			}
 		}
-		if (gameScene_->GetlihtFlag()) {
+		if (gameScene_->GetLightFlag()) {
 			map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] = 0;
 		} else {
 			if (map[mirrorL->GetPos(0)][mirrorL->GetPos(1)] == 0) {
@@ -196,7 +196,7 @@ void Map::Update(Player* player) {
 	}
 
 	for (ColorGlass* colorGlass : colorGlass_) {
-		if (gameScene_->GetlihtFlag()) {
+		if (gameScene_->GetLightFlag()) {
 			map[colorGlass->Getpos(0)][colorGlass->Getpos(1)] = 0;
 		} else {
 			if (map[colorGlass->Getpos(0)][colorGlass->Getpos(1)] == 0) {
@@ -223,9 +223,8 @@ void Map::Draw() {
 				if (map[i % MaxX][i / MaxX] == door->Getnumber()) {
 					door->Draw(worldTransformBlock, camera_);
 				}
-				
 			}
-			//doorcount++;
+			// doorcount++;
 		} else if (map[i % MaxX][i / MaxX] == 31) {
 			mirror_[mirrorcount]->Draw(1, camera_);
 			mirrorcount++;
@@ -493,7 +492,6 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 		//}
 
 		// 範囲内かつ衝突しない場合は「衝突なし」
-		
 	}
 	return 0;
 }
@@ -572,10 +570,9 @@ bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
 				}
 			}
 		}
-	}
-	else if (initialPosZ >= endPosZ) {
+	} else if (initialPosZ >= endPosZ) {
 		if (initialPosX <= endPosX) {
-			for (int z = endPosZ; z <=initialPosZ ; ++z) {
+			for (int z = endPosZ; z <= initialPosZ; ++z) {
 				for (int x = initialPosX; x <= endPosX; ++x) {
 					if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
 						if (map[x][z] >= 31 && map[x][z] <= 34) {
@@ -586,7 +583,7 @@ bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
 				}
 			}
 		} else if (initialPosX >= endPosX) {
-			for (int z = endPosZ; z <=initialPosZ ; ++z) {
+			for (int z = endPosZ; z <= initialPosZ; ++z) {
 				for (int x = endPosX; x <= initialPosX; ++x) {
 					if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
 						if (map[x][z] >= 31 && map[x][z] <= 34) {
@@ -606,18 +603,17 @@ void Map::CheckGoalCollision(KamataEngine::Vector3 pos) {
 	int mapZ = static_cast<int>(pos.z / Size.z);
 
 	if (mapX < 0 || mapX >= MaxX || mapZ < 0 || mapZ >= MaxY) {
-		return;  // マップ外は何も処理しない
+		return; // マップ外は何も処理しない
 	}
 
 	// マップの中身を確認
 	switch (map[mapX][mapZ]) {
 	case 2:
 		// ゴールに到達
-		gameScene_->SetFinished(true);  // GameSceneでのフラグを設定
+		gameScene_->SetFinished(true); // GameSceneでのフラグを設定
 		return;
 	}
 }
-
 
 std::vector<KamataEngine::Vector3> Map::GetTilePositionsInRange(int min, int max) {
 	std::vector<KamataEngine::Vector3> positions;

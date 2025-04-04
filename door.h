@@ -8,32 +8,25 @@
 
 class door {
 public:
-	void Initialize(int key, std::vector<Target*> target,int x,int z,int number);
+	void Initialize(int key, std::vector<Target*> target, int x, int z, int number);
 	void Update(std::vector<Target*> target);
 	void Draw(KamataEngine::WorldTransform* worldtransform, KamataEngine::Camera* camera);
 	bool keyopen();
 
-	bool Getopenflag() { 
-		return openflag;
-	}
+	bool Getopenflag() { return openflag; }
 	int Digit(int number);
 
 	int Digitnamber(int number);
 
 	int UnFirstnumber(int number);
 
-	int Getpos(int i) { 
-		return pos[i];
-	}
+	int Getpos(int i) { return pos[i]; }
 	int Getnumber() { return number_; }
 
-	bool IsOpen()const { return openflag; }
-	int getpos(int i) {
-		return pos[i];
-	}
+	bool IsOpen() const { return openflag; }
+	int getpos(int i) { return pos[i]; }
 
 private:
-
 	KamataEngine::Model* doormodel_;
 	bool openflag = false;
 	int key_;

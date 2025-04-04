@@ -12,29 +12,21 @@ public:
 	void Update();
 	void Draw(KamataEngine::Camera* camera);
 
-		bool GetHit() { 
-			return Hit;
-		}
+	bool GetHit() { return Hit; }
 
-		int Getcoad() { 
-			return coad;
-		}
-	    int Getcolor() { return color; }
+	int GetCoad() { return coad; }
+	int Getcolor() { return color; }
 
-		void isHit() {
-			Hit = true;
-		}
-	    void noHit() { Hit = false; }
+	void isHit() { Hit = true; }
+	void noHit() { Hit = false; }
 
-		int Getnumber() { 
-			return number_;
-		}
-	
-	private:
-	    KamataEngine::Model* targetmodel_;
-		int coad;
-	    int color;
-		bool Hit;
-	    KamataEngine::WorldTransform* worldTransform_;
-	    int number_;
+	int Getnumber() { return number_; }
+
+private:
+	KamataEngine::Model* targetmodel_;
+	int coad;
+	int color;
+	bool Hit;
+	KamataEngine::WorldTransform* worldTransform_;
+	int number_;
 };
