@@ -100,4 +100,6 @@ private:
 	std::vector<Target*> target_;
 
 	int color_;
+
+	ObjectColor objectColor_;
 };

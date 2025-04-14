@@ -40,6 +40,9 @@ void Light::Initialize(uint32_t textureHandle, Model* model, GrowType type, Vect
 	target_ = target;
 
 	color_ = color;
+
+	objectColor_.Initialize();
+	objectColor_.SetColor({1, 1, 1, 0.5f});
 }
 
 void Light::Update() {
@@ -159,7 +162,7 @@ void Light::Update() {
 	worldTransform_.UpdateMatrix();
 }
 
-void Light::Draw(Camera* camera) { model_->Draw(worldTransform_, *camera, textureHandle_); }
+void Light::Draw(Camera* camera) { model_->Draw(worldTransform_, *camera, textureHandle_, &objectColor_); }
 
 void Light::Grow() {
 	float kSpeed = 1.0f;
