@@ -6,6 +6,7 @@
 TitleScene::~TitleScene() {
 
 	delete fade_;
+	delete sprite_;
 
 }
 
@@ -18,6 +19,9 @@ void TitleScene::Initialize() {
 	fade_ = new Fade();
 	fade_->Initialize();
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
+
+	titleTextureHandle_ = KamataEngine::TextureManager::Load("./Resources./color./black.png");
+	sprite_ = KamataEngine::Sprite::Create(titleTextureHandle_, { 0,0 });
 
 }
 
@@ -53,6 +57,7 @@ void TitleScene::Draw() {
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
 	KamataEngine::Sprite::PreDraw(commandList);
+	sprite_->Draw();
 	fade_->Draw(commandList);
 
 	KamataEngine::Sprite::PostDraw();

@@ -18,6 +18,7 @@ public:
 	bool IsFinished() { return isFinished_; }
 
 private:
+
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
@@ -29,5 +30,8 @@ private:
 	FadePhase phase_ = FadePhase::kFadeIn;
 
 	float counter = 0.0f;
+
+	uint32_t titleTextureHandle_ = 0;
+	Sprite* sprite_ = nullptr;
 
 };
