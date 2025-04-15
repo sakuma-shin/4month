@@ -130,6 +130,12 @@ void Light::Update() {
 		}
 	}
 
+	if (worldTransform_.scale_.x >= 1.0f && growtype_ == DownLeft || growtype_ == DownRight || growtype_ == UpLeft || growtype_ == UpRight) {
+		if (map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_))) {
+			OnCollisionMap(map_->CheckCollision(Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_)));
+		}
+	}
+
 	// 各Lightごとにウィンドウを作成
 	std::string windowName = "Light_" + std::to_string(reinterpret_cast<uintptr_t>(this));
 	ImGui::Begin(windowName.c_str());
