@@ -57,6 +57,7 @@ void TitleScene::Draw() {
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
 	KamataEngine::Sprite::PreDraw(commandList);
+
 	sprite_->Draw();
 	fade_->Draw(commandList);
 
