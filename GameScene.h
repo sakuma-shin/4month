@@ -12,6 +12,8 @@
 #include "Color.h"
 // #include "ColorGlass.h"
 
+#include"skydome.h"
+
 using namespace KamataEngine;
 
 class GameScene {
@@ -85,4 +87,6 @@ private:
 	uint32_t purpleTextureHandle_ = 0u;
 
 	bool lightDethflag = false;
+
+	skydome* skydome_ = new skydome;
 };

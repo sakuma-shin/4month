@@ -78,6 +78,8 @@ void GameScene::Initialize() {
 		/*lightSprite_->SetSize(newLight->GetSize());*/
 		lights_.push_back(newLight);
 	}
+
+	skydome_->Initialize(&camera_);
 }
 
 void GameScene::Update() {
@@ -173,6 +175,8 @@ void GameScene::Draw() {
 	}
 	player_->Draw(&camera_);
 	color_->Draw(&camera_);
+
+	skydome_->Draw();
 	// colorGlass_->Draw(&camera_);
 	///
 	/// </summary>
