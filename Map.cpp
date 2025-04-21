@@ -34,6 +34,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 
 	if (stagenumber == 1) {
 		//filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
+		//filename = "Resources/map/stage/stage1.csv"; // 分解を加味しないステージ
 		filename = "Resources/proto/proto1.csv"; // 完全版の際には元に戻す
 	} else if (stagenumber == 2) {
 		filename = "Resources/map/debugMap1.csv"; // 読み込むCSVファイル名
