@@ -43,6 +43,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Audio* audio = nullptr;
 	AxisIndicator* axisIndicator = nullptr;
 	PrimitiveDrawer* primitiveDrawer = nullptr;
+	
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -64,6 +65,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// オーディオの初期化
 	audio = Audio::GetInstance();
 	audio->Initialize();
+
+	uint32_t BGMSoundHandle_ = audio->LoadWave("sounds/BGM.mp3");
 
 	// テクスチャマネージャの初期化
 	TextureManager::GetInstance()->Initialize(dxCommon->GetDevice());
@@ -90,7 +93,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ゲームシーンの初期化
 	gameScene = new GameScene();
-	gameScene->Initialize();
+	gameScene->Initialize(1);
 
 	// メインループ
 	while (true) {
@@ -119,6 +122,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// ゲームシーンの描画
 		//	gameScene->Draw();
 		DrawScene();
+		if (!audio->IsPlaying(BGMSoundHandle_)) {
+			BGMSoundHandle_ = audio->PlayWave(BGMSoundHandle_, true, 0.5f);
+		}
 
 		// 軸表示の描画
 		axisIndicator->Draw();
@@ -149,6 +155,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 }
 
 void ChangeScene() {
+	int stageNum_ = 1;
 
 	switch (scene) {
 
@@ -165,12 +172,12 @@ void ChangeScene() {
 			selectScene = new SelectScene();
 
 			selectScene->Initialize();
-
 		}
 
 		break;
 
 	case Scene::kSelect:
+		stageNum_ = selectScene->SelectStage();
 
 		if (selectScene->IsFinished()) {
 
@@ -182,7 +189,7 @@ void ChangeScene() {
 
 			gameScene = new GameScene();
 
-			gameScene->Initialize();
+			gameScene->Initialize(stageNum_);
 
 			break;
 		}

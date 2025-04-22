@@ -24,7 +24,7 @@ public:
 	// デストラクタ
 	~GameScene();
 
-	void Initialize();
+	void Initialize(int stageNum);
 
 	void Update();
 
@@ -76,8 +76,6 @@ private:
 
 	Model* mapModel_ = nullptr;
 
-	int stagenumber = 1;
-
 	// カラー類
 	Model* colorModel_ = nullptr;
 	uint32_t redTextureHandle_ = 0u;
@@ -85,6 +83,9 @@ private:
 	uint32_t greenTextureHandle_ = 0u;
 
 	uint32_t purpleTextureHandle_ = 0u;
+
+
+	
 
 	bool lightDethflag = false;
 

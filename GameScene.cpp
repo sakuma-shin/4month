@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "TitleScene.h"
 
 using namespace KamataEngine;
 GameScene::GameScene() {}
@@ -17,7 +18,7 @@ GameScene::~GameScene() {
 	}
 }
 
-void GameScene::Initialize() {
+void GameScene::Initialize(int stageNum) {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
@@ -46,6 +47,7 @@ void GameScene::Initialize() {
 	blueTextureHandle_ = TextureManager::Load("color/blue.png");
 	purpleTextureHandle_ = TextureManager::Load("color/purple.png");
 	greenTextureHandle_ = TextureManager::Load("color/green.png");
+	
 
 	color_ = new Color();
 	color_->Initialize(colorModel_, purpleTextureHandle_, redTextureHandle_, blueTextureHandle_, greenTextureHandle_);
@@ -59,7 +61,7 @@ void GameScene::Initialize() {
 
 	map_ = new Map;
 
-	map_->Initialize(mapModel_, textureHandle_, &camera_, stagenumber, this);
+	map_->Initialize(mapModel_, textureHandle_, &camera_, stageNum, this);
 
 	// ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
@@ -131,15 +133,6 @@ void GameScene::Update() {
 	/*if (input_->TriggerKey(DIK_SPACE)) {
 
 		isFinished_ = true;
-	}*/
-
-	if (input_->TriggerKey(DIK_P) && stagenumber <= 5) {
-		stagenumber++;
-		Initialize();
-	}
-	if (input_->TriggerKey(DIK_O) && stagenumber > 0) {
-		stagenumber--;
-		Initialize();
 	}
 }
 
@@ -205,6 +198,7 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+
 }
 
 void GameScene::LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTextureHandle, int color) {
