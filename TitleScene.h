@@ -25,4 +25,6 @@ private:
 
 	uint32_t textureHandle_ = 0u;
 	Sprite* sprite_ = nullptr;
+
+	uint32_t sceneChangeSoundHandle_ = 0u;
 };

@@ -46,6 +46,7 @@ void GameScene::Initialize() {
 	blueTextureHandle_ = TextureManager::Load("color/blue.png");
 	purpleTextureHandle_ = TextureManager::Load("color/purple.png");
 	greenTextureHandle_ = TextureManager::Load("color/green.png");
+	
 
 	color_ = new Color();
 	color_->Initialize(colorModel_, purpleTextureHandle_, redTextureHandle_, blueTextureHandle_, greenTextureHandle_);
@@ -197,6 +198,7 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+
 }
 
 void GameScene::LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTextureHandle, int color) {
