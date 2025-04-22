@@ -22,7 +22,7 @@ public:
 	// デストラクタ
 	~GameScene();
 
-	void Initialize();
+	void Initialize(int stageNum);
 
 	void Update();
 
@@ -73,8 +73,6 @@ private:
 	Map* map_ = nullptr;
 
 	Model* mapModel_ = nullptr;
-
-	int stagenumber = 1;
 
 	// カラー類
 	Model* colorModel_ = nullptr;

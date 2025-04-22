@@ -34,15 +34,16 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 
 	if (stagenumber == 1) {
 		//filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
+		//filename = "Resources/map/stage/stage1.csv"; // 分解を加味しないステージ
 		filename = "Resources/proto/proto1.csv"; // 完全版の際には元に戻す
 	} else if (stagenumber == 2) {
-		filename = "Resources/map/debugMap1.csv"; // 読み込むCSVファイル名
+		filename = "Resources/map/stage/stage1.csv"; // 読み込むCSVファイル名
 	} else if (stagenumber == 3) {
-		filename = "Resources/map/debugMap2.csv"; // 読み込むCSVファイル名
+		filename = "Resources/map/stage/stage2.csv"; // 読み込むCSVファイル名
 	} else if (stagenumber == 4) {
-		filename = "Resources/map/debugMap3.csv"; // 読み込むCSVファイル名
+		filename = "Resources/map/stage/stage3.csv"; // 読み込むCSVファイル名
 	} else if (stagenumber == 5) {
-		filename = "Resources/map/debugMap4.csv"; // 読み込むCSVファイル名
+		filename = "Resources/map/stage/stage4.csv"; // 読み込むCSVファイル名
 	}
 	readCSV();
 
