@@ -6,8 +6,14 @@ void SelectScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	textureHandle_ = TextureManager::Load("./Resources/proto/protoSelect.png");
-	sprite_ = Sprite::Create(textureHandle_, {0, 0}, {1, 1, 1, 1}, {0, 0}, 0, 0);
+	textureHandle_[0] = TextureManager::Load("./Resources/proto/protoSelect.png");
+	textureHandle_[1] = TextureManager::Load("./Resources/proto/protoSelect2.png");
+	textureHandle_[2] = TextureManager::Load("./Resources/proto/protoSelect3.png");
+	textureHandle_[3] = TextureManager::Load("./Resources/proto/protoSelect4.png");
+	textureHandle_[4] = TextureManager::Load("./Resources/proto/protoSelect5.png");
+	for (int i = 0; i < 5; i++) {
+		sprite_[i] = Sprite::Create(textureHandle_[i], {0, 0}, {1, 1, 1, 1}, {0, 0}, 0, 0);
+	}
 }
 
 void SelectScene::Update() {
@@ -24,7 +30,7 @@ void SelectScene::Update() {
 void SelectScene::Draw() {
 	if (this != nullptr) {
 		Sprite::PreDraw(dxCommon_->GetCommandList());
-		sprite_->Draw();
+		sprite_[stageNum_ - 1]->Draw();
 		Sprite::PostDraw();
 	}
 }
@@ -32,7 +38,7 @@ void SelectScene::Draw() {
 int SelectScene::SelectStage() {
 	if (input_->TriggerKey(DIK_D)) {
 		stageNum_++;
-		if (stageNum_ >= 5) {
+		if (stageNum_ >= 6) {
 			stageNum_ = 1;
 		}
 	}
