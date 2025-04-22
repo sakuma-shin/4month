@@ -84,5 +84,8 @@ private:
 
 	uint32_t purpleTextureHandle_ = 0u;
 
+
+	
+
 	bool lightDethflag = false;
 };
