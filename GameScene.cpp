@@ -122,16 +122,16 @@ void GameScene::Update() {
 	camera_.matView = cameraAngle_->GetCamera().matView;
 	camera_.matProjection = cameraAngle_->GetCamera().matProjection;
 	camera_.TransferMatrix();
-
+	skydome_->Update();
 	KamataEngine::Vector3 playerPos = player_->GetPosition();
 
 	// マップのゴール判定を行う
 	map_->CheckGoalCollision(playerPos);
 
-	if (input_->TriggerKey(DIK_SPACE)) {
+	/*if (input_->TriggerKey(DIK_SPACE)) {
 
 		isFinished_ = true;
-	}
+	}*/
 
 	if (input_->TriggerKey(DIK_P) && stagenumber <= 5) {
 		stagenumber++;
@@ -151,6 +151,8 @@ void GameScene::Draw() {
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(commandList);
 
+	skydome_->Draw();
+
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
@@ -168,6 +170,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	///
+	
 	map_->Draw();
 
 	for (Light* light : lights_) {
@@ -175,8 +178,9 @@ void GameScene::Draw() {
 	}
 	player_->Draw(&camera_);
 	color_->Draw(&camera_);
+	
 
-	skydome_->Draw();
+	
 	// colorGlass_->Draw(&camera_);
 	///
 	/// </summary>

@@ -321,13 +321,23 @@ Vector3 Light::GetEndPosition() {
 
 	} else if (prevGrowType_ == Up) {
 		if (newType_ == Left) {
-			return {worldTransform_.translation_.x + worldTransform_.scale_.x - 1.0f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x - 1.0f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z};
 		}
 		if (newType_ == Right) {
 			return {worldTransform_.translation_.x - 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
 		}
 		if (newType_ == Down) {
 			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+		}
+	} else if (prevGrowType_ == Right) {
+		if (newType_ == Left) {
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x - 1.0f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z};
+		}
+		if (newType_ == Right) {
+			return {worldTransform_.translation_.x - 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+		}
+		if (newType_ == Down) {
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z - worldTransform_.scale_.z - 1.5f};
 		}
 	}
 	return {worldTransform_.translation_.x, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 1.0f};

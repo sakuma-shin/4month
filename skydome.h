@@ -1,5 +1,6 @@
 #pragma once
 #include <KamataEngine.h>
+#include <2d/Sprite.h>
 
 using namespace KamataEngine;
 
@@ -10,8 +11,12 @@ public:
 	void Draw();
 
 private:
-	WorldTransform* worldtransform_ = new WorldTransform;
-	Model* model_;
+	WorldTransform worldtransform_;
+	Model* model_ = new Model;
 	Camera* camera_;
+	uint32_t textureReticle = 0u;
+	Sprite* Reticle_[5];
+	Sprite* Reticle2_[5];
+	float velo = 0.0f;
 
 };
