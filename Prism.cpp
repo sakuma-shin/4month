@@ -115,11 +115,11 @@ void Prism::Update(Player* player) {
 	worldTransform_->TransferMatrix();
 	worldTransform_->UpdateMatrix();
 
-	int count = player_->GetCount();
+	//int count = player_->GetCount();
 	Vector3 pos = player->GetPosition();
 	VI3 p = {int(pos.x), int(pos.y), int(pos.z)};
 
-	std::string windowName = "Prism_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+	/*std::string windowName = "Prism_" + std::to_string(reinterpret_cast<uintptr_t>(this));
 	ImGui::Begin(windowName.c_str());
 	ImGui::InputInt("key", &key_);
 	ImGui::InputInt("count", &count);
@@ -134,7 +134,7 @@ void Prism::Update(Player* player) {
 	if (ImGui::Button("Set", {50, 50})) {
 		Set();
 	}
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void Prism::Draw(Camera* camera) {

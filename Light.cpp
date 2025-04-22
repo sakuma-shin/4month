@@ -136,24 +136,24 @@ void Light::Update() {
 		}
 	}
 
-	// 各Lightごとにウィンドウを作成
-	std::string windowName = "Light_" + std::to_string(reinterpret_cast<uintptr_t>(this));
-	ImGui::Begin(windowName.c_str());
+	//// 各Lightごとにウィンドウを作成
+	//std::string windowName = "Light_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+	//ImGui::Begin(windowName.c_str());
 
-	// ImGui::DragFloat3("Position", &initialPos_.x, 0.1f);
-	// ImGui::DragFloat("Width", &width_, 0.1f);
-	// ImGui::DragFloat("Height", &height_, 0.1f);
+	//// ImGui::DragFloat3("Position", &initialPos_.x, 0.1f);
+	//// ImGui::DragFloat("Width", &width_, 0.1f);
+	//// ImGui::DragFloat("Height", &height_, 0.1f);
 
-	ImGui::DragFloat3("light.translation", &worldTransform_.translation_.x, 0.01f);
-	ImGui::DragFloat3("light.rotate", &worldTransform_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("light.scale", &worldTransform_.scale_.x, 0.01f);
-	ImGui::Checkbox("MapHit", &isMapHit);
-	ImGui::Checkbox("RightUpHit", &isRightUpHit);
-	ImGui::Checkbox("RightDownHit", &isRightDownHit);
-	ImGui::Checkbox("VerticalHit", &isVerticalHit);
-	ImGui::Checkbox("HorizonalHit", &isHorizonalHit);
-	ImGui::Checkbox("PlysmHit", &isplysmHit);
-	ImGui::Checkbox("WallHit", &isWallHit);
+	//ImGui::DragFloat3("light.translation", &worldTransform_.translation_.x, 0.01f);
+	//ImGui::DragFloat3("light.rotate", &worldTransform_.rotation_.x, 0.01f);
+	//ImGui::DragFloat3("light.scale", &worldTransform_.scale_.x, 0.01f);
+	//ImGui::Checkbox("MapHit", &isMapHit);
+	//ImGui::Checkbox("RightUpHit", &isRightUpHit);
+	//ImGui::Checkbox("RightDownHit", &isRightDownHit);
+	//ImGui::Checkbox("VerticalHit", &isVerticalHit);
+	//ImGui::Checkbox("HorizonalHit", &isHorizonalHit);
+	//ImGui::Checkbox("PlysmHit", &isplysmHit);
+	//ImGui::Checkbox("WallHit", &isWallHit);
 
 	// GrowType の選択 UI
 	/*const char* growTypeNames[] = {"NO", "Up", "Down", "Left", "Right", "DownRight", "UpRight", "UpLeft", "DownLeft"};

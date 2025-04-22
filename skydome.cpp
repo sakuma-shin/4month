@@ -26,11 +26,11 @@ void skydome::Initialize(Camera* camera) {
 
 void skydome::Update() {
 	std::string windowName = "skydome" + std::to_string(reinterpret_cast<uintptr_t>(this));
-	ImGui::Begin(windowName.c_str());
+	/*ImGui::Begin(windowName.c_str());
 
 	ImGui::DragFloat3("light.translation", &worldtransform_.translation_.x, 0.01f);
 	ImGui::DragFloat3("light.rotate", &worldtransform_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("light.scale", &worldtransform_.scale_.x, 0.01f);
+	ImGui::DragFloat3("light.scale", &worldtransform_.scale_.x, 0.01f);*/
 	worldtransform_.UpdateMatrix();
 	velo = 1.5f;
 	Reticle_[1]->SetPosition(Vector2(Reticle_[1]->GetPosition().x + velo, Reticle_[1]->GetPosition().y));

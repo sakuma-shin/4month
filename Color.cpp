@@ -35,9 +35,9 @@ void Color::Update() {
 		isSplit = !isSplit;
 	}
 
-	ImGui::Begin("isSplit");
+	/*ImGui::Begin("isSplit");
 	ImGui::Checkbox("IsSplit", &isSplit);
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void Color::Draw(Camera* camera) {
