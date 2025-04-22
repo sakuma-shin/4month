@@ -17,6 +17,10 @@ public:
 
 	bool IsTutorial() { return isTutorial_; }
 
+	Input* GetInput() { return input_; }
+
+	int SelectStage();
+
 private:
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -27,4 +31,6 @@ private:
 
 	uint32_t textureHandle_ = 0u;
 	Sprite* sprite_ = nullptr;
+
+	int stageNum_ = 1;
 };

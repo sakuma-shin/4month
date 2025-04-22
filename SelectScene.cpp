@@ -28,3 +28,19 @@ void SelectScene::Draw() {
 		Sprite::PostDraw();
 	}
 }
+
+int SelectScene::SelectStage() {
+	if (input_->TriggerKey(DIK_D)) {
+		stageNum_++;
+		if (stageNum_ >= 5) {
+			stageNum_ = 1;
+		}
+	}
+	if (input_->TriggerKey(DIK_A)) {
+		stageNum_--;
+		if (stageNum_ <= 0) {
+			stageNum_ = 5;
+		}
+	}
+	return stageNum_;
+}

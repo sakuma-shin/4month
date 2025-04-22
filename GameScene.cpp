@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "TitleScene.h"
 
 using namespace KamataEngine;
 GameScene::GameScene() {}
@@ -17,7 +18,7 @@ GameScene::~GameScene() {
 	}
 }
 
-void GameScene::Initialize() {
+void GameScene::Initialize(int stageNum) {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
@@ -59,7 +60,7 @@ void GameScene::Initialize() {
 
 	map_ = new Map;
 
-	map_->Initialize(mapModel_, textureHandle_, &camera_, stagenumber, this);
+	map_->Initialize(mapModel_, textureHandle_, &camera_, stageNum, this);
 
 	// ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
@@ -129,15 +130,6 @@ void GameScene::Update() {
 	if (input_->TriggerKey(DIK_SPACE)) {
 
 		isFinished_ = true;
-	}
-
-	if (input_->TriggerKey(DIK_P) && stagenumber <= 5) {
-		stagenumber++;
-		Initialize();
-	}
-	if (input_->TriggerKey(DIK_O) && stagenumber > 0) {
-		stagenumber--;
-		Initialize();
 	}
 }
 
