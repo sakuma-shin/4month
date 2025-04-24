@@ -47,7 +47,16 @@ void GameScene::Initialize(int stageNum) {
 	blueTextureHandle_ = TextureManager::Load("color/blue.png");
 	purpleTextureHandle_ = TextureManager::Load("color/purple.png");
 	greenTextureHandle_ = TextureManager::Load("color/green.png");
-	
+	explanationTextureHandle_ = TextureManager::Load("UI/UI_explanation.png");
+	brokenPrysmTextureHandle_ = TextureManager::Load("UI/brokenPrysm.png");
+	choiceNextStageTextureHandle_ = TextureManager::Load("UI/choiceNextStage.png");
+
+	explanationSprite_ = Sprite::Create(explanationTextureHandle_, {15.0f, 15.0f});
+	explanationSprite_->SetSize({400.0f, 64.0f});
+
+	brokenPrysmSprite_ = Sprite::Create(brokenPrysmTextureHandle_, {15.0f, 100.0f});
+
+	choiceNextStageSprite_ = Sprite::Create(choiceNextStageTextureHandle_, {640.0f, 360.0f});
 
 	color_ = new Color();
 	color_->Initialize(colorModel_, purpleTextureHandle_, redTextureHandle_, blueTextureHandle_, greenTextureHandle_);
@@ -134,6 +143,17 @@ void GameScene::Update() {
 
 		isFinished_ = true;
 	}*/
+
+
+	//if (input_->TriggerKey(DIK_P) && stagenumber <= 5) {
+		//stagenumber++;
+		//Initialize();
+	//}
+//	if (input_->TriggerKey(DIK_O) && stagenumber > 0) {
+		//stagenumber--;
+		//Initialize();
+//	}
+
 }
 
 void GameScene::Draw() {
@@ -189,7 +209,9 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	///
-	///
+	
+	 explanationSprite_->Draw();
+
 
 	///
 	/// </summary>
