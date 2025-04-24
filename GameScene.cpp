@@ -11,6 +11,9 @@ GameScene::~GameScene() {
 	delete cameraAngle_;
 	delete map_;
 	delete color_;
+	delete explanationSprite_;
+	delete brokenPrysmSprite_;
+	delete choiceNextStageSprite_;
 
 	/*delete lightSprite_;*/
 	for (Light* light : lights_) {
