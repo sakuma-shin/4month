@@ -73,6 +73,9 @@ private:
 	Map* map_ = nullptr;
 
 	Model* mapModel_ = nullptr;
+	Sprite* explanationSprite_ = nullptr;
+	Sprite* brokenPrysmSprite_ = nullptr;
+	Sprite* choiceNextStageSprite_ = nullptr;
 
 	int stagenumber = 1;
 
@@ -82,10 +85,10 @@ private:
 	uint32_t blueTextureHandle_ = 0u;
 	uint32_t greenTextureHandle_ = 0u;
 
+	uint32_t explanationTextureHandle_ = 0u;
+	uint32_t brokenPrysmTextureHandle_ = 0u;
+	uint32_t choiceNextStageTextureHandle_ = 0u;
 	uint32_t purpleTextureHandle_ = 0u;
-
-
-	
 
 	bool lightDethflag = false;
 };

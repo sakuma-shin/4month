@@ -45,7 +45,7 @@ void Prism::Update(Player* player) {
 	    map_->CheckCollision(Vector3(player_->GetPosition().x - 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == key_ ||
 	    map_->CheckCollision(Vector3(player_->GetPosition().x, player_->GetPosition().y, player_->GetPosition().z - 2.0f)) == key_ ||
 	    map_->CheckCollision(Vector3(player_->GetPosition().x + 2.0f, player_->GetPosition().y, player_->GetPosition().z)) == key_) {
-		if (input_->TriggerKey(DIK_K)) {
+		if (input_->TriggerKey(DIK_SPACE)) {
 			if (isSet_) {
 				Broken();
 			}
