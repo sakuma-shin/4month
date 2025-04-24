@@ -39,14 +39,14 @@ void SelectScene::Draw() {
 int SelectScene::SelectStage() {
 	if (input_->TriggerKey(DIK_D)) {
 		stageNum_++;
-		if (stageNum_ >= 7) {
+		if (stageNum_ >= 2) {
 			stageNum_ = 1;
 		}
 	}
 	if (input_->TriggerKey(DIK_A)) {
 		stageNum_--;
 		if (stageNum_ <= 0) {
-			stageNum_ = 6;
+			stageNum_ = 1;
 		}
 	}
 	return stageNum_;
