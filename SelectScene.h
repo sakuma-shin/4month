@@ -29,8 +29,8 @@ private:
 	bool isFinished_ = false;
 	bool isTutorial_ = false;
 
-	uint32_t textureHandle_[5] = {};
-	Sprite* sprite_[5] = {nullptr};
+	uint32_t textureHandle_[6] = {};
+	Sprite* sprite_[6] = {nullptr};
 
 	int stageNum_ = 1;
 };

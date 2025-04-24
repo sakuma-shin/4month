@@ -386,6 +386,11 @@ void Light::OnCollisionMap(int mapNum) {
 			newType_ = Right;
 			break;
 
+		case 51:
+			newType_ = Down;
+			growtype_ = NO;
+			break;
+
 		case 93:
 			growtype_ = NO;
 			newType_ = Right;
@@ -400,10 +405,10 @@ void Light::OnCollisionMap(int mapNum) {
 
 	case Left:
 		switch (mapNum) {
-		case 1:
+		/* case 1:
 			growtype_ = NO;
 
-			break;
+			break;*/
 
 		case 31:
 			growtype_ = NO;
@@ -413,6 +418,11 @@ void Light::OnCollisionMap(int mapNum) {
 		case 32:
 			growtype_ = NO;
 			newType_ = Up;
+			break;
+
+		case 51:
+			newType_ = Left;
+			growtype_ = NO;
 			break;
 
 		case 52:

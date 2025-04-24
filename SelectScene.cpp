@@ -11,7 +11,8 @@ void SelectScene::Initialize() {
 	textureHandle_[2] = TextureManager::Load("./Resources/proto/protoSelect3.png");
 	textureHandle_[3] = TextureManager::Load("./Resources/proto/protoSelect4.png");
 	textureHandle_[4] = TextureManager::Load("./Resources/proto/protoSelect5.png");
-	for (int i = 0; i < 5; i++) {
+	textureHandle_[5] = TextureManager::Load("./Resources/proto/protoSelect6.png");
+	for (int i = 0; i < 6; i++) {
 		sprite_[i] = Sprite::Create(textureHandle_[i], {0, 0}, {1, 1, 1, 1}, {0, 0}, 0, 0);
 	}
 }
@@ -38,14 +39,14 @@ void SelectScene::Draw() {
 int SelectScene::SelectStage() {
 	if (input_->TriggerKey(DIK_D)) {
 		stageNum_++;
-		if (stageNum_ >= 6) {
+		if (stageNum_ >= 7) {
 			stageNum_ = 1;
 		}
 	}
 	if (input_->TriggerKey(DIK_A)) {
 		stageNum_--;
 		if (stageNum_ <= 0) {
-			stageNum_ = 5;
+			stageNum_ = 6;
 		}
 	}
 	return stageNum_;
