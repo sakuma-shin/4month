@@ -34,15 +34,18 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 
 	if (stagenumber == 1) {
 		//filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
+		//filename = "Resources/map/stage/stage1.csv"; // 分解を加味しないステージ
 		filename = "Resources/proto/proto1.csv"; // 完全版の際には元に戻す
 	} else if (stagenumber == 2) {
-		filename = "Resources/map/debugMap1.csv"; // 読み込むCSVファイル名
+		filename = "Resources/map/stage/stage1.csv"; // 読み込むCSVファイル名
 	} else if (stagenumber == 3) {
-		filename = "Resources/map/debugMap2.csv"; // 読み込むCSVファイル名
+		filename = "Resources/map/stage/stage2.csv"; // 読み込むCSVファイル名
 	} else if (stagenumber == 4) {
-		filename = "Resources/map/debugMap3.csv"; // 読み込むCSVファイル名
+		filename = "Resources/map/stage/stage3.csv"; // 読み込むCSVファイル名
 	} else if (stagenumber == 5) {
-		filename = "Resources/map/debugMap4.csv"; // 読み込むCSVファイル名
+		filename = "Resources/map/stage/stage4.csv"; // 読み込むCSVファイル名
+	} else if (stagenumber == 6) {
+		filename = "Resources/map/stage/stage5.csv"; // 読み込むCSVファイル名
 	}
 	readCSV();
 
@@ -188,11 +191,20 @@ void Map::Update(Player* player) {
 	}
 
 	for (Prism* prism : prism_) {
+		bool flag = false;
+		if (!prism->IsSet()) {
+			flag = true;
+		}
+
 		prism->Update(player);
 		if (!prism->IsSet()) {
 			map[prism->GetPos(0)][prism->GetPos(1)] = 0;
+			flag = false;
 		} else if (prism->IsSet()) {
 			map[prism->GetPos(0)][prism->GetPos(1)] = prism->ReturnKey();
+			if (flag) {
+				Reorldtransform();
+			}
 		}
 	}
 

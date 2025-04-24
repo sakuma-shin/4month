@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "TitleScene.h"
 
 using namespace KamataEngine;
 GameScene::GameScene() {}
@@ -17,7 +18,7 @@ GameScene::~GameScene() {
 	}
 }
 
-void GameScene::Initialize() {
+void GameScene::Initialize(int stageNum) {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
@@ -69,7 +70,7 @@ void GameScene::Initialize() {
 
 	map_ = new Map;
 
-	map_->Initialize(mapModel_, textureHandle_, &camera_, stagenumber, this);
+	map_->Initialize(mapModel_, textureHandle_, &camera_, stageNum, this);
 
 	// ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
@@ -88,6 +89,8 @@ void GameScene::Initialize() {
 		/*lightSprite_->SetSize(newLight->GetSize());*/
 		lights_.push_back(newLight);
 	}
+
+	skydome_->Initialize(&camera_);
 }
 
 void GameScene::Update() {
@@ -130,7 +133,7 @@ void GameScene::Update() {
 	camera_.matView = cameraAngle_->GetCamera().matView;
 	camera_.matProjection = cameraAngle_->GetCamera().matProjection;
 	camera_.TransferMatrix();
-
+	skydome_->Update();
 	KamataEngine::Vector3 playerPos = player_->GetPosition();
 
 	// マップのゴール判定を行う
@@ -141,14 +144,16 @@ void GameScene::Update() {
 		isFinished_ = true;
 	}*/
 
-	if (input_->TriggerKey(DIK_P) && stagenumber <= 5) {
-		stagenumber++;
-		Initialize();
-	}
-	if (input_->TriggerKey(DIK_O) && stagenumber > 0) {
-		stagenumber--;
-		Initialize();
-	}
+
+	//if (input_->TriggerKey(DIK_P) && stagenumber <= 5) {
+		//stagenumber++;
+		//Initialize();
+	//}
+//	if (input_->TriggerKey(DIK_O) && stagenumber > 0) {
+		//stagenumber--;
+		//Initialize();
+//	}
+
 }
 
 void GameScene::Draw() {
@@ -158,6 +163,8 @@ void GameScene::Draw() {
 #pragma region 背景スプライト描画
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(commandList);
+
+	skydome_->Draw();
 
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
@@ -176,6 +183,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	///
+	
 	map_->Draw();
 
 	for (Light* light : lights_) {
@@ -183,6 +191,9 @@ void GameScene::Draw() {
 	}
 	player_->Draw(&camera_);
 	color_->Draw(&camera_);
+	
+
+	
 	// colorGlass_->Draw(&camera_);
 	///
 	/// </summary>

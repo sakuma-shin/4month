@@ -93,7 +93,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ゲームシーンの初期化
 	gameScene = new GameScene();
-	gameScene->Initialize();
+	gameScene->Initialize(1);
 
 	// メインループ
 	while (true) {
@@ -155,6 +155,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 }
 
 void ChangeScene() {
+	int stageNum_ = 1;
 
 	switch (scene) {
 
@@ -171,12 +172,12 @@ void ChangeScene() {
 			selectScene = new SelectScene();
 
 			selectScene->Initialize();
-
 		}
 
 		break;
 
 	case Scene::kSelect:
+		stageNum_ = selectScene->SelectStage();
 
 		if (selectScene->IsFinished()) {
 
@@ -188,7 +189,7 @@ void ChangeScene() {
 
 			gameScene = new GameScene();
 
-			gameScene->Initialize();
+			gameScene->Initialize(stageNum_);
 
 			break;
 		}

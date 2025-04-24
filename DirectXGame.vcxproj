@@ -120,6 +120,7 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Prism.cpp" />
     <ClCompile Include="SelectScene.cpp" />
+    <ClCompile Include="skydome.cpp" />
     <ClCompile Include="Target.cpp" />
     <ClCompile Include="TitleScene.cpp" />
     <ClCompile Include="TutorialScene.cpp" />
@@ -214,6 +215,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Prism.h" />
     <ClInclude Include="SelectScene.h" />
+    <ClInclude Include="skydome.h" />
     <ClInclude Include="Target.h" />
     <ClInclude Include="TitleScene.h" />
     <ClInclude Include="TutorialScene.h" />

@@ -12,6 +12,8 @@
 #include "Color.h"
 // #include "ColorGlass.h"
 
+#include"skydome.h"
+
 using namespace KamataEngine;
 
 class GameScene {
@@ -22,7 +24,7 @@ public:
 	// デストラクタ
 	~GameScene();
 
-	void Initialize();
+	void Initialize(int stageNum);
 
 	void Update();
 
@@ -77,8 +79,6 @@ private:
 	Sprite* brokenPrysmSprite_ = nullptr;
 	Sprite* choiceNextStageSprite_ = nullptr;
 
-	int stagenumber = 1;
-
 	// カラー類
 	Model* colorModel_ = nullptr;
 	uint32_t redTextureHandle_ = 0u;
@@ -91,4 +91,6 @@ private:
 	uint32_t purpleTextureHandle_ = 0u;
 
 	bool lightDethflag = false;
+
+	skydome* skydome_ = new skydome;
 };
