@@ -190,7 +190,7 @@ void GameScene::Draw() {
 		light->Draw(&camera_);
 	}
 	player_->Draw(&camera_);
-	color_->Draw(&camera_);
+	/*color_->Draw(&camera_);*/
 	
 
 	
