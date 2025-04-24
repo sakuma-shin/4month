@@ -16,18 +16,18 @@ void door::Initialize(int key, std::vector<Target*> target, int x, int z, int nu
 void door::Update(std::vector<Target*> target) {
 	target_ = target;
 
-	std::string windowName = "door_" + std::to_string(reinterpret_cast<uintptr_t>(this));
+	/*std::string windowName = "door_" + std::to_string(reinterpret_cast<uintptr_t>(this));
 	ImGui::Begin(windowName.c_str());
 
 	if (ImGui::Checkbox("opendoor", &openflag)) {
-	}
+	}*/
 
 	if (keyopen()) {
 		openflag = true;
 	}
 
-	ImGui::End();
-	openflag = keyopen();
+	/*ImGui::End();
+	openflag = keyopen();*/
 }
 
 void door::Draw(KamataEngine::WorldTransform* worldtransform, KamataEngine::Camera* camera) {

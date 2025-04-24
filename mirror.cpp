@@ -28,7 +28,7 @@ void mirror::Update(Player* player) {
 	}
 	if (time == 0) {
 
-		if (input_->PushKey(DIK_B) && isInsideRhombus(this->worldtransform_->translation_, Vector3(player->GetPosition().x, player->GetPosition().y, player->GetPosition().z))) {
+		if (input_->PushKey(DIK_SPACE) && isInsideRhombus(this->worldtransform_->translation_, Vector3(player->GetPosition().x, player->GetPosition().y, player->GetPosition().z))) {
 			// textureHandle_ = TextureManager::Load("mirorron/mirorr.png");
 			if (input_->PushKey(DIK_W) && map_->CheckCollision(Vector3(worldtransform_->translation_.x, worldtransform_->translation_.y, worldtransform_->translation_.z + 2.0f)) == 0 &&
 			    (map_->CheckCollision({player_->GetPosition().x + 0.3f, player_->GetPosition().y, player_->GetPosition().z + 1.8f + 2}) == 0 &&

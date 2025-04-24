@@ -82,10 +82,10 @@ void CameraAngle::Update() {
 	camera_.matView = MakeLookAtMatrix(translation_, cameraTarget_, cameraUp_);
 	worldTransform_.UpdateMatrix();
 
-	ImGui::Begin("Camera");
+	/*ImGui::Begin("Camera");
 	ImGui::DragFloat3("Translation", &translation_.x, 0.01f);
 	ImGui::DragFloat3("Rotation", &rotation_.x, 0.01f);
-	ImGui::End();
+	ImGui::End();*/
 }
 
 // void CameraAngle::Update() {

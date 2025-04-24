@@ -191,11 +191,20 @@ void Map::Update(Player* player) {
 	}
 
 	for (Prism* prism : prism_) {
+		bool flag = false;
+		if (!prism->IsSet()) {
+			flag = true;
+		}
+
 		prism->Update(player);
 		if (!prism->IsSet()) {
 			map[prism->GetPos(0)][prism->GetPos(1)] = 0;
+			flag = false;
 		} else if (prism->IsSet()) {
 			map[prism->GetPos(0)][prism->GetPos(1)] = prism->ReturnKey();
+			if (flag) {
+				Reorldtransform();
+			}
 		}
 	}
 
