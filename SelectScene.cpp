@@ -15,23 +15,52 @@ void SelectScene::Initialize() {
 	for (int i = 0; i < 6; i++) {
 		sprite_[i] = Sprite::Create(textureHandle_[i], {0, 0}, {1, 1, 1, 1}, {0, 0}, 0, 0);
 	}
+
+	fade_ = new Fade();
+	fade_->Initialize();
+	fade_->Start(Fade::Status::FadeIn, 1.0f);
 }
 
 void SelectScene::Update() {
 	if (input_->TriggerKey(DIK_SPACE)) {
 
-		isFinished_ = true;
+		/*isFinished_ = true;*/
 	}
 	if (input_->TriggerKey(DIK_I)) {
 
 		isTutorial_ = true;
 	}
+
+	switch (phase_) {
+
+	case FadePhase::kFadeIn:
+		if (fade_->isFinished()) {
+			phase_ = FadePhase::kMain;
+		}
+		break;
+
+	case FadePhase::kMain:
+		if (input_->TriggerKey(DIK_SPACE)) {
+			phase_ = FadePhase::kfadeOut;
+			fade_->Start(Fade::Status::FadeOut, 1.0f);
+		}
+		break;
+
+	case FadePhase::kfadeOut:
+		if (fade_->isFinished()) {
+			isFinished_ = true;
+		}
+		break;
+	}
+
+	fade_->Update();
 }
 
 void SelectScene::Draw() {
 	if (this != nullptr) {
 		Sprite::PreDraw(dxCommon_->GetCommandList());
 		sprite_[stageNum_ - 1]->Draw();
+		fade_->Draw(dxCommon_->GetCommandList());
 		Sprite::PostDraw();
 	}
 }

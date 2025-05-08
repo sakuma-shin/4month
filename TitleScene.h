@@ -26,7 +26,6 @@ private:
 
 	Fade* fade_ = nullptr;
 
-
 	FadePhase phase_ = FadePhase::kFadeIn;
 
 	float counter = 0.0f;
