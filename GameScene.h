@@ -14,6 +14,8 @@
 
 #include"skydome.h"
 
+#include "Fade.h"
+
 using namespace KamataEngine;
 
 class GameScene {
@@ -93,4 +95,8 @@ private:
 	bool lightDethflag = false;
 
 	skydome* skydome_ = new skydome;
+
+	Fade* fade_ = nullptr;
+
+	FadePhase phase_ = FadePhase::kFadeIn;
 };
