@@ -4,13 +4,14 @@ using namespace KamataEngine;
 
 void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber, GameScene* game) {
 	// NULLチェック
-	assert(model);
+	//assert(model);
 
 	// 引数の内容をメンバ変数に記録
 	// this->model_ = model;
 
 	gameScene_ = game;
 
+	model_ = model;
 	model_ = Model::CreateFromOBJ("wall", true);
 	textureHandle_ = textureHandle;
 	camera_ = camera;

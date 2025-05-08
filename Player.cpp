@@ -8,7 +8,7 @@ Player::~Player() {}
 void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera) {
 
 	// NULLチェック
-	assert(model);
+	//assert(model);
 
 	// 引数の内容をメンバ変数に記録
 	model_ = model;
