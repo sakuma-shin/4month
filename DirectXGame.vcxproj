@@ -112,6 +112,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="ColorGlass.cpp" />
     <ClCompile Include="door.cpp" />
+    <ClCompile Include="Fade.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="ColorGlass.h" />
     <ClInclude Include="door.h" />
+    <ClInclude Include="Fade.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Map.h" />
