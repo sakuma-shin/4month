@@ -39,7 +39,6 @@ void GameScene::Initialize(int stageNum) {
 	player_ = new Player();
 	player_->SetMap(map_);
 	player_->Initialize(playerModel_, textureHandle_, &camera_);
-	
 
 	camera_.Initialize();
 
@@ -60,6 +59,7 @@ void GameScene::Initialize(int stageNum) {
 	explanationTextureHandle_ = TextureManager::Load("UI/UI_explanation.png");
 	brokenPrysmTextureHandle_ = TextureManager::Load("UI/brokenPrysm.png");
 	choiceNextStageTextureHandle_ = TextureManager::Load("UI/choiceNextStage.png");
+	resetTextureHandle_ = TextureManager::Load("UI/reset.png");
 
 	explanationSprite_ = Sprite::Create(explanationTextureHandle_, {15.0f, 15.0f});
 	explanationSprite_->SetSize({400.0f, 64.0f});
@@ -67,6 +67,9 @@ void GameScene::Initialize(int stageNum) {
 	brokenPrysmSprite_ = Sprite::Create(brokenPrysmTextureHandle_, {15.0f, 100.0f});
 
 	choiceNextStageSprite_ = Sprite::Create(choiceNextStageTextureHandle_, {640.0f, 360.0f});
+
+	resetSprite_ = Sprite::Create(resetTextureHandle_, {15.0f, 100.0f});
+	resetSprite_->SetSize({128.0f, 32.0f});
 
 	color_ = new Color();
 	color_->Initialize(colorModel_, purpleTextureHandle_, redTextureHandle_, blueTextureHandle_, greenTextureHandle_);
@@ -189,6 +192,14 @@ void GameScene::Update() {
 
 	fade_->Update();
 
+	if (input_->TriggerKey(DIK_R)) {
+		for (Light* light : lights_) {
+			delete light;
+		}
+		lights_.clear();
+		Initialize(stageNum_);
+	}
+
 }
 
 void GameScene::Draw() {
@@ -245,7 +256,8 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	///
 	
-	 explanationSprite_->Draw();
+	explanationSprite_->Draw();
+	resetSprite_->Draw();
 	fade_->Draw(dxCommon_->GetCommandList());
 
 	///
