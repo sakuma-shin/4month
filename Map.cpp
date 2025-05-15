@@ -298,6 +298,24 @@ void Map::readCSV() {
 	file.close();
 }
 
+KamataEngine::Vector3 Map::GetPlayerInitialPos() {
+	// ワールド座標に変換
+	KamataEngine::Vector3 worldPos;
+	// マップを走査
+	for (int y = 0; y < MaxY; ++y) {
+		for (int x = 0; x < MaxX; ++x) {
+			if (map[x][y]==1) {
+				worldPos.x = x * Size.x; // サイズを考慮
+				worldPos.y = 0.0f;
+				worldPos.z = y * Size.z;
+				break;
+			}
+		}
+	}
+
+	return worldPos;
+}
+
 int Map::Digit(int number) {
 	if (number / 10 < 1) {
 		return number;

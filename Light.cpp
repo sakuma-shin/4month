@@ -345,6 +345,9 @@ Vector3 Light::GetEndPosition() {
 		if (newType_ == Down) {
 			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z - worldTransform_.scale_.z - 1.5f};
 		}
+		if (newType_ == Up) {
+			return {worldTransform_.translation_.x, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+		}
 	}
 	return {worldTransform_.translation_.x, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 1.0f};
 }

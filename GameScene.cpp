@@ -26,13 +26,20 @@ void GameScene::Initialize(int stageNum) {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
+	mapModel_ = Model::Create();
+
+	map_ = new Map;
+
+	map_->Initialize(mapModel_, textureHandle_, &camera_, stageNum, this);
+
 	// 3Dモデルの生成
 	playerModel_ = Model::Create();
 
 	// プレイヤー関連
 	player_ = new Player();
-	player_->Initialize(playerModel_, textureHandle_, &camera_);
 	player_->SetMap(map_);
+	player_->Initialize(playerModel_, textureHandle_, &camera_);
+	
 
 	camera_.Initialize();
 
@@ -69,11 +76,7 @@ void GameScene::Initialize(int stageNum) {
 
 	lightTextureHandle_ = TextureManager::Load("white1x1.png");
 
-	mapModel_ = Model::Create();
-
-	map_ = new Map;
-
-	map_->Initialize(mapModel_, textureHandle_, &camera_, stageNum, this);
+	
 
 	// ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
@@ -83,7 +86,8 @@ void GameScene::Initialize(int stageNum) {
 	Vector2 lightVelocity = {20.0f, 0.0f};
 
 	std::vector<Vector3> initialPositions = map_->GetTilePositionsInRange(41, 44);
-	std::vector<Light::GrowType> initialTypes = map_->GetMirrorTypesInRange();
+
+ 	std::vector<Light::GrowType> initialTypes = map_->GetMirrorTypesInRange();
 
 	for (int i = 0; i < initialPositions.size(); i++) {
 		Light* newLight = new Light();
