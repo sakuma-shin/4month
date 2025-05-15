@@ -40,6 +40,8 @@ public:
 
 	bool GetLightFlag() { return lightDethflag; }
 
+	void SetStageNum(int num) { stageNum_ = num; }
+
 private:
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -80,6 +82,7 @@ private:
 	Sprite* explanationSprite_ = nullptr;
 	Sprite* brokenPrysmSprite_ = nullptr;
 	Sprite* choiceNextStageSprite_ = nullptr;
+	Sprite* resetSprite_ = nullptr;
 
 	// カラー類
 	Model* colorModel_ = nullptr;
@@ -91,6 +94,7 @@ private:
 	uint32_t brokenPrysmTextureHandle_ = 0u;
 	uint32_t choiceNextStageTextureHandle_ = 0u;
 	uint32_t purpleTextureHandle_ = 0u;
+	uint32_t resetTextureHandle_ = 0u;
 
 	bool lightDethflag = false;
 
@@ -99,4 +103,8 @@ private:
 	Fade* fade_ = nullptr;
 
 	FadePhase phase_ = FadePhase::kFadeIn;
+
+	int stageNum_ = 0;
+
+
 };
