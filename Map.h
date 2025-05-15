@@ -43,7 +43,9 @@ public:
 	std::vector<KamataEngine::Vector3> GetTilePositionsInRange(int min, int max);
 	std::vector<Light::GrowType> GetMirrorTypesInRange();
 
-	std::vector<Target*> Gettarget() { return target_; }
+	std::vector<Target*> Gettarget() { return target_; } 
+
+	KamataEngine::Vector3 GetPlayerInitialPos();
 
 private:
 	int Digit(int number);
@@ -53,6 +55,8 @@ private:
 	int UnFirstnumber(int number);
 
 	std::vector<Target*> GetTargetList() { return target_; }
+
+
 
 private:
 	std::string filename;

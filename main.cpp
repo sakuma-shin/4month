@@ -91,9 +91,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	scene = Scene::kTitle;
 
-	// ゲームシーンの初期化
-	gameScene = new GameScene();
-	gameScene->Initialize(1);
+	//// ゲームシーンの初期化
+	//gameScene = new GameScene();
+	/*gameScene->Initialize(1);*/
 
 	// メインループ
 	while (true) {
