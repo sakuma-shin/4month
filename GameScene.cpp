@@ -9,16 +9,20 @@ GameScene::~GameScene() {
 	delete playerModel_;
 	delete player_;
 	delete cameraAngle_;
-	delete map_;
 	delete color_;
-	delete explanationSprite_;
-	delete brokenPrysmSprite_;
-	delete choiceNextStageSprite_;
-
-	/*delete lightSprite_;*/
 	for (Light* light : lights_) {
 		delete light;
 	}
+	lights_.clear();
+	delete lightModel_;
+	delete map_;
+	delete mapModel_;
+	delete explanationSprite_;
+	delete brokenPrysmSprite_;
+	delete choiceNextStageSprite_;
+	delete colorModel_;
+	delete skydome_;
+	delete fade_;
 }
 
 void GameScene::Initialize(int stageNum) {

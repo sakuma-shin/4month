@@ -1,5 +1,7 @@
 #include "Prism.h"
 
+Prism::~Prism() {}
+
 void Prism::Initialize(int key, WorldTransform* worldTransform, int x, int z, Map* map) {
 	key_ = key;
 	worldTransform_ = worldTransform;
@@ -142,8 +144,6 @@ void Prism::Draw(Camera* camera) {
 		model_->Draw(*worldTransform_, *camera);
 	}
 }
-
-void Prism::DecompositionLight() {}
 
 void Prism::Broken() {
 	isSet_ = false;

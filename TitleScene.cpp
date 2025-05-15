@@ -1,6 +1,9 @@
 #include "TitleScene.h"
 
-TitleScene::~TitleScene() {}
+TitleScene::~TitleScene() {
+	delete fade_;
+	delete sprite_;
+}
 
 void TitleScene::Initialize() {
 

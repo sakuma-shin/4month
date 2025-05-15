@@ -1,6 +1,6 @@
 #include "ClearScene.h"
 
-ClearScene::~ClearScene() {}
+ClearScene::~ClearScene() { delete sprite_; }
 
 void ClearScene::Initialize() {
 

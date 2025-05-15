@@ -8,6 +8,8 @@
 class Target {
 
 public:
+	~Target();
+
 	void Initialize(int number, KamataEngine::WorldTransform* worldTransform);
 	void Update();
 	void Draw(KamataEngine::Camera* camera);
