@@ -56,7 +56,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region 汎用機能初期化
 	// ImGuiの初期化
 	ImGuiManager* imguiManager = ImGuiManager::GetInstance();
-	imguiManager->Initialize(win, dxCommon);
+	imguiManager->Initialize(win,dxCommon);
 
 	// 入力の初期化
 	input = Input::GetInstance();

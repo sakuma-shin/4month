@@ -68,7 +68,6 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <Optimization>MinSpace</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -113,6 +112,8 @@
     <ClCompile Include="ColorGlass.cpp" />
     <ClCompile Include="door.cpp" />
     <ClCompile Include="Fade.cpp" />
+    <ClCompile Include="Fading.cpp" />
+    <ClCompile Include="Fragment.cpp" />
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
@@ -210,6 +211,8 @@
     <ClInclude Include="ColorGlass.h" />
     <ClInclude Include="door.h" />
     <ClInclude Include="Fade.h" />
+    <ClInclude Include="Fading.h" />
+    <ClInclude Include="Fragment.h" />
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Map.h" />

@@ -6,7 +6,7 @@ void Fragment::Initialize(Model* model, Vector3 pos, Camera* camera) {
 		worldTransform.Initialize();
 		worldTransform.translation_ = pos;
 	}
-
+	model;
 	camera_ = camera;
 
 	objectColor_.Initialize();
