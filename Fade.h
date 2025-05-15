@@ -35,6 +35,8 @@ public:
 
 	void Stop();
 
+
+
 private:
 	// スプライト
 	KamataEngine::Sprite* sprite_ = nullptr;
