@@ -87,7 +87,7 @@ void GameScene::Initialize(int stageNum) {
 
 	for (int i = 0; i < initialPositions.size(); i++) {
 		Light* newLight = new Light();
-		newLight->Initialize(lightTextureHandle_, lightModel_, initialTypes[i], initialPositions[i], {0.5f, 0.5f, 0.5f}, map_->Gettarget(), 0);
+		newLight->Initialize(lightTextureHandle_, lightModel_, initialTypes[i], initialPositions[i], {0.5f, 0.5f, 0.5f}, map_->Gettarget(), 1);
 		newLight->SetMapData(map_);
 		/*lightSprite_->SetSize(newLight->GetSize());*/
 		lights_.push_back(newLight);
