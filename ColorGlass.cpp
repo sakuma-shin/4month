@@ -3,7 +3,6 @@
 using namespace KamataEngine;
 
 ColorGlass::~ColorGlass() {
-	delete worldTransform_;
 	delete player_;
 }
 
