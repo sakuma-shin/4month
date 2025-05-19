@@ -1,5 +1,7 @@
 #include "Fading.h"
 
+Fading::~Fading() { delete sprite_; }
+
 void Fading::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	textureHandle_ = TextureManager::Load("./Resources/white1x1.png");
@@ -10,14 +12,13 @@ void Fading::Initialize() {
 void Fading::Update() {
 	ImGui::Begin("fade");
 	if (!isFade_) {
-	
 	}
 	if (ImGui::Button("fadeStart", {50, 50})) {
 		if (!isFade_) {
 			isFade_ = true;
 		}
 	}
-		ImGui::End();
+	ImGui::End();
 }
 
 void Fading::Draw() {

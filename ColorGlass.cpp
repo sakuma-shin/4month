@@ -2,6 +2,11 @@
 
 using namespace KamataEngine;
 
+ColorGlass::~ColorGlass() {
+	delete worldTransform_;
+	delete player_;
+}
+
 void ColorGlass::Initialize(KamataEngine::WorldTransform* worldtransform, Map* map, int x, int z, int number) {
 
 	worldTransform_ = worldtransform;

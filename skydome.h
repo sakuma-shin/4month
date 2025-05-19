@@ -1,12 +1,14 @@
 #pragma once
-#include <KamataEngine.h>
 #include <2d/Sprite.h>
+#include <KamataEngine.h>
 
 using namespace KamataEngine;
 
 class skydome {
 public:
-	void Initialize(Camera*camera);
+	~skydome();
+
+	void Initialize(Camera* camera);
 	void Update();
 	void Draw();
 
@@ -18,5 +20,4 @@ private:
 	Sprite* Reticle_[5];
 	Sprite* Reticle2_[5];
 	float velo = 0.0f;
-
 };

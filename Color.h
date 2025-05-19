@@ -5,6 +5,8 @@
 class Color {
 
 public:
+	~Color();
+
 	void Initialize(KamataEngine::Model* model, uint32_t purpleTextureHandle, uint32_t redTextureHandle, uint32_t blueTextureHandle, uint32_t greenTextureHandle);
 
 	void Update();

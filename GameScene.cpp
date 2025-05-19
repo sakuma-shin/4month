@@ -23,6 +23,16 @@ GameScene::~GameScene() {
 	delete colorModel_;
 	delete skydome_;
 	delete fade_;
+
+	TextureManager::Unload(textureHandle_);
+	TextureManager::Unload(lightTextureHandle_);
+	TextureManager::Unload(redTextureHandle_);
+	TextureManager::Unload(blueTextureHandle_);
+	TextureManager::Unload(greenTextureHandle_);
+	TextureManager::Unload(explanationTextureHandle_);
+	TextureManager::Unload(brokenPrysmTextureHandle_);
+	TextureManager::Unload(choiceNextStageTextureHandle_);
+	TextureManager::Unload(purpleTextureHandle_);
 }
 
 void GameScene::Initialize(int stageNum) {
@@ -43,7 +53,6 @@ void GameScene::Initialize(int stageNum) {
 	player_ = new Player();
 	player_->SetMap(map_);
 	player_->Initialize(playerModel_, textureHandle_, &camera_);
-	
 
 	camera_.Initialize();
 
@@ -80,8 +89,6 @@ void GameScene::Initialize(int stageNum) {
 
 	lightTextureHandle_ = TextureManager::Load("white1x1.png");
 
-	
-
 	// ライトの初期化
 	/*lightSprite_ = Sprite::Create(lightTextureHandle_, {});*/
 
@@ -91,7 +98,7 @@ void GameScene::Initialize(int stageNum) {
 
 	std::vector<Vector3> initialPositions = map_->GetTilePositionsInRange(41, 44);
 
- 	std::vector<Light::GrowType> initialTypes = map_->GetMirrorTypesInRange();
+	std::vector<Light::GrowType> initialTypes = map_->GetMirrorTypesInRange();
 
 	for (int i = 0; i < initialPositions.size(); i++) {
 		Light* newLight = new Light();
@@ -156,18 +163,17 @@ void GameScene::Update() {
 
 	/*if (input_->TriggerKey(DIK_SPACE)) {
 
-		isFinished_ = true;
+	    isFinished_ = true;
 	}*/
 
-
-	//if (input_->TriggerKey(DIK_P) && stagenumber <= 5) {
-		//stagenumber++;
-		//Initialize();
+	// if (input_->TriggerKey(DIK_P) && stagenumber <= 5) {
+	// stagenumber++;
+	// Initialize();
 	//}
-//	if (input_->TriggerKey(DIK_O) && stagenumber > 0) {
-		//stagenumber--;
-		//Initialize();
-//	}
+	//	if (input_->TriggerKey(DIK_O) && stagenumber > 0) {
+	// stagenumber--;
+	// Initialize();
+	//	}
 
 	switch (phase_) {
 
@@ -179,8 +185,8 @@ void GameScene::Update() {
 
 	case FadePhase::kMain:
 		/*if (input_->TriggerKey(DIK_SPACE)) {
-			phase_ = FadePhase::kfadeOut;
-			fade_->Start(Fade::Status::FadeOut, 1.0f);
+		    phase_ = FadePhase::kfadeOut;
+		    fade_->Start(Fade::Status::FadeOut, 1.0f);
 		}*/
 		break;
 
@@ -192,7 +198,6 @@ void GameScene::Update() {
 	}
 
 	fade_->Update();
-
 }
 
 void GameScene::Draw() {
@@ -222,7 +227,7 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	///
-	
+
 	map_->Draw();
 
 	for (Light* light : lights_) {
@@ -230,9 +235,7 @@ void GameScene::Draw() {
 	}
 	player_->Draw(&camera_);
 	/*color_->Draw(&camera_);*/
-	
 
-	
 	// colorGlass_->Draw(&camera_);
 	///
 	/// </summary>
@@ -248,8 +251,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに前景スプライトの描画処理を追加できる
 	///
-	
-	 explanationSprite_->Draw();
+
+	explanationSprite_->Draw();
 	fade_->Draw(dxCommon_->GetCommandList());
 
 	///
@@ -259,7 +262,6 @@ void GameScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
-
 }
 
 void GameScene::LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTextureHandle, int color) {

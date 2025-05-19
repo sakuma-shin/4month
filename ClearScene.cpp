@@ -1,6 +1,9 @@
 #include "ClearScene.h"
 
-ClearScene::~ClearScene() { delete sprite_; }
+ClearScene::~ClearScene() {
+	delete sprite_;
+	TextureManager::Unload(textureHandle_);
+}
 
 void ClearScene::Initialize() {
 

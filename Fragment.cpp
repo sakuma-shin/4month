@@ -1,6 +1,8 @@
 #include "Fragment.h"
 #include "MathUtility.h"
 
+Fragment::~Fragment() { delete camera_; }
+
 void Fragment::Initialize(Model* model, Vector3 pos, Camera* camera) {
 	for (auto& worldTransform : worldTransforms_) {
 		worldTransform.Initialize();

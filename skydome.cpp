@@ -1,7 +1,14 @@
 #include "skydome.h"
 using namespace KamataEngine;
-void skydome::Initialize(Camera* camera) { 
-	
+skydome::~skydome() {
+	for (int i = 0; i < 5; i++) {
+		delete Reticle_[i];
+		delete Reticle2_[i];
+	}
+}
+
+void skydome::Initialize(Camera* camera) {
+
 	worldtransform_.translation_ = {0.0f, 0.0f, 0.0f};
 	worldtransform_.scale_ = {-100, 100, 100};
 	model_ = Model::CreateFromOBJ("tenn", true);
@@ -18,7 +25,7 @@ void skydome::Initialize(Camera* camera) {
 	Reticle2_[1] = Sprite::Create(textureReticle, Vector2(-2560.0f, 144.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 0.0f));
 	Reticle2_[3] = Sprite::Create(textureReticle, Vector2(-2560.0f, 432.0f), Vector4(1, 1, 1, 1), Vector2(0.0f, 0.0f));
 	camera_ = camera;
-	
+
 	worldtransform_.Initialize();
 
 	worldtransform_.UpdateMatrix();
@@ -46,10 +53,10 @@ void skydome::Update() {
 	}
 }
 
-void skydome::Draw() { 
+void skydome::Draw() {
 	for (int i = 0; i < 5; i++) {
 		Reticle_[i]->Draw();
 		Reticle2_[i]->Draw();
 	}
-	//model_->Draw(worldtransform_, *camera_); 
+	// model_->Draw(worldtransform_, *camera_);
 }

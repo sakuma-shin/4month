@@ -4,6 +4,8 @@
 
 using namespace KamataEngine;
 
+Fade::~Fade() { delete sprite_; }
+
 void Fade::Initialize() {
 
 	fadeTexture_ = TextureManager::Load("white1x1.png");

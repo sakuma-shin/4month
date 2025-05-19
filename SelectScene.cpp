@@ -3,6 +3,7 @@
 SelectScene::~SelectScene() {
 	for (int i = 0; i < 6; i++) {
 		delete sprite_[i];
+		TextureManager::Unload(textureHandle_[i]);
 	}
 	delete fade_;
 }

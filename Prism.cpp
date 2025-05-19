@@ -117,7 +117,7 @@ void Prism::Update(Player* player) {
 	worldTransform_->TransferMatrix();
 	worldTransform_->UpdateMatrix();
 
-	//int count = player_->GetCount();
+	// int count = player_->GetCount();
 	Vector3 pos = player->GetPosition();
 	VI3 p = {int(pos.x), int(pos.y), int(pos.z)};
 
@@ -131,10 +131,10 @@ void Prism::Update(Player* player) {
 	ImGui::InputInt("dx", &directX);
 	ImGui::InputInt("dz", &directZ);
 	if (ImGui::Button("broken", {50, 50})) {
-		Broken();
+	    Broken();
 	}
 	if (ImGui::Button("Set", {50, 50})) {
-		Set();
+	    Set();
 	}
 	ImGui::End();*/
 }

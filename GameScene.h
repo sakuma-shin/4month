@@ -12,7 +12,7 @@
 #include "Color.h"
 // #include "ColorGlass.h"
 
-#include"skydome.h"
+#include "skydome.h"
 
 #include "Fade.h"
 
@@ -62,9 +62,6 @@ private:
 
 	// カラー
 	Color* color_ = nullptr;
-
-	// 色ガラス
-	// ColorGlass* colorGlass_;
 
 	bool isFinished_ = false;
 
