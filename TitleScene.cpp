@@ -1,6 +1,11 @@
 #include "TitleScene.h"
 
-TitleScene::~TitleScene() {}
+TitleScene::~TitleScene() {
+	delete fade_;
+	delete sprite_;
+
+	TextureManager::Unload(textureHandle_);
+}
 
 void TitleScene::Initialize() {
 
@@ -12,21 +17,18 @@ void TitleScene::Initialize() {
 
 	sceneChangeSoundHandle_ = audio_->LoadWave("sounds/firstMusic.mp3");
 
-	
 	fade_ = new Fade();
 	fade_->Initialize();
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
-
-
 }
 
 void TitleScene::Update() {
 
 	if (input_->TriggerKey(DIK_SPACE)) {
 
-	/*	isFinished_ = true;*/
+		/*	isFinished_ = true;*/
 		if (audio_->IsPlaying(sceneChangeSoundHandle_)) {
-			audio_->PlayWave(sceneChangeSoundHandle_,false,0.5f);
+			audio_->PlayWave(sceneChangeSoundHandle_, false, 0.5f);
 		}
 	}
 
@@ -55,8 +57,7 @@ void TitleScene::Update() {
 	fade_->Update();
 }
 
-
-void TitleScene::Draw() { 
+void TitleScene::Draw() {
 	if (this != nullptr) {
 		Sprite::PreDraw(dxCommon_->GetCommandList());
 		sprite_->Draw();

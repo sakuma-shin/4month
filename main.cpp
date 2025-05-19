@@ -43,7 +43,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Audio* audio = nullptr;
 	AxisIndicator* axisIndicator = nullptr;
 	PrimitiveDrawer* primitiveDrawer = nullptr;
-	
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -56,7 +55,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma region 汎用機能初期化
 	// ImGuiの初期化
 	ImGuiManager* imguiManager = ImGuiManager::GetInstance();
-	imguiManager->Initialize(win,dxCommon);
+	imguiManager->Initialize(win, dxCommon);
 
 	// 入力の初期化
 	input = Input::GetInstance();
@@ -92,7 +91,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	scene = Scene::kTitle;
 
 	//// ゲームシーンの初期化
-	//gameScene = new GameScene();
+	// gameScene = new GameScene();
 	/*gameScene->Initialize(1);*/
 
 	// メインループ

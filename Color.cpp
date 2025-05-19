@@ -2,8 +2,10 @@
 
 using namespace KamataEngine;
 
+Color::~Color() { delete camera_; }
+
 void Color::Initialize(KamataEngine::Model* model, uint32_t purpleTextureHandle, uint32_t redTextureHandle, uint32_t blueTextureHandle, uint32_t greenTextureHandle) {
-	//assert(model);
+	// assert(model);
 
 	model_ = model;
 	purpleTextureHandle_ = purpleTextureHandle;

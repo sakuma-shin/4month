@@ -1,7 +1,7 @@
 #pragma once
+#include "Fade.h"
 #include "base/DirectXCommon.h"
 #include <KamataEngine.h>
-#include "Fade.h"
 using namespace KamataEngine;
 
 class TitleScene {

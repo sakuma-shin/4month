@@ -5,6 +5,8 @@ using namespace KamataEngine;
 
 class Fragment {
 public:
+	~Fragment();
+
 	void Initialize(Model* model, Vector3 pos, Camera* camera);
 
 	void Update();

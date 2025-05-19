@@ -2,9 +2,41 @@
 
 using namespace KamataEngine;
 
+Map::~Map() {
+	delete model_;
+	for (WorldTransform* worldTransform : worldTransform_) {
+		delete worldTransform;
+	}
+	worldTransform_.clear();
+	delete goalmodel_;
+	delete prismmodel_;
+	delete doormodel_;
+	delete colorGlassModel_;
+	for (door* doors : door_) {
+		delete doors;
+	}
+	door_.clear();
+	for (Target* target : target_) {
+		delete target;
+	}
+	target_.clear();
+	for (mirror* mirrors : mirror_) {
+		delete mirrors;
+	}
+	mirror_.clear();
+	for (Prism* prism : prism_) {
+		delete prism;
+	}
+	prism_.clear();
+	for (ColorGlass* colorGlass : colorGlass_) {
+		delete colorGlass;
+	}
+	colorGlass_.clear();
+}
+
 void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera, int stagenumber, GameScene* game) {
 	// NULLチェック
-	//assert(model);
+	// assert(model);
 
 	// 引数の内容をメンバ変数に記録
 	// this->model_ = model;
@@ -34,8 +66,8 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	// doormodel_ = Model::CreateFromOBJ("door", true);
 
 	if (stagenumber == 1) {
-		//filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
-		//filename = "Resources/map/stage/stage1.csv"; // 分解を加味しないステージ
+		// filename = "Resources/map/01.csv"; // 読み込むCSVファイル名
+		// filename = "Resources/map/stage/stage1.csv"; // 分解を加味しないステージ
 		filename = "Resources/proto/proto1.csv"; // 完全版の際には元に戻す
 	} else if (stagenumber == 2) {
 		filename = "Resources/map/stage/stage1.csv"; // 読み込むCSVファイル名
@@ -304,7 +336,7 @@ KamataEngine::Vector3 Map::GetPlayerInitialPos() {
 	// マップを走査
 	for (int y = 0; y < MaxY; ++y) {
 		for (int x = 0; x < MaxX; ++x) {
-			if (map[x][y]==1) {
+			if (map[x][y] == 1) {
 				worldPos.x = x * Size.x; // サイズを考慮
 				worldPos.y = 0.0f;
 				worldPos.z = y * Size.z;

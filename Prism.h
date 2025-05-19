@@ -8,16 +8,13 @@ using namespace KamataEngine;
 
 class Prism {
 public:
+	~Prism();
+
 	void Initialize(int key, WorldTransform* worldTransform, int x, int z, Map* map);
 
 	void Update(Player* player);
 
 	void Draw(Camera* camera);
-
-	/// <summary>
-	/// 光の分解の際の処理
-	/// </summary>
-	void DecompositionLight();
 
 	void Broken();
 

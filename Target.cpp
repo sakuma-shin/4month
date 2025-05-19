@@ -2,6 +2,8 @@
 
 using namespace KamataEngine;
 
+Target::~Target() {}
+
 void Target::Initialize(int number, KamataEngine::WorldTransform* worldTransform) {
 	targetmodel_->Create();
 	targetmodel_ = Model::CreateFromOBJ("door", true);

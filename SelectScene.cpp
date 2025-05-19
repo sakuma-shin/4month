@@ -1,6 +1,12 @@
 #include "SelectScene.h"
 
-SelectScene::~SelectScene() {}
+SelectScene::~SelectScene() {
+	for (int i = 0; i < 6; i++) {
+		delete sprite_[i];
+		TextureManager::Unload(textureHandle_[i]);
+	}
+	delete fade_;
+}
 
 void SelectScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();

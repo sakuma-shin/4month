@@ -1,6 +1,10 @@
 #include "TutorialScene.h"
 
-TutorialScene::~TutorialScene() {}
+TutorialScene::~TutorialScene() {
+	delete sprite_;
+
+	TextureManager::Unload(textureHandle_);
+}
 
 void TutorialScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();

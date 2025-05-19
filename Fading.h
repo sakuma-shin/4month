@@ -5,6 +5,8 @@ using namespace KamataEngine;
 
 class Fading {
 public:
+	~Fading();
+
 	void Initialize();
 
 	void Update();

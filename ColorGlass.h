@@ -13,6 +13,8 @@ class Map;
 class ColorGlass {
 
 public:
+	~ColorGlass();
+
 	void Initialize(KamataEngine::WorldTransform* worldtransform, Map* map, int x, int z, int number);
 
 	void Update();

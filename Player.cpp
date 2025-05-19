@@ -8,7 +8,7 @@ Player::~Player() {}
 void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera) {
 
 	// NULLチェック
-	//assert(model);
+	// assert(model);
 
 	// 引数の内容をメンバ変数に記録
 	model_ = model;
@@ -22,7 +22,7 @@ void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle, Kama
 	worldTransform_.Initialize();
 
 	// プレイヤーの初期位置を設定
-	worldTransform_.translation_=map_->GetPlayerInitialPos();
+	worldTransform_.translation_ = map_->GetPlayerInitialPos();
 }
 
 void Player::Update(Map* map) {
