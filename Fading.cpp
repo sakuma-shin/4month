@@ -10,7 +10,7 @@ void Fading::Initialize() {
 }
 
 void Fading::Update() {
-	ImGui::Begin("fade");
+	/*ImGui::Begin("fade");
 	if (!isFade_) {
 	}
 	if (ImGui::Button("fadeStart", {50, 50})) {
@@ -18,7 +18,7 @@ void Fading::Update() {
 			isFade_ = true;
 		}
 	}
-	ImGui::End();
+		ImGui::End();*/
 }
 
 void Fading::Draw() {

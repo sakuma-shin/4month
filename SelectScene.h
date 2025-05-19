@@ -33,9 +33,16 @@ private:
 	uint32_t textureHandle_[6] = {};
 	Sprite* sprite_[6] = {nullptr};
 
+	uint32_t loadingTextureHandle_ = {};
+	Sprite* loadingSprite_ = nullptr;
+
 	int stageNum_ = 1;
 
 	Fade* fade_ = nullptr;
 
 	FadePhase phase_ = FadePhase::kFadeIn;
+
+	const float loadingTime = 10.0f;
+
+	float counter_ = 0.0f;
 };

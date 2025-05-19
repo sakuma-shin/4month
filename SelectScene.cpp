@@ -12,6 +12,9 @@ void SelectScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
+	counter_ = 0.0f;
+
 	textureHandle_[0] = TextureManager::Load("./Resources/proto/protoSelect.png");
 	textureHandle_[1] = TextureManager::Load("./Resources/proto/protoSelect2.png");
 	textureHandle_[2] = TextureManager::Load("./Resources/proto/protoSelect3.png");
@@ -22,16 +25,15 @@ void SelectScene::Initialize() {
 		sprite_[i] = Sprite::Create(textureHandle_[i], {0, 0}, {1, 1, 1, 1}, {0, 0}, 0, 0);
 	}
 
+	loadingTextureHandle_ = TextureManager::Load("./Resources/proto/protoLoading.png");
+	loadingSprite_ = Sprite::Create(loadingTextureHandle_, {0, 0}, {1, 1, 1, 1}, {0, 0}, 0, 0);
+
 	fade_ = new Fade();
 	fade_->Initialize();
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
 }
 
 void SelectScene::Update() {
-	if (input_->TriggerKey(DIK_SPACE)) {
-
-		/*isFinished_ = true;*/
-	}
 	if (input_->TriggerKey(DIK_I)) {
 
 		isTutorial_ = true;
@@ -53,7 +55,9 @@ void SelectScene::Update() {
 		break;
 
 	case FadePhase::kfadeOut:
-		if (fade_->isFinished()) {
+
+		counter_++;
+		if (counter_ >= loadingTime) {
 			isFinished_ = true;
 		}
 		break;
@@ -63,12 +67,21 @@ void SelectScene::Update() {
 }
 
 void SelectScene::Draw() {
+	Sprite::PreDraw(dxCommon_->GetCommandList());
 	if (this != nullptr) {
-		Sprite::PreDraw(dxCommon_->GetCommandList());
 		sprite_[stageNum_ - 1]->Draw();
-		fade_->Draw(dxCommon_->GetCommandList());
-		Sprite::PostDraw();
+
+		if (phase_==FadePhase::kfadeOut&&counter_ <= loadingTime) {
+			loadingSprite_->Draw();
+		}
+
+		if (!fade_->isFinished()) {
+			fade_->Draw(dxCommon_->GetCommandList());
+		}
+		
+ 		
 	}
+	Sprite::PostDraw();
 }
 
 int SelectScene::SelectStage() {

@@ -387,6 +387,8 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 	if (map == nullptr) {
 		// エラーハンドリング
 		return 1; // 衝突と見なす
+
+
 	}
 
 	// 範囲外なら即「衝突」として処理

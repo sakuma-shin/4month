@@ -188,7 +188,9 @@ void ChangeScene() {
 
 			gameScene = new GameScene();
 
+			gameScene->SetStageNum(stageNum_);
 			gameScene->Initialize(stageNum_);
+			
 
 			break;
 		}

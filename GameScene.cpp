@@ -73,6 +73,7 @@ void GameScene::Initialize(int stageNum) {
 	explanationTextureHandle_ = TextureManager::Load("UI/UI_explanation.png");
 	brokenPrysmTextureHandle_ = TextureManager::Load("UI/brokenPrysm.png");
 	choiceNextStageTextureHandle_ = TextureManager::Load("UI/choiceNextStage.png");
+	resetTextureHandle_ = TextureManager::Load("UI/reset.png");
 
 	explanationSprite_ = Sprite::Create(explanationTextureHandle_, {15.0f, 15.0f});
 	explanationSprite_->SetSize({400.0f, 64.0f});
@@ -80,6 +81,9 @@ void GameScene::Initialize(int stageNum) {
 	brokenPrysmSprite_ = Sprite::Create(brokenPrysmTextureHandle_, {15.0f, 100.0f});
 
 	choiceNextStageSprite_ = Sprite::Create(choiceNextStageTextureHandle_, {640.0f, 360.0f});
+
+	resetSprite_ = Sprite::Create(resetTextureHandle_, {15.0f, 100.0f});
+	resetSprite_->SetSize({128.0f, 32.0f});
 
 	color_ = new Color();
 	color_->Initialize(colorModel_, purpleTextureHandle_, redTextureHandle_, blueTextureHandle_, greenTextureHandle_);
@@ -198,6 +202,15 @@ void GameScene::Update() {
 	}
 
 	fade_->Update();
+
+	if (input_->TriggerKey(DIK_R)) {
+		for (Light* light : lights_) {
+			delete light;
+		}
+		lights_.clear();
+		Initialize(stageNum_);
+	}
+
 }
 
 void GameScene::Draw() {
@@ -253,6 +266,8 @@ void GameScene::Draw() {
 	///
 
 	explanationSprite_->Draw();
+	resetSprite_->Draw();
+
 	fade_->Draw(dxCommon_->GetCommandList());
 
 	///
@@ -274,10 +289,10 @@ void GameScene::LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTex
 		scal = {0.5f, 0.5f, 0.5f};
 	}
 	if (type == Light::GrowType::Right) {
-		scal = {-0.5f, 0.5f, 0.5f};
+		scal = {0.5f, 0.5f, 0.5f};
 	}
 	if (type == Light::GrowType::Left) {
-		scal = {0.5f, 0.5f, 0.5f};
+		scal = {0.5f, 0.5f, -0.5f};
 	}
 	newLight->Initialize(lightTextureHandle, lightModel_, type, pos, scal, map_->Gettarget(), color);
 	newLight->SetMapData(map_);
