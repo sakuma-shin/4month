@@ -280,10 +280,10 @@ void GameScene::LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTex
 		scal = {0.5f, 0.5f, 0.5f};
 	}
 	if (type == Light::GrowType::Right) {
-		scal = {-0.5f, 0.5f, 0.5f};
+		scal = {0.5f, 0.5f, 0.5f};
 	}
 	if (type == Light::GrowType::Left) {
-		scal = {0.5f, 0.5f, 0.5f};
+		scal = {0.5f, 0.5f, -0.5f};
 	}
 	newLight->Initialize(lightTextureHandle, lightModel_, type, pos, scal, map_->Gettarget(), color);
 	newLight->SetMapData(map_);
