@@ -12,7 +12,7 @@ void TitleScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	textureHandle_ = TextureManager::Load("./Resources/proto/protoTitle.png");
+	textureHandle_ = TextureManager::Load("./Resources/title/title.png");
 	sprite_ = Sprite::Create(textureHandle_, {0, 0}, {1, 1, 1, 1}, {0, 0}, 0, 0);
 
 	sceneChangeSoundHandle_ = audio_->LoadWave("sounds/firstMusic.mp3");
