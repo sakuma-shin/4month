@@ -48,6 +48,7 @@ void GameScene::Initialize(int stageNum) {
 
 	// 3Dモデルの生成
 	playerModel_ = Model::Create();
+	//playerModel_ = Model::CreateFromOBJ("player", true);
 
 	// プレイヤー関連
 	player_ = new Player();
