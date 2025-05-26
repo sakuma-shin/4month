@@ -297,7 +297,7 @@ Vector3 Light::GetEndPosition() {
 			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
 		}
 		if (newType_ == Right) {
-			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z - worldTransform_.scale_.z - 0.5f};
+   			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z - worldTransform_.scale_.z + 1.0f};
 		}
 		if (newType_ == Down) {
 			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 1.0f, 0.0f, worldTransform_.translation_.z};
@@ -327,7 +327,7 @@ Vector3 Light::GetEndPosition() {
 
 	} else if (prevGrowType_ == Up) {
 		if (newType_ == Left) {
-			return {worldTransform_.translation_.x + worldTransform_.scale_.x - 1.0f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z};
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z};
 		}
 		if (newType_ == Right) {
 			return {worldTransform_.translation_.x +worldTransform_.scale_.x-1.7f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
@@ -343,13 +343,13 @@ Vector3 Light::GetEndPosition() {
 			return {worldTransform_.translation_.x + worldTransform_.scale_.x - 1.0f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z};
 		}
 		if (newType_ == Right) {
-			return {worldTransform_.translation_.x - 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+			return {worldTransform_.translation_.x+0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z+0.5f};
 		}
 		if (newType_ == Down) {
-			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z - worldTransform_.scale_.z - 1.5f};
+			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
 		}
 		if (newType_ == Up) {
-			return {worldTransform_.translation_.x, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+ 			return {worldTransform_.translation_.x, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
 		}
 	}
 	return {worldTransform_.translation_.x, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 1.0f};
@@ -370,19 +370,19 @@ void Light::OnCollisionMap(int mapNum) {
 
 		case 31:
 			growtype_ = NO;
-			newType_ = Right;
+			newType_ = Left;
 			break;
 
 		case 32:
 			growtype_ = NO;
-			newType_ = Left;
+			newType_ = Right;
 			break;
 
 		case 51:
 			newType_ = Up;
 			growtype_ = NO;
 			color_ = 1;
-			//newtextureHandle_ = TextureManager::Load("color/purple.png");
+			// newtextureHandle_ = TextureManager::Load("color/purple.png");
 			break;
 
 		case 93:
@@ -401,12 +401,12 @@ void Light::OnCollisionMap(int mapNum) {
 		switch (mapNum) {
 		case 31:
 			growtype_ = NO;
-			newType_ = Left;
+			newType_ = Right;
 			break;
 
 		case 32:
 			growtype_ = NO;
-			newType_ = Right;
+			newType_ = Left;
 			break;
 
 		case 51:
@@ -476,12 +476,12 @@ void Light::OnCollisionMap(int mapNum) {
 
 		case 31:
 			growtype_ = NO;
-			newType_ = Up;
+			newType_ = Down;
 			break;
 
 		case 32:
 			growtype_ = NO;
-			newType_ = Down;
+			newType_ = Up;
 			break;
 
 		case 91:
@@ -492,6 +492,18 @@ void Light::OnCollisionMap(int mapNum) {
 		case 92:
 			growtype_ = NO;
 			newType_ = Down;
+			break;
+
+		case 51:
+ 			newType_ = Right;
+			growtype_ = NO;
+			break;
+
+		case 52:
+			newType_ = Right;
+			growtype_ = NO;
+			color_ = 2;
+			newtextureHandle_ = TextureManager::Load("color/purple.png");
 			break;
 		}
 		break;
