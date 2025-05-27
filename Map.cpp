@@ -59,7 +59,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	// mirrormodel2_->Create();
 	// mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
 
-	goalmodel_ = Model::CreateFromOBJ("gole", true);
+	goalmodel_ = Model::CreateFromOBJ("goal", true);
 
 	// prismmodel_ = Model::CreateFromOBJ("prism", true);
 
