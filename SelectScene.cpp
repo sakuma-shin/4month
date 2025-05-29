@@ -119,7 +119,7 @@ int SelectScene::SelectStage() {
 	if (input_->TriggerKey(DIK_A)) {
 		stageNum_--;
 		if (stageNum_ <= 0) {
-			stageNum_ = 6;
+			stageNum_ = 15;
 		}
 	}
 	return stageNum_;
