@@ -65,7 +65,7 @@ void GameScene::Initialize(int stageNum) {
 	cameraAngle_ = new CameraAngle();
 	cameraAngle_->Initialize(initialTransform, player_);
 
-	colorModel_ = Model::CreateFromOBJ("cube", true);
+	colorModel_ = Model::CreateFromOBJ("sensor", true);
 
 	redTextureHandle_ = TextureManager::Load("color/red.png");
 	blueTextureHandle_ = TextureManager::Load("color/blue.png");
