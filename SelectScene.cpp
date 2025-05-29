@@ -18,6 +18,7 @@ void SelectScene::Initialize() {
 
 	counter_ = 0.0f;
 
+
 	textureHandle_ = TextureManager::Load("selectScene.png");
 
 	sprite_ = Sprite::Create(textureHandle_, {});
@@ -29,14 +30,14 @@ void SelectScene::Initialize() {
 		numTextureHandle_[i] = TextureManager::Load(name);
 	}
 	for (int i = 0; i < 15; i++) {
-		//int col = i % 5; // 0〜4列
-		//int row = i / 5; // 0〜2行
-
-		//float x = 100 + col * 190.0f;
-		//float y = 50 + row * 214.0f;
-
 		numSprite_[i + 1] = Sprite::Create(numTextureHandle_[i + 1], {870.0f, 275.0f});
 		numSprite_[i+1]->SetSize({192.0f, 192.0f});
+    
+//	for (int i = 0; i < 6; i++) {
+		//std::string t = "./Resources/proto/protoSelect" + std::to_string(i + 1) + ".png";
+		//textureHandle_[i] = TextureManager::Load(t);
+		//sprite_[i] = Sprite::Create(textureHandle_[i], {0, 0}, {1, 1, 1, 1}, {0, 0}, 0, 0);
+
 	}
 
 	loadingTextureHandle_ = TextureManager::Load("loading.png");
@@ -91,19 +92,19 @@ void SelectScene::Draw() {
 	Sprite::PreDraw(dxCommon_->GetCommandList());
 	skydome_->Draw();
 
+
 	if (this != nullptr) {
 		numSprite_[stageNum_]->Draw();
 		sprite_->Draw();
 		if (phase_==FadePhase::kfadeOut&&counter_ <= loadingTime) {
 			skydome_->Draw();
+
 			loadingSprite_->Draw();
 		}
 
 		if (!fade_->isFinished()) {
 			fade_->Draw(dxCommon_->GetCommandList());
 		}
-		
- 		
 	}
 	Sprite::PostDraw();
 }
@@ -118,7 +119,7 @@ int SelectScene::SelectStage() {
 	if (input_->TriggerKey(DIK_A)) {
 		stageNum_--;
 		if (stageNum_ <= 0) {
-			stageNum_ = 1;
+			stageNum_ = 6;
 		}
 	}
 	return stageNum_;

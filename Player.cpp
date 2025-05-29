@@ -5,14 +5,14 @@ using namespace KamataEngine;
 
 Player::~Player() {}
 
-void Player::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataEngine::Camera* camera) {
+void Player::Initialize(KamataEngine::Model* model, KamataEngine::Camera* camera) {
 
 	// NULLチェック
 	// assert(model);
 
 	// 引数の内容をメンバ変数に記録
 	model_ = model;
-	textureHandle_ = textureHandle;
+	//textureHandle_ = textureHandle;
 	camera_ = camera;
 
 	// インスタンス
@@ -73,6 +73,7 @@ void Player::Update(Map* map) {
 
 	worldTransform_.TransferMatrix();
 	worldTransform_.UpdateMatrix();
+
 }
 
-void Player::Draw(Camera* camera) { model_->Draw(worldTransform_, *camera, textureHandle_); }
+void Player::Draw(Camera* camera) { model_->Draw(worldTransform_, *camera); }

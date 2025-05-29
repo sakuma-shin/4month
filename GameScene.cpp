@@ -47,12 +47,13 @@ void GameScene::Initialize(int stageNum) {
 	map_->Initialize(mapModel_, textureHandle_, &camera_, stageNum, this);
 
 	// 3Dモデルの生成
-	playerModel_ = Model::Create();
+	//playerModel_ = Model::Create();
+	playerModel_ = Model::CreateFromOBJ("player", true);
 
 	// プレイヤー関連
 	player_ = new Player();
 	player_->SetMap(map_);
-	player_->Initialize(playerModel_, textureHandle_, &camera_);
+	player_->Initialize(playerModel_, &camera_);
 
 	camera_.Initialize();
 
@@ -64,7 +65,7 @@ void GameScene::Initialize(int stageNum) {
 	cameraAngle_ = new CameraAngle();
 	cameraAngle_->Initialize(initialTransform, player_);
 
-	colorModel_ = Model::CreateFromOBJ("cube", true);
+	colorModel_ = Model::CreateFromOBJ("sensor", true);
 
 	redTextureHandle_ = TextureManager::Load("color/red.png");
 	blueTextureHandle_ = TextureManager::Load("color/blue.png");
