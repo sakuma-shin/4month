@@ -38,14 +38,22 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 	gameScene_ = game;
 
 	model_ = model;
-	model_ = Model::CreateFromOBJ("wall", true);
+	model_ = Model::CreateFromOBJ("block", true);
 	textureHandle_ = textureHandle;
 	camera_ = camera;
 
 	Size = {2, 2, 2};
 	walltextureHandle_ = TextureManager::Load("color/black.png");
 
-	textureHandle_ = TextureManager::Load("uvChecker.png");
+	textureHandle_ = TextureManager::Load("color/black.png");
+
+	// mirrormodel_->Create();
+	// mirrormodel_= Model::CreateFromOBJ("mirorr",true);
+
+	// mirrormodel2_->Create();
+	// mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
+
+	goalmodel_ = Model::CreateFromOBJ("goal", true);
 
 	goalmodel_ = Model::CreateFromOBJ("gole", true);
 
