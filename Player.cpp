@@ -73,6 +73,7 @@ void Player::Update(Map* map) {
 
 	worldTransform_.TransferMatrix();
 	worldTransform_.UpdateMatrix();
+
 }
 
 void Player::Draw(Camera* camera) { model_->Draw(worldTransform_, *camera); }
