@@ -53,7 +53,7 @@ void GameScene::Initialize(int stageNum) {
 	// プレイヤー関連
 	player_ = new Player();
 	player_->SetMap(map_);
-	player_->Initialize(playerModel_, textureHandle_, &camera_);
+	player_->Initialize(playerModel_, &camera_);
 
 	camera_.Initialize();
 
