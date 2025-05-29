@@ -44,8 +44,8 @@ void Light::Update() {
 
 	if (growtype_ == NO) {
 		Vector3 endPos = Add(Add(initialPos_, worldTransform_.scale_), worldTransform_.scale_);
-		if (map_->CheckCollisionRay(initialPos_, endPos)) {
-			worldTransform_.scale_ = {0.5f, 0.5f, 0.5f};
+		if (map_->CheckCollisionRay(Vector3(initialPos_.x, initialPos_.y, initialPos_.z), endPos)) {
+    		worldTransform_.scale_ = {0.5f, 0.5f, 0.5f};
 			worldTransform_.translation_ = initialPos_;
 			growtype_ = prevGrowType_;
 			isRefrected = false;
@@ -236,7 +236,7 @@ Vector3 Light::GetEndPosition() {
 			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z};
 		}
 		if (newType_ == Right) {
-			return {worldTransform_.translation_.x + worldTransform_.scale_.x - 1.0f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+			return {worldTransform_.translation_.x +worldTransform_.scale_.x-1.2f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
 		}
 		if (newType_ == Down) {
 			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
@@ -249,7 +249,7 @@ Vector3 Light::GetEndPosition() {
 			return {worldTransform_.translation_.x + worldTransform_.scale_.x - 1.0f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z};
 		}
 		if (newType_ == Right) {
-			return {worldTransform_.translation_.x + 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};
+			return {worldTransform_.translation_.x, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z+0.5f};
 		}
 		if (newType_ == Down) {
 			return {worldTransform_.translation_.x + worldTransform_.scale_.x + 0.5f, 0.0f, worldTransform_.translation_.z + worldTransform_.scale_.z + 0.5f};

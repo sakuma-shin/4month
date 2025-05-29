@@ -435,7 +435,7 @@ void Map::Reorldtransform() {
 
 bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
 	rayCount = 0;
-	int initialPosX = static_cast<int>(initialPos.x) / static_cast<int>(Size.x);
+	int initialPosX = static_cast<int>(initialPos.x+0.8) / static_cast<int>(Size.x);
 	int initialPosZ = static_cast<int>(initialPos.z) / static_cast<int>(Size.z);
 	int endPosX = static_cast<int>(endPos.x) / static_cast<int>(Size.x);
 	int endPosZ = static_cast<int>(endPos.z) / static_cast<int>(Size.z);
@@ -446,7 +446,7 @@ bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
 				for (int x = initialPosX; x <= endPosX; ++x) {
 					if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
 						if (map[x][z] >= 31 && map[x][z] <= 34) {
-							return true;
+     							return true;
 						}
 					}
 					rayCount++;
@@ -457,7 +457,7 @@ bool Map::CheckCollisionRay(Vector3 initialPos, Vector3 endPos) {
 				for (int x = endPosX; x <= initialPosX; ++x) {
 					if (rayCount != 0 && rayCount != abs(initialPosZ - endPosZ + initialPosX - endPosX)) {
 						if (map[x][z] >= 31 && map[x][z] <= 34) {
-							return true;
+    							return true;
 						}
 					}
 					rayCount++;
