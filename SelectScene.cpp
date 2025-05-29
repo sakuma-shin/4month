@@ -15,13 +15,9 @@ void SelectScene::Initialize() {
 
 	counter_ = 0.0f;
 
-	textureHandle_[0] = TextureManager::Load("./Resources/proto/protoSelect.png");
-	textureHandle_[1] = TextureManager::Load("./Resources/proto/protoSelect2.png");
-	textureHandle_[2] = TextureManager::Load("./Resources/proto/protoSelect3.png");
-	textureHandle_[3] = TextureManager::Load("./Resources/proto/protoSelect4.png");
-	textureHandle_[4] = TextureManager::Load("./Resources/proto/protoSelect5.png");
-	textureHandle_[5] = TextureManager::Load("./Resources/proto/protoSelect6.png");
 	for (int i = 0; i < 6; i++) {
+		std::string t = "./Resources/proto/protoSelect" + std::to_string(i + 1) + ".png";
+		textureHandle_[i] = TextureManager::Load(t);
 		sprite_[i] = Sprite::Create(textureHandle_[i], {0, 0}, {1, 1, 1, 1}, {0, 0}, 0, 0);
 	}
 
@@ -71,15 +67,13 @@ void SelectScene::Draw() {
 	if (this != nullptr) {
 		sprite_[stageNum_ - 1]->Draw();
 
-		if (phase_==FadePhase::kfadeOut&&counter_ <= loadingTime) {
+		if (phase_ == FadePhase::kfadeOut && counter_ <= loadingTime) {
 			loadingSprite_->Draw();
 		}
 
 		if (!fade_->isFinished()) {
 			fade_->Draw(dxCommon_->GetCommandList());
 		}
-		
- 		
 	}
 	Sprite::PostDraw();
 }
@@ -94,7 +88,7 @@ int SelectScene::SelectStage() {
 	if (input_->TriggerKey(DIK_A)) {
 		stageNum_--;
 		if (stageNum_ <= 0) {
-			stageNum_ = 1;
+			stageNum_ = 6;
 		}
 	}
 	return stageNum_;

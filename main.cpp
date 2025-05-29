@@ -90,10 +90,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	scene = Scene::kTitle;
 
-	//// ゲームシーンの初期化
-	// gameScene = new GameScene();
-	/*gameScene->Initialize(1);*/
-
 	// メインループ
 	while (true) {
 		// メッセージ処理
@@ -119,7 +115,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		dxCommon->PreDraw();
 
 		// ゲームシーンの描画
-		//	gameScene->Draw();
 		DrawScene();
 		if (!audio->IsPlaying(BGMSoundHandle_)) {
 			BGMSoundHandle_ = audio->PlayWave(BGMSoundHandle_, true, 0.5f);
