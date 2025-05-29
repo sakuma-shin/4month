@@ -53,17 +53,7 @@ void Map::Initialize(KamataEngine::Model* model, uint32_t textureHandle, KamataE
 
 	textureHandle_ = TextureManager::Load("uvChecker.png");
 
-	// mirrormodel_->Create();
-	// mirrormodel_= Model::CreateFromOBJ("mirorr",true);
-
-	// mirrormodel2_->Create();
-	// mirrormodel2_ = Model::CreateFromOBJ("mirorr2", true);
-
 	goalmodel_ = Model::CreateFromOBJ("gole", true);
-
-	// prismmodel_ = Model::CreateFromOBJ("prism", true);
-
-	// doormodel_ = Model::CreateFromOBJ("door", true);
 
 	if (stagenumber == 1) {
 		filename = "Resources/proto/proto1.csv"; // 完全版の際には元に戻す
@@ -137,7 +127,6 @@ void Map::Update(Player* player) {
 	prismcount = 0;
 
 	colorGlassCount = 0;
-	// int doorC = 0;
 	for (door* door : door_) {
 
 		door->Update(target_);
@@ -402,160 +391,7 @@ int Map::CheckCollision(KamataEngine::Vector3 pos) { // マップのX,Z座標を
 
 		// その位置のマップ値が 8 なら壁
 		return map[mapX][mapZ];
-		// switch (map[mapX][mapZ]) {
-
-		// マップ番号と同じ数字を返す
-
-		// case 2:
-		//	//ゴール
-		//	return 2;
-		//	break;
-
-		//	case 8:
-		//		// 壁
-		//		return 8;
-		//		break;
-
-		//	//case 31:
-		//	//	// 右下鏡
-		//	//	return 31;
-		//	//	break;
-
-		//	//case 32:
-		//	//	// 右上鏡
-		//	//	return 32;
-		//	//	break;
-
-		//	//case 33:
-		//	//	// 水平鏡
-		//	//	return 33;
-		//	//	break;
-
-		//	//case 34:
-		//	//	// 垂直鏡
-		//	//	return 34;
-		//	//	break;
-
-		//	case 41:
-		//		//上向きライト
-		//		return 41;
-		//		break;
-
-		//	case 42:
-		//		//下向きライト
-		//		return 42;
-		//		break;
-
-		//	case 43:
-		//		//左向きライト
-		//		return 43;
-		//		break;
-
-		//	case 44:
-		//		//右向きライト
-		//		return 44;
-		//		break;
-
-		//	case 51:
-		//		//色なしガラス
-		//		return 51;
-		//		break;
-
-		//	case 52:
-		//		// 紫ガラス
-		//		return 52;
-		//		break;
-
-		//	case 53:
-		//		//緑ガラス
-		//		return 53;
-		//		break;
-
-		//	case 54:
-		//		//橙ガラス
-		//		return 54;
-		//		break;
-
-		//	case 61:
-		//		//色無しセンサー
-		//		return 61;
-		//		break;
-
-		//	case 62:
-		//		//紫センサー
-		//		return 62;
-		//		break;
-
-		//	case 63:
-		//		//緑センサー
-		//		return 63;
-		//		break;
-
-		//	case 64:
-		//		//橙センサー
-		//		return 64;
-		//		break;
-
-		//	case 65:
-		//		//赤センサー
-		//		return 65;
-		//		break;
-
-		//	case 66:
-		//		//青センサー
-		//		return 66;
-		//		break;
-
-		//	case 67:
-		//		//黄センサー
-		//		return 67;
-		//		break;
-
-		//	case 71:
-		//		//ドア
-		//		return 71;
-		//		break;
-
-		//	case 91:
-		//		// プリズム上
-		//		return 91;
-		//		break;
-
-		//	//case 93:
-		//	//	// プリズム左
-		//	//	return 93;
-		//	//	break;
-
-		//	//case 94:
-		//	//	// プリズム右
-		//	//	return 94;
-		//	//	break;
-
-		//	//case 42:
-		//	//	// 垂直鏡
-		//	//	return 42;
-		//	//	break;
-
-		//	case 621:
-		//		return 621;
-		//		break;
-
-		//	case 653:
-		//		return 653;
-		//		break;
-
-		//	case 662:
-		//		return 662;
-		//		break;
-
-		//	case 723:
-		//		return 723;
-		//		break;
-		//
-		//	}
-		//}
-
-		// 範囲内かつ衝突しない場合は「衝突なし」
+		
 	}
 	return 0;
 }
