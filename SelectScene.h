@@ -1,6 +1,7 @@
 #pragma once
 #include "Fade.h"
 #include "base/DirectXCommon.h"
+#include "skydome.h"
 #include <KamataEngine.h>
 using namespace KamataEngine;
 
@@ -30,8 +31,14 @@ private:
 	bool isFinished_ = false;
 	bool isTutorial_ = false;
 
-	uint32_t textureHandle_[6] = {};
-	Sprite* sprite_[6] = {nullptr};
+	const int stageNum = 15;
+
+	uint32_t numTextureHandle_[16] = {};
+	uint32_t textureHandle_=0u;
+	Sprite* numSprite_[16] = {nullptr};
+	Sprite* sprite_ = {nullptr};
+
+	skydome* skydome_ = nullptr;
 
 	uint32_t loadingTextureHandle_ = {};
 	Sprite* loadingSprite_ = nullptr;
@@ -45,4 +52,7 @@ private:
 	const float loadingTime = 10.0f;
 
 	float counter_ = 0.0f;
+
+	// カメラ
+	Camera camera_;
 };

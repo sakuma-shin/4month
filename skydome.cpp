@@ -32,7 +32,7 @@ void skydome::Initialize(Camera* camera) {
 }
 
 void skydome::Update() {
-	std::string windowName = "skydome" + std::to_string(reinterpret_cast<uintptr_t>(this));
+	//std::string windowName = "skydome" + std::to_string(reinterpret_cast<uintptr_t>(this));
 	/*ImGui::Begin(windowName.c_str());
 
 	ImGui::DragFloat3("light.translation", &worldtransform_.translation_.x, 0.01f);

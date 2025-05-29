@@ -2,6 +2,7 @@
 #include "Fade.h"
 #include "base/DirectXCommon.h"
 #include <KamataEngine.h>
+#include "skydome.h"
 using namespace KamataEngine;
 
 class TitleScene {
@@ -33,5 +34,24 @@ private:
 	uint32_t textureHandle_ = 0u;
 	Sprite* sprite_ = nullptr;
 
+	Model* mirrorModel_ = nullptr;
+	Model* lightModel_ = nullptr;
+
 	uint32_t sceneChangeSoundHandle_ = 0u;
+
+	WorldTransform mirrorWorldTransform_;
+
+	WorldTransform lightWorldTransform_;
+
+	WorldTransform lightWorldTransform2_;
+
+	ObjectColor lightColor_;
+
+	Camera camera_;
+
+	uint32_t mirrorGH = 0u;
+
+	skydome* skydome_ = nullptr;
+
+
 };
