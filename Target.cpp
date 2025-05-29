@@ -6,7 +6,7 @@ Target::~Target() {}
 
 void Target::Initialize(int number, KamataEngine::WorldTransform* worldTransform) {
 	targetmodel_->Create();
-	targetmodel_ = Model::CreateFromOBJ("door", true);
+	targetmodel_ = Model::CreateFromOBJ("sensor", true);
 	coad = number % 10;
 	color = (number % 100) / 10;
 	worldTransform_ = worldTransform;
