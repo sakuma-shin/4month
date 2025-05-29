@@ -118,6 +118,8 @@ void GameScene::Initialize(int stageNum) {
 	fade_ = new Fade();
 	fade_->Initialize();
 	fade_->Start(Fade::Status::FadeIn, 1.0f);
+
+	isFinished2_ = false;
 }
 
 void GameScene::Update() {
@@ -210,6 +212,10 @@ void GameScene::Update() {
 		}
 		lights_.clear();
 		Initialize(stageNum_);
+	}
+
+	if (input_->TriggerKey(DIK_T)) {
+		isFinished2_ = true;
 	}
 
 }

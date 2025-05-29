@@ -207,17 +207,20 @@ void ChangeScene() {
 
 	case Scene::kGame:
 
-		if (gameScene->IsFinished()) {
+		if (gameScene->IsFinished() || gameScene->IsFinished2()) {
 
-			scene = Scene::kClear;
-
+			if (gameScene->IsFinished() || !gameScene->IsFinished2()) {
+				scene = Scene::kClear;
+				clearScene = new ClearScene();
+				clearScene->Initialize();
+			} else if (!gameScene->IsFinished() || gameScene->IsFinished2()) {
+				scene = Scene::kSelect;
+				selectScene = new SelectScene();
+				selectScene->Initialize();
+			}
 			delete gameScene;
 
 			gameScene = nullptr;
-
-			clearScene = new ClearScene();
-
-			clearScene->Initialize();
 		}
 
 		break;

@@ -35,6 +35,7 @@ public:
 	void LightCreate(Light::GrowType type, Vector3 pos, uint32_t lightTextureHandle, int color);
 
 	bool IsFinished() { return isFinished_; }
+	bool IsFinished2() { return isFinished2_; }
 
 	void SetFinished(bool finished) { isFinished_ = finished; }
 
@@ -66,6 +67,8 @@ private:
 	Color* color_ = nullptr;
 
 	bool isFinished_ = false;
+
+	bool isFinished2_ = false;
 
 	// ライト
 	std::list<Light*> lights_;
