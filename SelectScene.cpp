@@ -1,7 +1,7 @@
 #include "SelectScene.h"
 
 SelectScene::~SelectScene() {
-	for (int i = 0; i < 15; i++) {
+	for (int i = 0; i < 4; i++) {
 		delete numSprite_[i];
 		TextureManager::Unload(numTextureHandle_[i]);
 	}
@@ -25,11 +25,11 @@ void SelectScene::Initialize() {
 
 	
 
-	for (int i = 1; i <= 15; i++) {
+	for (int i = 1; i <= 4; i++) {
 		std::string name = "numbers/"+std::to_string(i) + ".png";
 		numTextureHandle_[i] = TextureManager::Load(name);
 	}
-	for (int i = 0; i < 15; i++) {
+	for (int i = 0; i < 4; i++) {
 		numSprite_[i + 1] = Sprite::Create(numTextureHandle_[i + 1], {870.0f, 275.0f});
 		numSprite_[i+1]->SetSize({192.0f, 192.0f});
     
@@ -54,11 +54,6 @@ void SelectScene::Initialize() {
 }
 
 void SelectScene::Update() {
-	if (input_->TriggerKey(DIK_I)) {
-
-		isTutorial_ = true;
-	}
-
 	switch (phase_) {
 
 	case FadePhase::kFadeIn:
@@ -112,14 +107,14 @@ void SelectScene::Draw() {
 int SelectScene::SelectStage() {
 	if (input_->TriggerKey(DIK_D)) {
 		stageNum_++;
-		if (stageNum_ >= 16) {
+		if (stageNum_ >= 5) {
 			stageNum_ = 1;
 		}
 	}
 	if (input_->TriggerKey(DIK_A)) {
 		stageNum_--;
 		if (stageNum_ <= 0) {
-			stageNum_ = 15;
+			stageNum_ = 4;
 		}
 	}
 	return stageNum_;

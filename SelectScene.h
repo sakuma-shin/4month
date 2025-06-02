@@ -17,8 +17,6 @@ public:
 
 	bool IsFinished() { return isFinished_; }
 
-	bool IsTutorial() { return isTutorial_; }
-
 	Input* GetInput() { return input_; }
 
 	int SelectStage();
@@ -29,13 +27,12 @@ private:
 	Audio* audio_ = nullptr;
 
 	bool isFinished_ = false;
-	bool isTutorial_ = false;
 
-	const int stageNum = 15;
+	const int stageNum = 4;
 
-	uint32_t numTextureHandle_[16] = {};
+	uint32_t numTextureHandle_[5] = {};
 	uint32_t textureHandle_=0u;
-	Sprite* numSprite_[16] = {nullptr};
+	Sprite* numSprite_[5] = {nullptr};
 	Sprite* sprite_ = {nullptr};
 
 	skydome* skydome_ = nullptr;

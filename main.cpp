@@ -2,7 +2,6 @@
 #include "GameScene.h"
 #include "SelectScene.h"
 #include "TitleScene.h"
-#include "TutorialScene.h"
 #include <KamataEngine.h>
 
 using namespace KamataEngine;
@@ -11,7 +10,6 @@ TitleScene* titleScene = nullptr;
 SelectScene* selectScene = nullptr;
 GameScene* gameScene = nullptr;
 ClearScene* clearScene = nullptr;
-TutorialScene* tutorialScene = nullptr;
 
 enum class Scene {
 
@@ -20,8 +18,7 @@ enum class Scene {
 	kTitle,
 	kSelect,
 	kGame,
-	kClear,
-	kTutorial
+	kClear
 
 };
 
@@ -140,7 +137,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete selectScene;
 	delete gameScene;
 	delete clearScene;
-	delete tutorialScene;
 
 	// ゲームウィンドウの破棄
 	win->TerminateGameWindow();
@@ -190,19 +186,6 @@ void ChangeScene() {
 			break;
 		}
 
-		if (selectScene->IsTutorial()) {
-
-			scene = Scene::kTutorial;
-
-			delete selectScene;
-
-			selectScene = nullptr;
-
-			tutorialScene = new TutorialScene();
-
-			tutorialScene->Initialize();
-		}
-
 		break;
 
 	case Scene::kGame:
@@ -242,22 +225,7 @@ void ChangeScene() {
 
 		break;
 
-	case Scene::kTutorial:
-
-		if (tutorialScene->IsFinished()) {
-
-			scene = Scene::kSelect;
-
-			delete tutorialScene;
-
-			tutorialScene = nullptr;
-
-			selectScene = new SelectScene();
-
-			selectScene->Initialize();
-		}
-
-		break;
+	
 	}
 }
 
@@ -288,12 +256,6 @@ void UpdateScene() {
 		clearScene->Update();
 
 		break;
-
-	case Scene::kTutorial:
-
-		tutorialScene->Update();
-
-		break;
 	}
 }
 
@@ -322,12 +284,6 @@ void DrawScene() {
 	case Scene::kClear:
 
 		clearScene->Draw();
-
-		break;
-
-	case Scene::kTutorial:
-
-		tutorialScene->Draw();
 
 		break;
 	}
